@@ -1,6 +1,17 @@
 // Warm, Cozy, Mys-inspired Aesthetic with Subtle Blue Accents
 // Soft contrast, classic links with consistent highlighting
 
+/* Prevent layout shift when only some pages have a vertical scrollbar */
+html {
+  overflow-y: auto;                 /* allow scroll when needed */
+  scrollbar-gutter: stable both-edges;
+}
+
+/* Fallback where scrollbar-gutter isn't supported */
+@supports not (scrollbar-gutter: stable) {
+  html { overflow-y: scroll; }      /* always reserve gutter space */
+}
+
 :root {
   /* Warm, softer contrast palette with subtle blue accents */
   --color-deep: #141210;              /* Slightly lighter warm black */
@@ -39,7 +50,8 @@
   /* Reading-optimized layout */
   --border-radius: 3px;
   --max-width: 42rem;           /* Match Steph's generous proportions */
-  --line-height: 1.7;          /* Slightly more generous */
+  --line-height: 1.6;          /* Tighter body copy leading */
+  /* --section-spacing is defined above as var(--space-xl) */
 }
 
 body {
@@ -60,11 +72,11 @@ body {
 
   @media (min-width: 820px) {
     font-size: 1.05rem;
-    line-height: 1.75;
+    line-height: 1.65; /* slightly tighter on large screens */
   }
 
   @media (max-width: 600px) {
-    line-height: 1.65;
+    line-height: 1.6;  /* slightly tighter on mobile */
     padding: var(--space-lg) 4vw;
   }
 }
@@ -214,29 +226,42 @@ h1 + p, h2 + p, h3 + p {
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
+  /* Use comma spacing only; avoid extra flex gap */
+  gap: 0;
 }
 
 .topic-item {
   margin: 0;
 }
 
-.topic-link {
-  display: inline-block;
-  background: var(--color-charcoal);
-  border: 1px solid var(--color-graphite);
-  border-radius: var(--border-radius);
-  padding: var(--space-xs) var(--space-sm);
-  text-decoration: none;
+/* Add comma separators between topics */
+.topic-item::after {
+  content: ",\00a0"; /* comma + non-breaking space */
   color: var(--color-warm-gray);
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
+}
+.topic-item:last-child::after {
+  content: "";
+}
+
+.topic-link {
+  display: inline;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  color: var(--color-warm-gray);                 /* less bright */
+  font-size: 0.95rem;                            /* slightly smaller */
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-color: currentColor;            /* underline matches text */
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  white-space: nowrap;                            /* keep multi-word topics together */
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 
   &:hover {
-    background: var(--color-graphite);
-    border-color: var(--color-accent-subtle);
-    color: var(--color-cream);
-    transform: translateY(-1px);
+    color: var(--color-accent-hover);
+    text-decoration-color: var(--color-accent-hover);
   }
 }
 
@@ -308,6 +333,8 @@ nav {
   }
 }
 
+
+
 .nav-breadcrumb-separator {
   color: var(--color-warm-gray);
   margin: 0 var(--space-xs);
@@ -344,14 +371,14 @@ nav {
 a {
   color: var(--color-meta);
   text-decoration: underline;
-  text-decoration-color: var(--color-meta);
+  text-decoration-color: currentColor;      /* underline matches text color */
   text-underline-offset: 0.2em;
   text-decoration-skip-ink: none;
   transition: color 200ms ease, text-decoration-color 200ms ease;
 
   &:hover {
     color: var(--color-accent-hover);
-    text-decoration-color: var(--color-accent-hover);
+    text-decoration-color: currentColor;   /* follows hover color */
   }
 }
 
@@ -384,8 +411,8 @@ a {
   }
 }
 
-/* Site title - consistent highlighting */
-.site-title a {
+/* Site title - consistent highlighting (anchor itself has .site-title) */
+.site-title {
   color: var(--color-cream);
   font-weight: 300;                        /* Lighter than nav links (400) for distinction */
   text-decoration: none;
@@ -446,10 +473,11 @@ ol {
 time {
   display: block;
   color: var(--color-warm-gray);
-  margin: var(--space-sm) 0 var(--space-lg);
-  font-size: 0.85rem;
+  /* Closer to Steph Ango's date scale under titles */
+  margin: var(--space-xs) 0 var(--space-lg);
+  font-size: 1.1rem; /* ~18px on 16px base */
   font-weight: var(--font-weight-medium);
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
 }
 
 article {
@@ -459,6 +487,33 @@ article {
     margin-bottom: var(--space-sm);
     margin-top: 0;
   }
+}
+
+/* =============================================================================
+   PROJECT META - Year/status under project titles
+   Matches Steph's heading/year proportion and spacing
+   ============================================================================= */
+.project-meta {
+  /* Two line breaks between title and year across all projects */
+  margin: calc(2 * 1em * var(--line-height)) 0 var(--space-lg) 0;
+}
+
+.project-meta .project-year {
+  display: block;
+  color: var(--color-cream);
+  font-size: 1.25rem;          /* ~20px at 16px base; detail pages only */
+  font-weight: var(--font-weight-bold); /* similar weight to Steph's year */
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin: 0; /* spacing handled by parent .project-meta */
+}
+
+.project-status {
+  display: inline-block;
+  margin-left: var(--space-sm);
+  color: var(--color-meta);
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-normal);
 }
 
 /* Images - warm presentation */
@@ -511,7 +566,11 @@ pre {
   color: var(--color-cream);
   padding: var(--space-md);
   border-radius: var(--border-radius);
-  overflow-x: auto;
+  /* Wrap long single-line snippets (e.g., mega embeds) instead of forcing horizontal scroll */
+  white-space: pre-wrap;      /* preserve whitespace but allow wrapping */
+  overflow-wrap: anywhere;    /* break long tokens without spaces */
+  word-break: break-word;
+  overflow-x: auto;           /* still allow scroll if needed */
   margin: var(--space-md) 0 var(--space-lg) 0;
 }
 
@@ -557,7 +616,7 @@ pre {
 
   a {
     display: grid;
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: auto 1fr; /* date, title */
     gap: var(--space-md);
     align-items: baseline;
     text-decoration: none !important;
@@ -585,18 +644,18 @@ pre {
 .article-title {
   color: var(--color-cream);
   text-decoration: underline;
-  text-decoration-color: var(--color-stone);
+  text-decoration-color: currentColor;
   text-underline-offset: 0.15em;
   transition: color 200ms ease, text-decoration-color 200ms ease;
 }
 
-/* Apply article list class to writing section ul */
-ul {
+/* Apply article list class only to writing section ul */
+.writing-section ul {
   @extend .article-list;
 }
 
 /* =============================================================================
-   EMBEDDINGS RECOMMENDATIONS - "You might also enjoy" component
+   RECOMMENDATIONS - "You might also enjoy" component
    ============================================================================= */
 
 .you-might-enjoy {
@@ -623,13 +682,13 @@ ul {
       a {
         color: var(--color-stone);
         text-decoration: underline;
-        text-decoration-color: var(--color-stone);
+        text-decoration-color: currentColor;
         text-underline-offset: 0.2em;
         transition: color 200ms ease, text-decoration-color 200ms ease;
         
         &:hover {
           color: var(--color-accent-hover);
-          text-decoration-color: var(--color-accent-hover);
+          text-decoration-color: currentColor;
         }
       }
     }
@@ -703,4 +762,3 @@ ul {
   color: var(--color-warm-gray);
   line-height: 1.6;
 }
-

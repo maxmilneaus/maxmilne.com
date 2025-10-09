@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASCII Petals — Kaizen</title>
+  <style>
+    :root { --paper:#F0EEE6; --ink:#333333; --accent:#3b82f6; --accent2:#93c5fd; }
+    html,body { height:100%; margin:0; background: var(--paper); }
+    .frame { height:100%; display:grid; place-items:center; }
+    canvas { width:min(92vmin,760px); height:min(92vmin,760px); aspect-ratio:1/1; display:block; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,.2); background: var(--paper); }
+    .cap { position:fixed; bottom:12px; right:14px; color:#4a453f; opacity:.7; font:12px/1.3 ui-monospace, Menlo, monospace; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <canvas id="c" width="920" height="920" aria-label="Kaizen variation: thresholds and density evolve over time"></canvas>
+  </div>
+  <div class="cap">Kaizen — subtle evolving parameters</div>
+  <script>
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const BASE_GRID = 60;
+    const cell = 14; const cw = cell*0.72; const ch = cell;
+    const CHARS = ['/', '\\', '|'];
+    let t = 0, animId;
+
+    function col(name, fallback){
+      const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      return v || fallback;
+    }
+
+    function renderOnce(time){
+      const tLocal = time ?? t;
+      const paper = col('--paper', '#F0EEE6');
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = paper; ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.font = `${cell}px ui-monospace, Menlo, monospace`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const cx = canvas.width/2, cy = canvas.height/2;
+
+      // Subtle evolving params
+      const GRID_SIZE = BASE_GRID + Math.floor(Math.sin(tLocal*0.25)*2); // ±2
+      const threshold = 0.28 + 0.08*Math.sin(tLocal*0.18 + 1.3);
+      const fadeEdge = 0.84 + 0.02*Math.cos(tLocal*0.21);
+
+      for(let y=0;y<GRID_SIZE;y++){
+        for(let x=0;x<GRID_SIZE;x++){
+          const w1 = Math.sin((x+y)/4 + tLocal);
+          const w2 = Math.cos((x - y)/4 - tLocal*0.7);
+          const bx = Math.abs(x-GRID_SIZE/2)/(GRID_SIZE/2);
+          const by = Math.abs(y-GRID_SIZE/2)/(GRID_SIZE/2);
+          const boundary = Math.max(bx,by);
+          if(boundary >= fadeEdge) continue;
+          const fade = 1 - boundary/fadeEdge;
+          const v = (w1*0.6 + w2*0.4) * fade;
+          let char = '';
+          if (v > threshold) char = CHARS[0];
+          else if (v < -threshold) char = CHARS[1];
+          else if (Math.abs(v) < 0.08) char = CHARS[2];
+          if (!char) continue;
+          const xp = cx + (x-GRID_SIZE/2)*cw;
+          const yp = cy + (y-GRID_SIZE/2)*ch;
+          // pulse color toward accents at rhythm peaks
+          const pulse = (Math.sin(tLocal*0.6) + 1)/2; // 0..1
+          const a = 0.7 + 0.3*pulse;
+          const [r1,g1,b1] = [59,130,246];   // accent
+          const [r2,g2,b2] = [147,197,253];  // accent2
+          const r = Math.round(r1 + (r2-r1)*pulse);
+          const g = Math.round(g1 + (g2-g1)*pulse);
+          const b = Math.round(b1 + (b2-b1)*pulse);
+          ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
+          ctx.fillText(char, xp, yp);
+        }
+      }
+
+    }
+    function frame(){
+      renderOnce(t);
+      t += 0.007; animId = requestAnimationFrame(frame);
+    }
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    if (!reduce.matches) frame(); else renderOnce(0);
+    reduce.addEventListener('change', (e)=>{ if(e.matches && animId) { cancelAnimationFrame(animId); renderOnce(0); } else if(!e.matches) frame(); });
+  </script>
+</body>
+</html>

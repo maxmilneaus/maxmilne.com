@@ -12,7 +12,7 @@ layout: default
   {% assign sorted_projects = sorted_projects | sort: 'order' %}
   {% for project in sorted_projects %}
     <div class="project-entry">
-      <div class="project-year">{{ project.year }}—</div>
+      <div class="project-year">{{ project.year }}</div>
       <div class="project-content">
         <h3 class="project-title">
           <a href="{{ project.url | relative_url }}">{{ project.title }}</a>

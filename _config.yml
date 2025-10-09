@@ -1,6 +1,6 @@
 title:               Max Milne
 include:             ['_pages']
-exclude:             ['_includes/notes_graph.json', 'docs']
+exclude:             ['_includes/notes_graph.json', 'docs', '*.edtz', '**/*.edtz']
 # You may need to change the base URL depending on your deploy configuration.
 baseurl:             ''
 
@@ -27,12 +27,11 @@ sass:
   sass_dir:          _sass
   style:            :compressed
 
-# Embeddings-based recommendations configuration
-embeddings_recommendations:
+# Recommendations configuration (tag-based)
+recommendations:
   enabled: true
-  similarity_threshold: 0.5
+  similarity_threshold: 0.1
   max_recommendations: 5
-  cache_similarities: true
 
 collections:
   notes:

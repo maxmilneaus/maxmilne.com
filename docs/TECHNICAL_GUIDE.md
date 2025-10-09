@@ -80,6 +80,14 @@ title (string): Required
 year (string/number): Required for chronological sorting
 description (string): Required for project listing page
 order (number): Required for manual sorting
+
+Year display protocol (author-controlled, used verbatim):
+- Ongoing: `YYYY -`
+- Range: `YYYY - YYYY`
+- Single year: `YYYY`
+Notes:
+- Templates do not append punctuation (no auto dash). Enter exactly what you want shown.
+- Hyphen vs en dash choice is up to author; no normalization is applied.
 Notes (_notes/)
 
 title (string): Required
@@ -89,6 +97,9 @@ Optional Fields
 tags (array): For categorization
 id (string): Custom identifier
 permalink (string): Custom URL structure
+created_at | created | date_created (date): Original creation date for chronology
+  - Format: `YYYY-MM-DD` or full datetime `YYYY-MM-DD HH:MM`
+  - If omitted, the site infers creation from front matter `date`, file birth time, or modified time.
 Front Matter Best Practices
 
 Use boolean values (true/false) not strings ("true"/"false")
@@ -118,7 +129,9 @@ Layout Dependencies
 All layouts extend default.html
 note.html expects page.title and page.last_modified_at
 project.html expects page.title, page.year, page.status
-projects.html sorts by order then year
+projects.html sorts by order then year; uses `page.year` verbatim (no appended dash)
+Projects listing styling:
+- Year/title baseline alignment via `.project-year { line-height: 1; padding-top: 0; font-size: 1rem; }`
 tag.html expects page.tag and uses Jekyll collection filtering
 
 ---
@@ -169,7 +182,7 @@ end
 
 #### 3. Tag Page Template (`_layouts/tag.html`)
 ```liquid
-{% assign tagged_notes = site.notes | where_exp: "note", "note.tags contains page.tag" | sort: "last_modified_at_timestamp" | reverse %}
+{% assign tagged_notes = site.notes | where_exp: "note", "note.tags contains page.tag" | sort: "created_at_timestamp" | reverse %}
 {% assign note_count = tagged_notes.size %}
 
 <h1 class="tag-page-title">
@@ -182,7 +195,7 @@ end
 - Automatic capitalization of tag names
 - Smart pluralization for entry counts
 - Steph Ango inspired breadcrumb navigation
-- Chronological listing of tagged notes
+- Chronological listing of tagged notes by creation date
 
 ### Tag Styling System
 
@@ -254,8 +267,31 @@ This ensures all new notes can participate in the tag system.
 - **Maintainable**: Single source of truth for tag page generation
 - **SEO-Friendly**: Clean URLs and proper meta tags
 - **User-Friendly**: Intuitive navigation following established patterns
-Development Workflow
-Adding New Content
+## Development Workflow
+
+### Jekyll Setup Requirements
+
+**Ruby Version**: Jekyll 4.4 requires Ruby >= 3.0
+
+**Common Issue**: macOS ships with Ruby 2.6.10, which is incompatible with Jekyll 4.4. This causes terminal crashes when running `jekyll serve`.
+
+**Solution**:
+1. Install rbenv: `brew install rbenv`
+2. Install Ruby 3.2.2+: `rbenv install 3.2.2`
+3. Set global version: `rbenv global 3.2.2`
+4. **Critical**: Activate rbenv in shell:
+   ```bash
+   echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+   source ~/.zshrc
+   # OR completely restart terminal
+   ```
+5. Verify: `ruby -v` should show 3.2.2+
+6. Install gems: `bundle install`
+7. Run Jekyll: `bundle exec jekyll serve`
+
+**Key Point**: rbenv must be properly initialized in shell profile for Ruby version switching to work.
+
+### Adding New Content
 
 Projects:
 
@@ -300,9 +336,40 @@ This plugin is responsible for two key features:
 
 It finds all Roam-style [[wiki-links]] within your notes and converts them into standard HTML <a class="internal-link"> tags.
 It processes all notes to find which notes link to others, generating the backlinks data used on the note.html layout. It also generates the _includes/notes_graph.json file used to render the interactive graph visualization.
-Change Log
-June 13, 2025
 
+tag_based_recommendations.rb
+
+Lightweight, algorithmic "You might also enjoy" based on shared tags (no embeddings).
+
+- Method: Jaccard similarity on tags between notes
+- Config: `_config.yml` → `recommendations` with `enabled` (default true), `max_recommendations` (default 5), `similarity_threshold` (default 0.1)
+- Per-note opt-out: add `exclude_from_recommendations: true` in front matter
+- Display: `_layouts/note.html` renders the list; similarity scores are not shown
+Change Log
+
+September 3, 2025
+
+Recommendations Simplification: Removed embeddings system and config. Kept fast, tag-based recommendations only.
+- Added `recommendations` config block in `_config.yml`; removed old `embeddings_recommendations`
+- Simplified layout to hide similarity scores and rely solely on tag matches
+
+Linked Mentions Fix: Improved wiki-link rendering inside excerpts
+- Changed linked mentions to derive preview from processed content instead of precomputed excerpt
+- Prevents raw `[[Double Brackets]]` from appearing in Linked mentions
+
+Build Robustness: Ignored editor temp files
+- Added `*.edtz` to `.gitignore` and `_config.yml` `exclude`
+- Removed stray `.edtz` files to fix invalid UTF-8 read errors during build
+
+August 30, 2025
+
+CSS Alignment Fix: Resolved page layout inconsistency between `/about` and `/now` pages
+- Fixed blanket CSS rule `ul { @extend .article-list; }` that was applying grid layout to all `<ul>` elements
+- Made rule more specific: `.writing-section ul { @extend .article-list; }`
+- Prevents unintended grid styling on general content lists while preserving article list formatting
+- Resolves alignment differences caused by CSS inheritance issues
+
+June 13, 2025
 Tag System: Implemented fully automated tag system with Steph Ango inspired design
 - Added automatic tag page generation via `tag_generator.rb` plugin
 - Created `tag.html` layout template with smart pluralization
@@ -434,6 +501,162 @@ Triggers within 1-2 seconds of changes in your Obsidian vault.
 </plist>
 ```
 
+## Obsidian Image Embeds
+
+Use Obsidian-style image embeds in notes and pages; the site plugin converts them into HTML `<img>` at build time.
+
+- Supported: `![[file.jpg]]`, `![[file.jpg|200]]`, `![[file.jpg|640x480]]`, `![[sub/folder/file.jpg]]`
+- Modifiers after the first `|` (multiple allowed, order flexible):
+  - width/height: `200` or `320x200`
+  - alt text: free text or `alt=My Alt`
+  - classes: `class=rounded shadow`
+  - alignment: `left`, `right`, `center` or `align=center` (adds `align-*` class)
+  - title: `title=A title`
+  - full-bleed: `full`, `fullwidth`, or `full-bleed` (adds `full-bleed` class)
+  - page-plus: `page`, `page+`, `page-plus`, or `container` (adds `page-plus` class)
+- Defaults: without a folder, images resolve under `assets/`; spaces and common characters are URL-encoded; `alt` falls back to the filename; `loading="lazy"` is added.
+
+Examples:
+
+```text
+![[Portrait Studio Brunswick.jpg|900]]
+![[Website/assets/Max_Profile.png|My portrait|right|class=rounded|title=Portrait]]
+![[photos/session-01/shot-12.jpg|320x200|alt=Hero crop|class=shadow]]
+![[assets/landscape.jpg|full|alt=Edge-to-edge banner]]
+![[assets/landscape.jpg|page|alt=Comfortable wider-than-text]]
+```
+
+### Wide Images Standard
+
+- Wider-than-text: use `page-plus` → `![[assets/landscape.jpg|page|alt=...]]`
+  - Renders centered, width `min(80vw, 72rem)`, with a tall-image cap.
+- Full-width/edge-to-edge: use `full-bleed` → `![[assets/landscape.jpg|full|alt=...]]`
+  - Renders at `100vw` with viewport bleed margins.
+- Tokens can be combined with size, alt, and classes.
+
+CSS lives in `styles.scss` (`img.page-plus`, `img.full-bleed`).
+
+### Asset folders and shorthand paths
+
+- Place images anywhere under `assets/` (nested subfolders allowed, spaces OK).
+- If your embed path includes a folder but doesn’t start with `assets/` or `/`, it is treated as relative to `assets/`.
+  - `![[Studio Brunswick/hero.jpg]]` → `/assets/Studio%20Brunswick/hero.jpg`
+  - `![[projects/voice/cover.jpg]]` → `/assets/projects/voice/cover.jpg`
+  - `![[assets/projects/voice/cover.jpg]]` also works (explicit form)
+- If no folder is provided at all, the file resolves as `/assets/<filename>`.
+
+This keeps vault authoring tidy while allowing simple, readable paths.
+
+### Two-up Portraits (real background)
+
+To place two portrait images side-by-side with the page’s real background (not composited), wrap two embeds in a container div. Obsidian supports HTML blocks; Jekyll preserves them.
+
+```html
+<div class="two-up">
+  ![[assets/portrait-left.jpg|alt=Left portrait]]
+  ![[assets/portrait-right.jpg|alt=Right portrait]]
+  <!-- Optional captions can go here as text; remove if not needed. -->
+  <!-- <p>Caption for left</p><p>Caption for right</p> -->
+  <!-- Avoid extra blank lines inside the container to prevent unwanted <p> wrappers. -->
+</div>
+```
+
+- Responsive: stacks to one column on small screens.
+- Gutter: `1rem` gap; adjust via CSS if desired.
+- Equalized crop: add `equal` to crop both panels to a consistent portrait ratio while matching heights.
+
+```html
+<div class="two-up equal">
+  ![[assets/portrait-left.jpg|alt=Left]]
+  ![[assets/portrait-right.jpg|alt=Right]]
+</div>
+```
+
+The `equal` variant uses `aspect-ratio: 3/4` and `object-fit: cover`.
+
+### Obsidian Preview Snippet (optional)
+
+To see the same layout inside Obsidian Preview, enable a small CSS snippet in your vault:
+
+- File path in your vault: `.obsidian/snippets/two-up.css`
+- Suggested contents are provided in this repo at: `docs/obsidian-two-up.css`
+
+Steps:
+- Copy `docs/obsidian-two-up.css` to your Obsidian vault root as `.obsidian/snippets/two-up.css` (the `.obsidian` folder sits at the vault root, not inside `Website/`).
+- In Obsidian: Settings → Appearance → CSS snippets → toggle on “two-up”. If you don't see it, click “Reload snippets”.
+- Ensure you’re viewing in Reading view or Live Preview; the snippet targets `.markdown-rendered` content.
+
+This snippet renders:
+- `.two-up` as a responsive two-column grid (stacks on small screens)
+- `.two-up.equal` with consistent portrait ratio using `aspect-ratio: 3/4` + `object-fit: cover`
+- Single-image alignment helpers: `img.align-left|align-center|align-right`
+
+## Video Embeds (Raw iframes)
+
+Embed YouTube or Vimeo by pasting their iframe directly into notes. Obsidian renders iframes in Reading/Live Preview, and Jekyll outputs them unchanged.
+
+- YouTube (privacy-friendly):
+  `<iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID?rel=0&start=65" title="Talk title" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
+
+- Vimeo (Do Not Track):
+  `<iframe src="https://player.vimeo.com/video/VIDEO_ID?dnt=1" title="Reel title" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" allowfullscreen></iframe>`
+
+- Optional responsive wrapper (16:9):
+  `<div style="position:relative;padding-top:56.25%;height:0;overflow:hidden;"><iframe src="…" title="…" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position:absolute;inset:0;border:0;width:100%;height:100%;"></iframe></div>`
+
+Notes:
+- Use `title` for accessibility.
+- Prefer `loading="lazy"` and the strict referrer policy.
+- Raw iframes are not modified by the image embed plugin.
+
+## Audio Embeds
+
+Use Obsidian-style embeds for local audio files; the site plugin converts them into HTML5 `<audio>` at build time.
+
+- Supported: `![[file.mp3]]`, `![[assets/audio/clip.m4a|title=Interview|preload=metadata]]`, `![[recording.ogg|autoplay|loop]]`
+- Defaults: If no folder is provided, paths resolve under `assets/` (place audio files in `assets/` or reference their folder explicitly).
+- Modifiers after the first `|` (order flexible):
+  - title: `title=My Title`
+  - preload: `preload=auto|metadata|none` (default: `metadata`)
+  - flags: `autoplay`, `loop`, `muted`, `controls` (controls on by default)
+  - classes: `class=compact` (optional wrapper styling in the future)
+
+Examples:
+
+```text
+![[Breath.mp3|title=Breath — ABC RN]]
+![[assets/audio/interview.m4a|preload=metadata|title=Interview]]
+![[field-recording.ogg|autoplay|loop|title=Ambient]]
+```
+
+Service pages (e.g., ABC, Apple, Spotify) typically don’t provide universal iframe embeds. If an official “Embed” is offered, paste that iframe as-is. Otherwise, download or locate the direct media URL and use the audio embed above.
+
+### Troubleshooting
+- Player not showing: Restart Jekyll after adding or changing plugins (`Ctrl+C` then `bundle exec jekyll serve`).
+- File location: Ensure the audio file lives in a published folder (e.g., `assets/`), not under an underscored folder like `_notes/`.
+- Short form paths: `![[Breath.mp3]]` resolves to `assets/Breath.mp3`. Use `![[assets/Breath.mp3]]` for an explicit path.
+- Title text: Use `title=...` to set the player’s `title` attribute; free text after `|` does not set title unless you write `title=`.
+
+### Obsidian-friendly authoring
+
+Use an HTML wrapper that previews correctly in Obsidian and converts in Jekyll:
+
+```html
+<div class="two-up">
+  ![[assets/portrait-left.jpg|alt=Left]]
+  ![[assets/portrait-right.jpg|alt=Right]]
+</div>
+```
+
+For matched heights/crop, add `equal`:
+
+```html
+<div class="two-up equal">
+  ![[assets/portrait-left.jpg]]
+  ![[assets/portrait-right.jpg]]
+</div>
+```
+
 **Launchd Configuration Details:**
 - **`Label`**: Unique identifier for the launchd service.
 - **`ProgramArguments`**: Specifies the path to the sync script.
@@ -467,7 +690,38 @@ launchctl start com.maxmilne.synctojekyll
 #### Maintenance
 - **Stop sync**: `launchctl unload ~/Library/LaunchAgents/com.maxmilne.synctojekyll.plist`
 - **Adjust frequency (interval-based)**: Edit `StartInterval` value (seconds) in the plist.
-- **View logs**: Check `/tmp/sync_to_jekyll*.log` files.
+  - **View logs**: Check `/tmp/sync_to_jekyll*.log` files.
+
+---
+
+## Legacy Static Sites
+
+You can host legacy sites (e.g., exported Squarespace) as a static subfolder and link to them from project pages. Jekyll copies non‑underscored folders verbatim without applying layouts.
+
+Recommended structure
+- Place the legacy site at repo root under a short folder, e.g., `studiobrunswick/`.
+- Ensure `studiobrunswick/index.html` exists. Keep asset references relative or absolute as in the export.
+
+Typography alignment (optional but recommended)
+- Add `studiobrunswick/overrides.css` and link it in every legacy page’s head:
+  `<link rel="stylesheet" href="/studiobrunswick/overrides.css">`
+- The stylesheet loads Futura PT via Typekit and normalizes weights to match the 2020 look:
+  - Body: 300
+  - `.sqs-block-content h2`: 300
+  - `.sqs-block-content h3`: 400
+  - Footer contact line `#footerBlocksTop h2`: 300; its `<strong>` label: 600
+  - `strong/b`: 500
+
+UI icons
+- Legacy markup references `/assets/ui-icons.svg#…`. A minimal sprite is provided at `assets/ui-icons.svg` to remove 404s.
+
+Analytics/script 404s
+- Squarespace telemetry endpoints (e.g., `/api/census/...`) don’t exist locally. They may 404 in logs; safe to ignore or remove related scripts from the legacy HTML if noise is a concern.
+
+Linking from a project page
+- Use a clear external‑style CTA that opens in a new tab:
+  `<a href="{{ site.baseurl }}/studiobrunswick/" target="_blank" rel="noopener">Browse the 2020 site ↗</a>`
+
 
 ### Current Status and Improvements
 - **Script Functionality**: Verified working through manual execution.
@@ -479,3 +733,72 @@ launchctl start com.maxmilne.synctojekyll
 3. **Error Handling**: Add email/SMS notifications for failures; implement retry mechanism for transient errors.
 4. **Monitoring**: Add health check endpoint; implement log rotation.
 5. **Security**: Encrypt sensitive paths in configuration; add checksum verification.
+
+---
+
+## Animation Presentation & Palette
+
+### Overview
+Animations (e.g., ASCII Petals) can be presented in consistent, site-aligned frames using simple wrapper variants that set CSS custom properties. The canonical reference lives at:
+
+- `docs/animations/ascii-petals-style-guide.html`
+
+This page documents the approved color palettes and presentation treatments. All variants share the same animation algorithm; only glyph color and framing differ.
+
+### Current Variants (Pairs)
+
+- Plain — Cream: No frame or paper; bright cream/white glyphs rendered directly on the site background.
+- Noir — Framed Cream: Deep charcoal paper with a 1px border; cream/white glyphs.
+- Plain — Blue: No frame or paper; blue glyphs (pulse between `#3b82f6` and `#93c5fd`).
+- Indigo — Framed Blue: Indigo paper with a 1px border; blue glyphs.
+
+### Technical Notes
+
+- CSS variables (scoped per wrapper):
+  - `--paper`: canvas background fill (use `transparent` for “Plain” variants)
+  - `--accent` / `--accent2`: glyph color stops used by the pulsing blend
+- Accessibility: Respects `prefers-reduced-motion: reduce` by rendering a static frame.
+- Simplicity: Framed variants use only background color plus a 1px border; no shadows or texture overlays to keep with the site’s quiet aesthetic.
+
+### Future Extraction
+
+For sitewide reuse, extract wrappers into a partial (e.g., `_sass/_ascii.scss`) and define classes such as:
+
+```
+.ascii-plain-cream   { --paper: transparent; --accent: #fff;     --accent2: #e8ddd4; }
+.ascii-noir-cream    { --paper: #151311;   --accent: #fff;     --accent2: #e8ddd4; border:1px solid var(--color-graphite); background: var(--color-charcoal); }
+.ascii-plain-blue    { --paper: transparent; --accent: #3b82f6; --accent2: #93c5fd; }
+.ascii-indigo-blue   { --paper: #0f1218;   --accent: #3b82f6; --accent2: #93c5fd; border:1px solid #151821; background: #0f1115; }
+```
+
+Then wrap canvases in a container element using the chosen class. The renderer reads colors from the wrapper via CSS variables.
+September 4, 2025
+
+Creation-Date Ordering: Notes now sort by creation date across the site.
+- New plugin `_plugins/created_at_generator.rb` sets `created_at` and `created_at_timestamp`
+- Precedence: front matter `created_at`/`created`/`date_created` → front matter `date` → file birth time → file modified time
+- Home and tag pages now sort by `created_at_timestamp`; displayed dates use `created_at`
+
+September 25, 2025
+
+Projects Page Spacing: Added breathing room unique to the Projects index.
+- Wrapper: `_layouts/projects.html` → `<section class="projects-page">`
+- Styles: `_sass/_projects.scss`
+  - `.projects-page { padding-top: calc(var(--section-spacing) * 0.75); }`
+  - `.projects-page > article { margin-bottom: var(--section-spacing); }`
+
+Navigation: Added “Projects” to the top menu.
+- File: `_includes/nav.html`
+
+Assets Shorthand: Simplified embeds for subfolders under `assets/`.
+- Plugin: `_plugins/obsidian_image_embeds.rb`
+- Behavior: foldered paths not starting with `assets/` or `/` resolve under `/assets/…`
+
+September 26, 2025
+
+Legacy Static Site Integration: Added support guidance and styles for hosting an old Squarespace site under `studiobrunswick/`.
+- See “Legacy Static Sites” below.
+
+Project Detail Descriptions: Project pages surface their short description under the title.
+- Template: `_layouts/project.html` renders `page.description` after `<h1>` when present.
+- Styles: `_sass/_projects.scss` adds `.project-description-inline` (warm gray, 1.05rem, system spacing).

@@ -6,3 +6,103 @@
 @use "../_sass/style";
 @use "../_sass/projects";
 @use "../_sass/animations";
+
+/* Image alignment helpers for Obsidian embeds */
+img.align-left {
+  float: left;
+  margin: 0.2rem 1rem 0.8rem 0;
+}
+img.align-right {
+  float: right;
+  margin: 0.2rem 0 0.8rem 1rem;
+}
+img.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Ensure images don’t overflow text container */
+main img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Keep default inline images from growing beyond a comfortable width on large screens */
+content img:not(.full-bleed):not(.page-plus) {
+  max-width: min(100%, var(--content-media-max));
+}
+@media (max-width: 720px) {
+  content img:not(.full-bleed):not(.page-plus) {
+    max-width: 100%;
+  }
+}
+
+/* Full-bleed image: spans entire viewport width */
+img.full-bleed {
+  display: block;
+  width: 100vw;
+  max-width: 100vw;
+  max-height: 90vh; /* Prevent extreme vertical growth on tall images */
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  float: none !important;
+  clear: both;
+  height: auto; /* preserve aspect ratio under max-height constraint */
+}
+
+
+/* Page-plus image: wider than text column, but not full-bleed */
+img.page-plus {
+  display: block;
+  /* choose a comfortable max width for pages, adjust if needed */
+  width: min(80vw, 72rem);
+  max-width: none;
+  margin-left: calc(50% - (min(80vw, 72rem) / 2));
+  margin-right: calc(50% - (min(80vw, 72rem) / 2));
+  float: none !important;
+  clear: both;
+  /* Allow large display but cap vertical size so portraits aren't absurdly tall */
+  max-height: 85vh;
+  height: auto;
+}
+
+@media (max-width: 720px) {
+  img.full-bleed,
+  img.page-plus {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    aspect-ratio: auto;
+  }
+}
+
+/* Two-up layout (side-by-side portraits) */
+.two-up {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+.two-up p { /* remove extra paragraph spacing around inline images */
+  margin: 0;
+}
+.two-up img {
+  width: 100% !important; /* override any width attr from embeds */
+  height: auto;
+  display: block;
+}
+
+/* Optional: equalized crop for matching heights/aspect */
+.two-up.equal img {
+  aspect-ratio: 3 / 4; /* typical portrait */
+  height: auto;
+  object-fit: cover; /* crop to fill */
+}
+
+@media (max-width: 720px) {
+  .two-up {
+    grid-template-columns: 1fr; /* stack on small screens */
+  }
+}

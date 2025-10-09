@@ -5,7 +5,7 @@ layout: default
 {% comment %}
 Filter notes by the current tag and count them
 {% endcomment %}
-{% assign tagged_notes = site.notes | where_exp: "note", "note.tags contains page.tag" | sort: "last_modified_at_timestamp" | reverse %}
+{% assign tagged_notes = site.notes | where_exp: "note", "note.tags contains page.tag" | sort: "created_at_timestamp" | reverse %}
 {% assign note_count = tagged_notes.size %}
 
 <h1 class="tag-page-title">
@@ -19,8 +19,7 @@ Filter notes by the current tag and count them
   {% for note in tagged_notes %}
     <li>
       <a class="internal-link" href="{{ site.baseurl }}{{ note.url }}">
-        <span class="article-date">{{ note.last_modified_at | date: "%Y %m" }}</span>
-        <span class="article-separator">·</span>
+        <span class="article-date">{{ note.created_at | date: "%Y · %m" }}</span>
         <span class="article-title">{{ note.title }}</span>
       </a>
     </li>

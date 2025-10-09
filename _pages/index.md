@@ -4,7 +4,7 @@ title: Home
 id: home
 permalink: /
 ---
-{% assign latest_note = site.notes | sort: "last_modified_at_timestamp" | reverse | first %}
+{% assign latest_note = site.notes | sort: "created_at_timestamp" | reverse | first %}
 {% if latest_note %}
   {% assign content_text = latest_note.content | strip_html | strip_newlines | truncate: 120 %}
 
@@ -13,8 +13,9 @@ permalink: /
     <a href="{{ site.baseurl }}{{ latest_note.url }}" class="latest-title-link internal-link">
       <h2 class="latest-title">{{ latest_note.title }}</h2>
     </a>
+    {% assign latest_display_date = latest_note.created_at | default: latest_note.date | default: latest_note.last_modified_at %}
     <div class="latest-meta">
-      <span class="latest-date">{{ latest_note.last_modified_at | date: "%B %d, %Y" }}</span>
+      <span class="latest-date">{{ latest_display_date | date: "%B %d, %Y" }}</span>
     </div>
     <p class="latest-preview">{{ content_text }} <a href="{{ site.baseurl }}{{ latest_note.url }}" class="read-more internal-link">Keep reading →</a></p>
   </div>
@@ -57,16 +58,17 @@ permalink: /
 <hr class="section-divider">
 
 <a href="{{ site.baseurl }}/" class="section-label internal-link" id="writing">Writing</a>
+<div class="writing-section">
   <ul>
-    {% assign recent_notes = site.notes | sort: "last_modified_at_timestamp" | reverse %}
+    {% assign recent_notes = site.notes | sort: "created_at_timestamp" | reverse %}
     {% for note in recent_notes limit: 10 %}
     <li>
       <a class="internal-link" href="{{ site.baseurl }}{{ note.url }}">
-        <span class="article-date">{{ note.last_modified_at | date: "%Y %m" }}</span>
-        <span class="article-separator">·</span>
+        {% assign display_date = note.created_at | default: note.date | default: note.last_modified_at %}
+        <span class="article-date">{{ display_date | date: "%Y · %m" }}</span>
         <span class="article-title">{{ note.title }}</span>
       </a>
     </li>
     {% endfor %}
   </ul>
-
+</div>
