@@ -2,6 +2,26 @@
 layout: default
 ---
 
+{% comment %}
+  Quick, page-specific styling for Ed: make ONLY the
+  “Convince Ed about my website” note render in hot pink.
+  We match by source path for reliability.
+{% endcomment %}
+{% if page.path contains 'Convince Ed about my website.md' %}
+<style>
+  :root {
+    --color-accent-subtle: #ff1493; /* hot pink */
+    --color-accent-hover:  #ff69b4; /* light pink hover */
+  }
+  h1, h2, h3, h4, h5, h6 { color: #ff69b4 !important; text-shadow: 0 0 16px rgba(255, 20, 147, 0.25); }
+  a, a.internal-link { color: #ff69b4 !important; }
+  a:hover { color: #ff8ac8 !important; }
+  /* Optional: accent horizontal rule for flair */
+  hr { border-color: rgba(255, 20, 147, 0.35); }
+  .label, .latest-meta { color: #ff8ac8 !important; }
+</style>
+{% endif %}
+
 <article>
   <h1>{{ page.title }}</h1>
   <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{% if page.type != 'pages' %}
@@ -21,9 +41,6 @@ layout: default
     {% for recommendation in page.similar_notes %}
       <li>
         <a class="internal-link" href="{{ site.baseurl }}{{ recommendation.url }}">{{ recommendation.title }}</a>
-        {% if site.embeddings_recommendations.show_similarity_scores %}
-          <span class="similarity-score">({{ recommendation.similarity_score }})</span>
-        {% endif %}
       </li>
     {% endfor %}
   </ul>
@@ -38,7 +55,7 @@ layout: default
 {% for backlink in page.backlinks %}
   <div class="backlink-box">
   <a class="internal-link" href="{{ site.baseurl }}{{ backlink.url }}{%- if site.use_html_extension -%}.html{%- endif -%}">{{ backlink.title }}</a><br>
-  <div style="font-size: 0.9em; margin-top: 0.5em; color: var(--color-warm-gray);">{{ backlink.excerpt | strip_html | truncatewords: 20 }}</div>
+  <div style="font-size: 0.9em; margin-top: 0.5em; color: var(--color-warm-gray);">{{ backlink.content | markdownify | strip_html | truncatewords: 20 }}</div>
   </div>
 {% endfor %}
 </div>

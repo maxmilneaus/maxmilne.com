@@ -801,4 +801,13 @@ Legacy Static Site Integration: Added support guidance and styles for hosting an
 
 Project Detail Descriptions: Project pages surface their short description under the title.
 - Template: `_layouts/project.html` renders `page.description` after `<h1>` when present.
-- Styles: `_sass/_projects.scss` adds `.project-description-inline` (warm gray, 1.05rem, system spacing).
+- Styles: `_sass/_projects.scss` adds `.project-description-inline` (stone tone, 1.05rem, system spacing).
+
+Project Page Cream Background: Individual project pages use a light palette.
+- Defaults: `_config.yml` assigns `body_class: project-page` for `_projects/**`.
+- Layout: `_layouts/default.html` sets `<body class="{{ page.body_class }}">` to enable page-specific styling.
+- Styles: `_sass/_projects.scss` defines `body.project-page` overrides (cream background, dark typography, adjusted hover/border colors).
+
+Projects Index Tag Filter: `/projects/` supports client-side filtering by tags.
+- Template: `_layouts/projects.html` builds unique tag buttons, annotates entries with `data-tag-slugs`, and includes a small JS toggle.
+- Styles: `_sass/_projects.scss` adds `.project-filters`, `.project-filter`, and `.project-entry.is-hidden` (with light/dark variants for cream detail pages).

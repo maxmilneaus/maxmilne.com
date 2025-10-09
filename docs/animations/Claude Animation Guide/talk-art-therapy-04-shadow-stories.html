@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow Stories — Talk Art Therapy Animation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #F0EEE6;
+      color: #333333;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: #1a1816;
+    }
+
+    .concept {
+      background: #FDFCF9;
+      border-left: 3px solid #e8a76e;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: #333;
+    }
+
+    .canvas-wrapper {
+      background: #FDFCF9;
+      border: 1px solid #d4cfc7;
+      padding: 2rem;
+      margin: 2rem 0;
+      border-radius: 4px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      margin: 0 auto;
+      background: #FDFCF9;
+    }
+
+    .documentation {
+      margin-top: 3rem;
+    }
+
+    .doc-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: #FDFCF9;
+      border-radius: 4px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #1a1816;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin: 1.5rem 0 0.5rem;
+      color: #333;
+    }
+
+    code {
+      background: #e8e6df;
+      padding: 0.2rem 0.4rem;
+      border-radius: 2px;
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 0.9em;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    li {
+      margin: 0.5rem 0;
+    }
+
+    .parameters {
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 0.9em;
+      background: #e8e6df;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      canvas {
+        opacity: 0.5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Shadow Stories</h1>
+
+    <div class="concept">
+      "The gesture caught between moments. The story waiting in the shadows. Now I help people tell a different kind of story — the ones they carry inside about who they are, what happened, and what matters. Sometimes it's historical complexity asking to be attended to."
+    </div>
+
+    <div class="canvas-wrapper">
+      <canvas id="shadowStories"></canvas>
+    </div>
+
+    <div class="documentation">
+      <div class="doc-section">
+        <h2>Why This Works (A+ Criteria)</h2>
+
+        <h3>✓ Conceptual Clarity</h3>
+        <p>Dense, complex patterns at the bottom gradually become clearer and sparser moving upward. The bottom represents "historical complexity" and "shadow"—dense, layered, not fully visible. The top represents clarity, light, emergence. The pattern continuously breathes upward, suggesting stories gradually coming into view through sustained attention.</p>
+
+        <h3>✓ Organic Beauty</h3>
+        <p>The transition from dense to sparse isn't linear or mechanical—it ripples and breathes. Areas of greater density pulse slowly, suggesting the way buried stories sometimes press closer to awareness, then recede. The textile characters create a woven, layered quality—stories as fabric, each thread part of a larger cloth.</p>
+
+        <h3>✓ Temporal Patience</h3>
+        <p>The upward drift is extremely slow (14-16 second cycle). Density changes are gradual—you have to watch patiently to see the pattern shift. This mirrors therapeutic work: stories don't rush from shadow to light; they emerge slowly through careful, sustained attention.</p>
+
+        <h3>✓ Restraint</h3>
+        <p>Even the densest areas aren't overwhelming—there's always breathing room between characters. The top third remains quite sparse, honoring the space that clarity requires. Motion is minimal (1.5% upward drift), never dramatic.</p>
+
+        <h3>✓ Material Integrity</h3>
+        <p>Uses density-progression characters from textile traditions: <code>═ ─ ┄ ╌ ·</code>. These read as woven fabric at different densities—from tightly woven (dense shadow) to loosely woven (emerging clarity) to single stitches (light, clear awareness).</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Aesthetic References</h2>
+        <ul>
+          <li><strong>Chiaroscuro</strong> — Gradual transition from darkness to light in painting</li>
+          <li><strong>Sediment layers</strong> — Historical complexity as geological strata, older/deeper layers below</li>
+          <li><strong>Fabric density variation</strong> — Loose-weave linen to dense-weave tapestry</li>
+          <li><strong>Fog lifting</strong> — Gradual revelation as mist clears from landscape</li>
+          <li><strong>Kintsugi</strong> — Making visible what was broken/hidden; honoring complexity rather than erasing it</li>
+          <li><strong>Shadow work (Jungian)</strong> — Attending to what lives in the unconscious/shadow, bringing it gradually into awareness</li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h2>Character Choice Rationale</h2>
+        <p><strong>Primary characters (dense to sparse):</strong> <code>═ ━ ─ ┄ ╌ · ∙</code></p>
+
+        <h3>Why These Work:</h3>
+        <ul>
+          <li><code>═</code> — Double horizontal line, densest weave, deepest shadow</li>
+          <li><code>━</code> — Heavy single line, dense but slightly lighter</li>
+          <li><code>─</code> — Standard line, mid-density fabric</li>
+          <li><code>┄</code> — Light dashed, fabric beginning to open</li>
+          <li><code>╌</code> — Medium dashed, loose weave</li>
+          <li><code>· ∙</code> — Single points, sparse individual stitches (clarity)</li>
+        </ul>
+
+        <p>The progression moves from solid/dense (shadow, historical complexity, buried stories) to sparse/light (clarity, awareness, stories that can be told). All characters stay within horizontal/textile vocabulary—maintaining the sense of woven fabric rather than biological/cellular patterns.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Motion Philosophy</h2>
+        <p><strong>Vertical Gradient:</strong> Bottom is consistently dense (0.7-0.9 intensity), top is sparse (0.1-0.3 intensity). This creates the foundational shadow-to-light quality.</p>
+
+        <p><strong>Upward Drift:</strong> The entire pattern slowly rises (1.5% over 14s). This suggests stories/awareness gradually emerging from shadow into light. Not a single dramatic revelation, but continuous gentle surfacing.</p>
+
+        <p><strong>Pulsing Density:</strong> The boundary between dense and sparse areas breathes subtly—sometimes pushing higher, sometimes settling lower. This honors the non-linear nature of therapeutic work: some days clarity comes easier, some days the shadows feel closer.</p>
+
+        <p><strong>Horizontal Wave:</strong> Slight horizontal wave motion creates organic variation—prevents the gradient from feeling mechanically perfect. Suggests the hand-worked, imperfect quality of real attention to complexity.</p>
+
+        <p><strong>Speed:</strong> 0.006 (very slow). Stories emerging from shadow require patience, can't be rushed.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Technical Parameters</h2>
+        <div class="parameters">
+GRID_SIZE: 48
+SPEED: 0.006
+UPWARD_DRIFT: 0.015 (1.5% per cycle)
+DRIFT_DURATION: 14-16 seconds
+HORIZONTAL_WAVE: 0.3 (subtle)
+VERTICAL_PULSE: 0.1 (breathing boundary)
+DENSITY_RANGE: 0.1 (top) to 0.9 (bottom)
+CHARACTERS:
+  Dense: ['═', '━', '─']
+  Medium: ['┄', '╌']
+  Sparse: ['·', '∙']
+GRADIENT_POWER: 1.8 (controls steepness of transition)
+COLORS:
+  - Deep shadow: rgba(51,51,51,0.8)
+  - Mid-range: rgba(51,51,51,0.5)
+  - Sparse/clear: rgba(51,51,51,0.25)
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2>Lessons for Style Guide</h2>
+        <ul>
+          <li><strong>Vertical gradient = emergence from shadow/complexity</strong> — Use bottom-dense/top-sparse for concepts about historical depth, buried stories, gradual awareness</li>
+          <li><strong>Upward drift = surfacing motion</strong> — Slow upward movement suggests things rising from unconscious to conscious, from hidden to visible</li>
+          <li><strong>Pulsing boundary = non-linear process</strong> — The edge between shadow/clarity shouldn't be fixed; let it breathe to honor complexity</li>
+          <li><strong>Density characters = textile tradition</strong> — Use horizontal line characters at varying densities to create woven-fabric quality</li>
+          <li><strong>Gradient power = transition pace</strong> — Steeper gradient (higher power) creates more dramatic shadow-to-light; gentler gradient feels more contemplative</li>
+          <li><strong>Avoid erasing the dense layer</strong> — Keep the foundation visible; shadow/complexity doesn't disappear, it becomes integrated context</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('shadowStories');
+    const ctx = canvas.getContext('2d');
+    const GRID_SIZE = 48;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Set canvas size
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
+    const canvasWidth = rect.width;
+    const canvasHeight = rect.height;
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const CHARS_DENSE = ['═', '━', '─'];
+    const CHARS_MEDIUM = ['┄', '╌'];
+    const CHARS_SPARSE = ['·', '∙'];
+
+    const SPEED = 0.006;
+    const DRIFT_AMOUNT = 0.015;
+
+    let t = 0;
+
+    function getDensityChar(intensity) {
+      if (intensity > 0.6) {
+        return CHARS_DENSE[Math.floor(Math.random() * CHARS_DENSE.length)];
+      } else if (intensity > 0.3) {
+        return CHARS_MEDIUM[Math.floor(Math.random() * CHARS_MEDIUM.length)];
+      } else {
+        return CHARS_SPARSE[Math.floor(Math.random() * CHARS_SPARSE.length)];
+      }
+    }
+
+    function draw() {
+      // Clear
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      // Background
+      ctx.fillStyle = '#FDFCF9';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+      const cellW = canvasWidth / GRID_SIZE;
+      const cellH = canvasHeight / GRID_SIZE;
+      const cellSize = cellW * 0.7;
+
+      ctx.font = `${cellSize}px ui-monospace, Menlo, Monaco, monospace`;
+
+      // Draw gradient pattern
+      for (let y = 0; y < GRID_SIZE; y++) {
+        for (let x = 0; x < GRID_SIZE; x++) {
+          // Vertical gradient (dense at bottom, sparse at top)
+          const yNorm = y / GRID_SIZE;
+          const baseIntensity = Math.pow(1 - yNorm, 1.8); // Steeper gradient
+
+          // Upward drift (breathing upward motion)
+          const drift = Math.sin(t * 0.4) * DRIFT_AMOUNT;
+
+          // Horizontal wave for organic quality
+          const wave = Math.sin(x * 0.2 + t * 0.5) * 0.1;
+
+          // Pulsing boundary (some areas push up/down)
+          const pulse = Math.sin(x * 0.15 + t * 0.6 + y * 0.1) * 0.08;
+
+          // Combined intensity
+          const intensity = baseIntensity + drift + wave + pulse;
+
+          // Threshold for showing character
+          const threshold = 0.15;
+
+          if (intensity > threshold) {
+            const char = getDensityChar(intensity);
+            const opacity = Math.min(0.8, intensity * 0.9);
+
+            const xp = (x + 0.5) * cellW;
+            const yp = (y + 0.5) * cellH;
+
+            ctx.fillStyle = `rgba(51, 51, 51, ${opacity})`;
+            ctx.fillText(char, xp, yp);
+          }
+        }
+      }
+
+      if (!prefersReducedMotion) {
+        t += 0.016;
+        requestAnimationFrame(draw);
+      } else {
+        // Static frame showing gradient without motion
+        if (t === 0) {
+          t = 3; // Show at a good moment
+          draw();
+          t = 0;
+        }
+      }
+    }
+
+    draw();
+  </script>
+</body>
+</html>

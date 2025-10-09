@@ -1,0 +1,11 @@
+{
+  "pattern": "erosion",
+  "parameters": {
+    "speed": 0.013,
+    "amplitude": 3,
+    "density": 0.7,
+    "contrast": 1.1,
+    "gridSize": 56
+  },
+  "timestamp": "2025-10-03T03:05:23.919Z"
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bamboo Sway — Footer Scene</title>
+  <style>
+    :root { --paper:#F0EEE6; --accent:#3b82f6; --accent2:#93c5fd; }
+    html,body { height:100%; margin:0; background: var(--paper); }
+    .frame { height:100%; display:grid; place-items:center; }
+    canvas { width:min(92vmin,760px); height:min(92vmin,760px); aspect-ratio:1/1; display:block; border-radius:12px; box-shadow: 0 10px 28px rgba(0,0,0,.18); background: var(--paper); }
+    .cap { position:fixed; bottom:10px; right:12px; color:#4a453f; opacity:.75; font:12px/1.3 ui-monospace, Menlo, monospace; }
+    .ui { position: fixed; top: 10px; right: 12px; color:#4a453f; opacity:.75; font:12px/1.3 ui-monospace, Menlo, monospace; background: rgba(240,238,230,0.6); padding:6px 8px; border-radius:8px; }
+    .ui label { cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="frame"><canvas id="c" width="920" height="920" aria-label="Bamboo Sway — words bending in wind"></canvas></div>
+  <div class="cap">Bamboo Sway</div>
+  <div class="ui"><label><input id="play" type="checkbox" checked> Animate</label></div>
+  <script>
+    const canvas=document.getElementById('c'); const ctx=canvas.getContext('2d');
+    const BASE_GRID=60, cell=14, cw=cell*0.72, ch=cell; let t=0, animId;
+    const col=(n,f)=>getComputedStyle(document.documentElement).getPropertyValue(n).trim()||f;
+    function clear(){ const p=col('--paper','#F0EEE6'); ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle=p; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.font=`${cell}px ui-monospace, Menlo, monospace`; ctx.textAlign='center'; ctx.textBaseline='middle'; }
+    function ink(a=1){ ctx.fillStyle=`rgba(59,130,246,${a})`; }
+    function draw(time){
+      const GRID_SIZE=BASE_GRID; clear(); const cx=canvas.width/2, cy=canvas.height/2;
+      const breath = 0.5 + 0.5*Math.sin(time*0.16);
+      const fadeEdge=0.82 + 0.02*breath;
+      const swayA=(0.10+0.035*breath)*Math.sin(time*0.6);
+      for(let y=0;y<GRID_SIZE;y++) for(let x=0;x<GRID_SIZE;x+=1){
+        const xp=cx+(x-GRID_SIZE/2)*cw, yp=cy+(y-GRID_SIZE/2)*ch;
+        const nx=(x-GRID_SIZE/2)/(GRID_SIZE/2), ny=(y-GRID_SIZE/2)/(GRID_SIZE/2);
+        const boundary=Math.max(Math.abs(nx),Math.abs(ny)); if(boundary>=fadeEdge) continue; const fade=1-boundary/fadeEdge;
+
+        // Background mist field
+        const field = Math.sin(nx*10 + time*0.4) + Math.cos(ny*12 - time*0.3);
+        if (field * fade > 1.45 && (x+y)%3===0) { ink(0.10 + 0.08*fade); ctx.fillText('·', xp, yp); }
+
+        // Two interleaved stalk groups (thicker, layered)
+        const groupA = (x % 7) === 0 || (x % 7) === 1; // thickness by neighboring column
+        const groupB = ((x+3) % 9) === 0;              // secondary rhythm
+        if (!(groupA || groupB)) continue;
+
+        const phase=(y/GRID_SIZE)*Math.PI*2;
+        const off=Math.sin(phase+time*0.9)*swayA;
+        const near=Math.abs(nx-off) < (0.014 + 0.004*Math.cos(y*0.7));
+        if(!near) continue;
+
+        // Nodes and occasional leaf hints
+        const node=(y%10)===0;
+        const leaf = node && ((x+y) % 20 === 0);
+        ink(0.50+0.40*fade);
+        ctx.fillText(node?'≡':'|', xp+off*cw*GRID_SIZE/2, yp);
+        if (leaf) {
+          // small leaf mark slightly to the right/left, following sway direction
+          const dir = off>=0 ? 1 : -1;
+          ctx.fillText(dir>0?'/':'\\', xp+off*cw*GRID_SIZE/2 + dir*cw*0.6, yp);
+        }
+      }
+
+      // Subtle ground base at the bottom
+      const gy = cy + (GRID_SIZE/2 - 1)*ch;
+      for (let gx= -GRID_SIZE/2; gx<GRID_SIZE/2; gx+=3) { ink(0.12); ctx.fillText('—', cx + gx*cw, gy); }
+    }
+    function frame(){ draw(t); t+=0.006; animId=requestAnimationFrame(frame); }
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+    const play = document.getElementById('play');
+    function start(){ if(play && play.checked){ frame(); } else if(!reduce.matches) { frame(); } else { draw(0);} }
+    function stop(){ if(animId) cancelAnimationFrame(animId); }
+    if (play) play.addEventListener('change', ()=>{ stop(); start(); });
+    try { reduce.addEventListener ? reduce.addEventListener('change', ()=>{ stop(); start(); }) : reduce.addListener(()=>{ stop(); start(); }); } catch(_){}
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden){ stop(); } else { start(); }});
+    start();
+  </script>
+</body>
+</html>

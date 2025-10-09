@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meditation Wave — 3 Textile Aesthetics</title>
+  <style>
+    :root {
+      --cream: #F0EEE6;
+      --charcoal: #1a1816;
+      --stone: #8b8680;
+      --warm: #e8a76e;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      font-family: ui-monospace, 'SF Mono', Menlo, Monaco, monospace;
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 300;
+      margin: 0 0 0.5rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--stone);
+      margin: 0 0 3rem;
+      font-style: italic;
+    }
+
+    .concept-text {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      padding: 1.5rem;
+      background: #0f0e0d;
+      border-radius: 8px;
+      border-left: 3px solid var(--warm);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      font-style: italic;
+      color: var(--stone);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .option-card {
+      background: #0f0e0d;
+      border-radius: 12px;
+      border: 1px solid #2a2826;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .option-card:hover {
+      border-color: var(--warm);
+    }
+
+    .option-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #2a2826;
+    }
+
+    .option-number {
+      font-size: 0.8rem;
+      color: var(--stone);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .option-title {
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin: 0 0 0.75rem;
+      color: var(--warm);
+    }
+
+    .option-description {
+      font-size: 0.9rem;
+      color: var(--stone);
+      line-height: 1.5;
+      margin: 0 0 1rem;
+    }
+
+    .char-display {
+      font-size: 1.1rem;
+      color: var(--cream);
+      font-family: ui-monospace, monospace;
+      padding: 0.75rem;
+      background: #1a1816;
+      border-radius: 4px;
+      margin-top: 1rem;
+      text-align: center;
+      letter-spacing: 0.5em;
+    }
+
+    .canvas-wrapper {
+      padding: 2rem;
+      background: var(--cream);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 450px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+    }
+
+    .aesthetic-notes {
+      padding: 1.5rem;
+      border-top: 1px solid #2a2826;
+    }
+
+    .aesthetic-notes h3 {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--warm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 0.75rem;
+    }
+
+    .aesthetic-notes ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--stone);
+      line-height: 1.6;
+    }
+
+    .aesthetic-notes li {
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Meditation Wave — Textile Aesthetics</h1>
+    <p class="subtitle">Three different stitching/weaving approaches to the same concept</p>
+
+    <div class="concept-text">
+      "The way the mind builds capacity through meditation, not via one big insight but through practice sustained across years. There is the awareness of this moment, and there is the awareness of continuity. Both matter."
+    </div>
+
+    <div class="grid">
+      
+      <!-- Option A: Sashiko Running Stitch -->
+      <div class="option-card">
+        <div class="option-header">
+          <div class="option-number">OPTION A</div>
+          <h2 class="option-title">Sashiko Running Stitch</h2>
+          <p class="option-description">
+            Inspired by Japanese sashiko embroidery — running stitches that create pattern through repetition. Dashed lines suggest thread moving in and out of fabric.
+          </p>
+          <div class="char-display">┄ ╌ ─ — ┅ ╍ ═</div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="canvas-a" width="400" height="400"></canvas>
+        </div>
+        <div class="aesthetic-notes">
+          <h3>Textile References</h3>
+          <ul>
+            <li>Sashiko stitching (running stitch patterns)</li>
+            <li>Kantha embroidery (layered stitches)</li>
+            <li>Thread visible above and below fabric</li>
+            <li>Patient, repetitive hand work</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Option B: Cross-Stitch Grid -->
+      <div class="option-card">
+        <div class="option-header">
+          <div class="option-number">OPTION B</div>
+          <h2 class="option-title">Cross-Stitch Grid</h2>
+          <p class="option-description">
+            Counted thread embroidery where stitches build on a grid. Each cross is a moment of practice, accumulating into a larger pattern over time.
+          </p>
+          <div class="char-display">+ × ┼ ╋ ╬ ✕ ✚</div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="canvas-b" width="400" height="400"></canvas>
+        </div>
+        <div class="aesthetic-notes">
+          <h3>Textile References</h3>
+          <ul>
+            <li>Cross-stitch embroidery</li>
+            <li>Needlepoint canvas work</li>
+            <li>Grid-based pattern building</li>
+            <li>Each stitch = each practice session</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Option C: Warp & Weft Weave -->
+      <div class="option-card">
+        <div class="option-header">
+          <div class="option-number">OPTION C</div>
+          <h2 class="option-title">Warp & Weft Weave</h2>
+          <p class="option-description">
+            Horizontal and vertical threads crossing to create fabric. The vertical warp (continuity) holds steady while horizontal weft (moments) weaves through.
+          </p>
+          <div class="char-display">| ║ ─ ═ ┃ ━ ╎ ╏</div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="canvas-c" width="400" height="400"></canvas>
+        </div>
+        <div class="aesthetic-notes">
+          <h3>Textile References</h3>
+          <ul>
+            <li>Loom weaving (warp & weft)</li>
+            <li>Anni Albers' structural textiles</li>
+            <li>Thread tension creating pattern</li>
+            <li>Vertical = time, Horizontal = moments</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const GRID_SIZE = 40;
+
+    // ========================================
+    // OPTION A: SASHIKO RUNNING STITCH
+    // ========================================
+    (function() {
+      const canvas = document.getElementById('canvas-a');
+      const ctx = canvas.getContext('2d');
+      const CHARS = ['┄', '╌', '─', '—', '┅', '╍', '═'];
+      let t = 0;
+
+      function draw() {
+        const cellW = canvas.width / GRID_SIZE;
+        const cellH = canvas.height / GRID_SIZE;
+        const cellSize = cellW * 0.7;
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#F0EEE6';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `${cellSize}px ui-monospace, Menlo, monospace`;
+
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let x = 0; x < GRID_SIZE; x++) {
+            const nx = x - GRID_SIZE / 2;
+            const ny = y - GRID_SIZE / 2;
+            const dist = Math.sqrt(nx * nx + ny * ny);
+            
+            // Create wave patterns that suggest running stitches
+            // Horizontal stitches (moments)
+            const horizontalWave = Math.sin(y * 0.4 + t * 0.8 + x * 0.1);
+            // Vertical stitches (continuity)
+            const verticalWave = Math.sin(x * 0.4 - t * 0.6 + y * 0.15);
+            // Combined pattern
+            const combined = (horizontalWave + verticalWave) * 0.5;
+            
+            // Radial fade
+            const maxDist = GRID_SIZE / 2;
+            const fade = Math.max(0, 1 - (dist / maxDist) * 0.85);
+            
+            const intensity = combined * fade;
+            
+            if (intensity > 0.1) {
+              // Use dashed/line characters for stitch effect
+              const charIndex = Math.floor((intensity + 1) / 2 * CHARS.length);
+              const char = CHARS[Math.min(Math.max(charIndex, 0), CHARS.length - 1)];
+              const xp = x * cellW + cellW / 2;
+              const yp = y * cellH + cellH / 2;
+              ctx.fillStyle = `rgba(51, 51, 51, ${((intensity + 1) / 2) * 0.7})`;
+              ctx.fillText(char, xp, yp);
+            }
+          }
+        }
+        
+        if (!prefersReducedMotion) {
+          t += 0.01;
+          requestAnimationFrame(draw);
+        }
+      }
+      
+      draw();
+    })();
+
+    // ========================================
+    // OPTION B: CROSS-STITCH GRID
+    // ========================================
+    (function() {
+      const canvas = document.getElementById('canvas-b');
+      const ctx = canvas.getContext('2d');
+      const CHARS = ['+', '×', '┼', '╋', '╬', '✕', '✚'];
+      let t = 0;
+
+      function draw() {
+        const cellW = canvas.width / GRID_SIZE;
+        const cellH = canvas.height / GRID_SIZE;
+        const cellSize = cellW * 0.7;
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#F0EEE6';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `${cellSize}px ui-monospace, Menlo, monospace`;
+
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let x = 0; x < GRID_SIZE; x++) {
+            const nx = x - GRID_SIZE / 2;
+            const ny = y - GRID_SIZE / 2;
+            const dist = Math.sqrt(nx * nx + ny * ny);
+            
+            // Grid-based pattern with waves
+            // Each "stitch" is a moment of practice
+            const wave1 = Math.sin(nx * 0.3 + t * 0.7);
+            const wave2 = Math.sin(ny * 0.3 - t * 0.9 + Math.PI/3);
+            const wave3 = Math.sin((nx + ny) * 0.2 + t * 0.5);
+            
+            const combined = (wave1 + wave2 + wave3) / 3;
+            
+            // Radial fade
+            const maxDist = GRID_SIZE / 2;
+            const fade = Math.max(0, 1 - (dist / maxDist) * 0.9);
+            
+            const intensity = combined * fade;
+            
+            // Only show stitches above threshold (like counted thread work)
+            if (intensity > 0.2) {
+              const charIndex = Math.floor((intensity - 0.2) / 0.8 * CHARS.length);
+              const char = CHARS[Math.min(charIndex, CHARS.length - 1)];
+              const xp = x * cellW + cellW / 2;
+              const yp = y * cellH + cellH / 2;
+              ctx.fillStyle = `rgba(51, 51, 51, ${((intensity - 0.2) / 0.8) * 0.75})`;
+              ctx.fillText(char, xp, yp);
+            }
+          }
+        }
+        
+        if (!prefersReducedMotion) {
+          t += 0.008;
+          requestAnimationFrame(draw);
+        }
+      }
+      
+      draw();
+    })();
+
+    // ========================================
+    // OPTION C: WARP & WEFT WEAVE
+    // ========================================
+    (function() {
+      const canvas = document.getElementById('canvas-c');
+      const ctx = canvas.getContext('2d');
+      const VERTICAL_CHARS = ['|', '║', '┃', '╎', '╏'];  // Warp (continuity)
+      const HORIZONTAL_CHARS = ['─', '═', '━', '╌', '╍']; // Weft (moments)
+      let t = 0;
+
+      function draw() {
+        const cellW = canvas.width / GRID_SIZE;
+        const cellH = canvas.height / GRID_SIZE;
+        const cellSize = cellW * 0.65;
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#F0EEE6';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `${cellSize}px ui-monospace, Menlo, monospace`;
+
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let x = 0; x < GRID_SIZE; x++) {
+            const nx = x - GRID_SIZE / 2;
+            const ny = y - GRID_SIZE / 2;
+            const dist = Math.sqrt(nx * nx + ny * ny);
+            
+            // Vertical threads (warp - continuity, steady)
+            const warpWave = Math.sin(x * 0.35 + t * 0.4) * 0.6;
+            // Horizontal threads (weft - moments, weaving through)
+            const weftWave = Math.sin(y * 0.4 + t * 1.0 + x * 0.1) * 0.5;
+            
+            // Radial fade
+            const maxDist = GRID_SIZE / 2;
+            const fade = Math.max(0, 1 - (dist / maxDist) * 0.85);
+            
+            // Determine which thread is "on top" at this position
+            const warpStrength = warpWave * fade;
+            const weftStrength = weftWave * fade;
+            
+            let char = ' ';
+            let opacity = 0;
+            
+            if (Math.abs(warpStrength) > Math.abs(weftStrength) && warpStrength > 0.15) {
+              // Show vertical thread (warp)
+              const charIndex = Math.floor((warpStrength - 0.15) / 0.45 * VERTICAL_CHARS.length);
+              char = VERTICAL_CHARS[Math.min(charIndex, VERTICAL_CHARS.length - 1)];
+              opacity = (warpStrength - 0.15) / 0.45 * 0.7;
+            } else if (weftStrength > 0.15) {
+              // Show horizontal thread (weft)
+              const charIndex = Math.floor((weftStrength - 0.15) / 0.35 * HORIZONTAL_CHARS.length);
+              char = HORIZONTAL_CHARS[Math.min(charIndex, HORIZONTAL_CHARS.length - 1)];
+              opacity = (weftStrength - 0.15) / 0.35 * 0.7;
+            }
+            
+            if (char !== ' ') {
+              const xp = x * cellW + cellW / 2;
+              const yp = y * cellH + cellH / 2;
+              ctx.fillStyle = `rgba(51, 51, 51, ${opacity})`;
+              ctx.fillText(char, xp, yp);
+            }
+          }
+        }
+        
+        if (!prefersReducedMotion) {
+          t += 0.009;
+          requestAnimationFrame(draw);
+        }
+      }
+      
+      draw();
+    })();
+
+    // Listen for motion preference changes
+    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => {
+      location.reload();
+    });
+  </script>
+</body>
+</html>

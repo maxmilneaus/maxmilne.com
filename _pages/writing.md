@@ -11,7 +11,8 @@ permalink: /writing
     {% for note in recent_notes %}
     <li>
       <a class="internal-link" href="{{ site.baseurl }}{{ note.url }}">
-        <span class="article-date">{{ note.created_at | date: "%Y · %m" }}</span>
+        {% assign display_date = note.created_at | default: note.date | default: note.last_modified_at %}
+        <span class="article-date">{{ display_date | date: "%Y · %m" }}</span>
         <span class="article-title">{{ note.title }}</span>
       </a>
     </li>

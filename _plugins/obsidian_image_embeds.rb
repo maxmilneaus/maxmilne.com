@@ -47,6 +47,11 @@ module Jekyll
         raw = Regexp.last_match(1).strip
         mod = (Regexp.last_match(2) || '').strip
 
+        # Skip non-image targets (audio/video/providers); handled elsewhere or left as-is
+        if non_image_target?(raw)
+          next Regexp.last_match(0)
+        end
+
         # Normalize any path that contains an assets/ segment to start at assets/
         normalized = raw.dup
         if (m = normalized.match(/assets\//i))
@@ -54,8 +59,19 @@ module Jekyll
           normalized.sub!(/\Aassets\//i, 'assets/')
         end
 
-        # Path: default to /assets when no folder provided
-        path = normalized.include?('/') ? normalized : "assets/#{normalized}"
+        # Path resolution:
+        # - If no folder provided, default to assets/<file>
+        # - If a folder is provided but doesn't start with 'assets/' or '/', treat it as assets/<folder>/<file>
+        #   This enables shorthand like ![[photos/session-01/shot.jpg]] → /assets/photos/session-01/shot.jpg
+        if normalized.include?('/')
+          if normalized =~ /\Aassets\//i || normalized.start_with?('/')
+            path = normalized
+          else
+            path = "assets/#{normalized}"
+          end
+        else
+          path = "assets/#{normalized}"
+        end
         src  = "#{baseurl}/#{encode_url(path)}"
 
         # Parse modifiers
@@ -82,6 +98,27 @@ module Jekyll
         idx = Regexp.last_match(1).to_i
         shields[idx]
       end
+    end
+
+    def non_image_target?(raw)
+      r = raw.strip
+      # Explicit provider prefixes
+      return true if r =~ /^(youtube|vimeo):/i
+
+      # Audio/video file extensions
+      return true if r =~ /\.(mp3|m4a|aac|flac|ogg|oga|wav|webm|ogv|mp4|m4v|mov)(?:\?|#|$)/i
+
+      # External hosts for video providers
+      if r =~ %r{^https?://}i
+        begin
+          uri = URI.parse(r)
+          host = (uri.host || '').downcase
+          return true if host.include?('youtube.com') || host.include?('youtu.be') || host.include?('vimeo.com') || host.include?('player.vimeo.com')
+        rescue URI::InvalidURIError
+        end
+      end
+
+      false
     end
 
     def parse_modifiers(mod)

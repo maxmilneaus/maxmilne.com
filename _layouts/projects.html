@@ -2,23 +2,83 @@
 layout: default
 ---
 
-<article>
-  <h1>{{ page.title }}</h1>
-  {{ content }}
-</article>
+<section class="projects-page">
+  <article>
+    <h1>{{ page.title }}</h1>
+    {{ content }}
+  </article>
 
-<div class="projects-list">
-  {% assign sorted_projects = site.projects | sort: 'year' | reverse %}
-  {% assign sorted_projects = sorted_projects | sort: 'order' %}
-  {% for project in sorted_projects %}
-    <div class="project-entry">
-      <div class="project-year">{{ project.year }}</div>
-      <div class="project-content">
-        <h3 class="project-title">
-          <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
-        </h3>
-        <p class="project-description">{{ project.description }}</p>
-      </div>
-    </div>
+  {% assign tag_collection = "" | split: "" %}
+  {% for project in site.projects %}
+    {% if project.tags %}
+      {% for tag in project.tags %}
+        {% unless tag_collection contains tag %}
+          {% assign tag_collection = tag_collection | push: tag %}
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
   {% endfor %}
-</div>
+  {% assign tag_collection = tag_collection | sort %}
+
+  {% if tag_collection.size > 0 %}
+  <div class="project-filters" data-project-filter>
+    <button class="project-filter is-active" type="button" data-filter="all">All</button>
+    {% for tag in tag_collection %}
+      {% assign tag_slug = tag | slugify %}
+      <button class="project-filter" type="button" data-filter="{{ tag_slug }}">{{ tag }}</button>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="projects-list">
+    {% assign sorted_projects = site.projects | sort: 'year' | reverse %}
+    {% assign sorted_projects = sorted_projects | sort: 'order' %}
+    {% for project in sorted_projects %}
+      {% assign tag_slugs_array = "" | split: "" %}
+      {% if project.tags %}
+        {% for tag in project.tags %}
+          {% assign tag_slug = tag | slugify %}
+          {% assign tag_slugs_array = tag_slugs_array | push: tag_slug %}
+        {% endfor %}
+      {% endif %}
+      {% assign tag_slugs_attr = tag_slugs_array | join: ' ' %}
+      <div class="project-entry" {% if tag_slugs_attr != '' %}data-tag-slugs="{{ tag_slugs_attr }}"{% endif %}>
+        <div class="project-year">{{ project.year }}</div>
+        <div class="project-content">
+          <h3 class="project-title">
+            <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
+          </h3>
+          <p class="project-description">{{ project.description }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+  (function () {
+    var filterContainer = document.querySelector('[data-project-filter]');
+    if (!filterContainer) return;
+    var buttons = Array.prototype.slice.call(filterContainer.querySelectorAll('.project-filter'));
+    var entries = Array.prototype.slice.call(document.querySelectorAll('.projects-list .project-entry'));
+
+    function applyFilter(slug) {
+      entries.forEach(function (entry) {
+        var tags = (entry.dataset.tagSlugs || '').split(' ').filter(Boolean);
+        if (slug === 'all' || tags.indexOf(slug) !== -1) {
+          entry.classList.remove('is-hidden');
+        } else {
+          entry.classList.add('is-hidden');
+        }
+      });
+    }
+
+    filterContainer.addEventListener('click', function (event) {
+      var button = event.target.closest('.project-filter');
+      if (!button) return;
+      buttons.forEach(function (btn) { btn.classList.remove('is-active'); });
+      button.classList.add('is-active');
+      applyFilter(button.getAttribute('data-filter'));
+    });
+  })();
+</script>

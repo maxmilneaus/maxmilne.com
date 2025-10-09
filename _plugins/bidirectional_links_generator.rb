@@ -6,8 +6,9 @@ class BidirectionalLinksGenerator < Jekyll::Generator
 
     all_notes = site.collections['notes'].docs
     all_pages = site.pages
+    all_projects = site.collections['projects'].docs
 
-    all_docs = all_notes + all_pages
+    all_docs = all_notes + all_pages + all_projects
 
     link_extension = !!site.config["use_html_extension"] ? '.html' : ''
 
@@ -63,7 +64,7 @@ class BidirectionalLinksGenerator < Jekyll::Generator
       # pointing to non-existing pages, so let's turn them into disabled
       # links by greying them out and changing the cursor
       current_note.content = current_note.content.gsub(
-        /\[\[([^\]]+)\]\]/i, # match on the remaining double-bracket links
+        /(?<!\!)\[\[([^\]]+)\]\]/i, # match remaining double-bracket links but skip image embeds (![[...])
         <<~HTML.delete("\n") # replace with this HTML (\\1 is what was inside the brackets)
           <span title='There is no note that matches this link.' class='invalid-link'>
             <span class='invalid-link-brackets'>[[</span>

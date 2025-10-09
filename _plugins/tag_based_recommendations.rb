@@ -17,15 +17,17 @@ module Jekyll
     private
     
     def should_generate?(site)
-      config = site.config['embeddings_recommendations'] || {}
+      # Prefer new `recommendations` config; fall back to deprecated `embeddings_recommendations` if present
+      config = site.config['recommendations'] || site.config['embeddings_recommendations'] || {}
       config.fetch('enabled', true)
     end
     
     def process_notes(site, parser = nil)
       return unless site.collections['notes']
       
-      config = site.config['embeddings_recommendations'] || {}
+      config = site.config['recommendations'] || site.config['embeddings_recommendations'] || {}
       max_recommendations = config.fetch('max_recommendations', 5)
+      similarity_threshold = config.fetch('similarity_threshold', 0.1)
       
       # Build tag index for efficient lookup
       tag_index = build_tag_index(site)
@@ -35,7 +37,7 @@ module Jekyll
         next if note.data['exclude_from_recommendations']
         
         # Get similar notes based on tags
-        similar_notes = find_similar_by_tags(note, tag_index, site, max_recommendations)
+        similar_notes = find_similar_by_tags(note, tag_index, site, max_recommendations, similarity_threshold)
         
         # Add to note data
         note.data['similar_notes'] = similar_notes
@@ -60,7 +62,7 @@ module Jekyll
       tag_index
     end
     
-    def find_similar_by_tags(target_note, tag_index, site, limit)
+    def find_similar_by_tags(target_note, tag_index, site, limit, threshold = 0.1)
       target_tags = (target_note.data['tags'] || []).map(&:downcase)
       return [] if target_tags.empty?
       
@@ -78,7 +80,7 @@ module Jekyll
         union = (target_tags | note_tags).size
         
         similarity = intersection.to_f / union
-        scores[note] = similarity if similarity > 0.1 # Minimum threshold
+        scores[note] = similarity if similarity > threshold # Minimum threshold
       end
       
       # Sort by similarity and return top recommendations

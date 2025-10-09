@@ -264,5 +264,30 @@ Outcome: Project detail pages now surface their short description directly under
 - Template: `_layouts/project.html`
   - Renders `page.description` beneath the `<h1>` when present.
 - Styles: `_sass/_projects.scss`
-  - Added `.project-description-inline` using warm gray, 1.05rem size, and system spacing.
+  - Added `.project-description-inline` using warm gray/stone tone, 1.05rem size, and system spacing.
 - Impact: Every project that already defines `description` (used on the index) now shows the same line on its detail page; no front matter changes required.
+
+## Project Pages — Cream Background Treatment - 2025-09-26
+
+Outcome: Individual project pages now render on a light cream background with dark typography to match the portfolio index.
+
+- Defaults: `_config.yml` sets `body_class: project-page` for `_projects/**` so layouts can restyle the page wrapper automatically.
+- Layout: `_layouts/default.html` now emits `<body class="{{ page.body_class }}>`.
+- Styles: `_sass/_projects.scss`
+  - `body.project-page` flips background to `var(--color-cream)` and base text to `var(--color-deep)`.
+  - Overrides headings, metadata, and “More Projects” list colors for readability.
+  - Adjusts hover states and border colors to suit the light theme.
+- Impact: Project detail pages visually align with the cream-toned project index; non-project pages retain the original dark theme.
+
+## Projects Index — Tag Filters - 2025-09-26
+
+Outcome: Visitors can filter projects by tag on the `/projects/` index without leaving the page.
+
+- Template: `_layouts/projects.html`
+  - Collects unique tags from `site.projects`.
+  - Renders filter buttons (including “All”) and adds `data-tag-slugs` attributes to each project entry.
+  - Appends a lightweight JS snippet to toggle visibility on click.
+- Styles: `_sass/_projects.scss`
+  - Adds `.project-filters`, `.project-filter`, and `.project-entry.is-hidden` for the filtering UI.
+  - Provides light/dark variants so project detail pages remain cohesive on cream background.
+- Impact: Enables quick scanning of related work while preserving existing ordering and layout.

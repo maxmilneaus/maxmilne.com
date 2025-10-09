@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Footer Sandbox — Gallery</title>
+  <style>
+    :root { --paper:#F0EEE6; --ink:#333333; --accent:#3b82f6; --accent2:#93c5fd; }
+    html,body { height:100%; margin:0; background: var(--paper); }
+    body { font:14px/1.4 ui-monospace, Menlo, monospace; color:#4a453f; }
+    header { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap:16px; padding:0 14px 18px; }
+    .card { background: var(--paper); border-radius:12px; box-shadow: 0 10px 24px rgba(0,0,0,.12); overflow:hidden; border:1px solid rgba(0,0,0,.06); }
+    .card header { padding:8px 10px; font-size:12px; opacity:.8; }
+    .card a { display:block; padding:10px; text-decoration:none; color:inherit; }
+    .card a:hover { background: rgba(0,0,0,.03); }
+    ul { margin:6px 0 0 18px; padding:0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <strong>Footer Sandbox</strong> — gallery of scenes
+    </div>
+    <nav>
+      <a href="./sandbox.html" style="color:#4a453f; text-decoration:none">Open Selector →</a>
+    </nav>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <header>MUJI Steam</header>
+      <a href="./muji-steam.html">Open MUJI Steam</a>
+    </div>
+    <div class="card">
+      <header>Bamboo Sway</header>
+      <a href="./bamboo-sway.html">Open Bamboo Sway</a>
+    </div>
+    <div class="card">
+      <header>Woven Memory</header>
+      <a href="./woven-memory.html">Open Woven Memory</a>
+    </div>
+    <div class="card">
+      <header>Handle Patina</header>
+      <a href="./handle-patina.html">Open Handle Patina</a>
+    </div>
+    <div class="card">
+      <header>Net Into Unknown</header>
+      <a href="./net-into-unknown.html">Open Net Into Unknown</a>
+    </div>
+    <div class="card">
+      <header>Many-Heart Noticing</header>
+      <a href="./many-heart-noticing.html">Open Many-Heart Noticing</a>
+    </div>
+    <div class="card">
+      <header>ASCII Ripple</header>
+      <a href="./ascii-ripple.html">Open ASCII Ripple</a>
+    </div>
+  </div>
+</body>
+</html>

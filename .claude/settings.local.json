@@ -10,7 +10,9 @@
       "Bash(brew list:*)",
       "Bash(brew install:*)",
       "Bash(find:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "mcp__ide__executeCode",
+      "Bash(npx:*)"
     ],
     "deny": []
   }

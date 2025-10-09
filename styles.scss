@@ -28,15 +28,6 @@ main img {
   height: auto;
 }
 
-/* Keep default inline images from growing beyond a comfortable width on large screens */
-content img:not(.full-bleed):not(.page-plus) {
-  max-width: min(100%, var(--content-media-max));
-}
-@media (max-width: 720px) {
-  content img:not(.full-bleed):not(.page-plus) {
-    max-width: 100%;
-  }
-}
 
 /* Full-bleed image: spans entire viewport width */
 img.full-bleed {

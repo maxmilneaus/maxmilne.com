@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animation Parameter Editor</title>
+  <style>
+    :root {
+      --cream: #F0EEE6;
+      --charcoal: #1a1816;
+      --stone: #8b8680;
+      --accent: #93c5fd;
+      --border: #2a2826;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      font-family: ui-monospace, 'SF Mono', Menlo, Monaco, monospace;
+      background: var(--charcoal);
+      color: var(--cream);
+      font-size: 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Control Panel */
+    .controls {
+      background: #0f0e0d;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    .controls h1 {
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin: 0 0 0.5rem;
+    }
+
+    .controls .subtitle {
+      font-size: 0.85rem;
+      color: var(--stone);
+      margin: 0 0 2rem;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 1rem;
+    }
+
+    .control-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .control-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--stone);
+      margin-bottom: 0.5rem;
+    }
+
+    .control-group input[type="range"],
+    .control-group select {
+      width: 100%;
+      padding: 0.5rem;
+      background: #1a1816;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 0.85rem;
+    }
+
+    .control-group input[type="range"] {
+      padding: 0;
+      height: 32px;
+    }
+
+    .value-display {
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 0.25rem;
+    }
+
+    .pattern-select {
+      display: grid;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .pattern-btn {
+      padding: 0.75rem;
+      background: #1a1816;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .pattern-btn:hover {
+      background: #2a2826;
+      border-color: var(--accent);
+    }
+
+    .pattern-btn.active {
+      background: var(--accent);
+      color: var(--charcoal);
+      border-color: var(--accent);
+      font-weight: 500;
+    }
+
+    .pattern-btn-title {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .pattern-btn-desc {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    /* Canvas Area */
+    .canvas-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: var(--cream);
+    }
+
+    .canvas-info {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .canvas-info h2 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin: 0 0 0.5rem;
+      color: var(--charcoal);
+    }
+
+    .canvas-info p {
+      font-size: 0.9rem;
+      color: var(--stone);
+      margin: 0;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .export-section {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .export-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--accent);
+      color: var(--charcoal);
+      border: none;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .export-btn:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+
+      .controls {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        max-height: 40vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- Control Panel -->
+    <div class="controls">
+      <h1>Parameter Editor</h1>
+      <p class="subtitle">Live animation tweaking</p>
+
+      <!-- Pattern Selection -->
+      <div class="section">
+        <div class="section-title">Pattern</div>
+        <div class="pattern-select">
+          <button class="pattern-btn active" data-pattern="erosion">
+            <div class="pattern-btn-title">01 — Erosion</div>
+            <div class="pattern-btn-desc">Time & worn steps</div>
+          </button>
+          <button class="pattern-btn" data-pattern="weaving">
+            <div class="pattern-btn-title">02 — Weaving</div>
+            <div class="pattern-btn-desc">Connection & threads</div>
+          </button>
+          <button class="pattern-btn" data-pattern="accumulation">
+            <div class="pattern-btn-title">03 — Accumulation</div>
+            <div class="pattern-btn-desc">Practice & ripples</div>
+          </button>
+          <button class="pattern-btn" data-pattern="emergence">
+            <div class="pattern-btn-title">04 — Emergence</div>
+            <div class="pattern-btn-desc">No mud, no lotus</div>
+          </button>
+          <button class="pattern-btn" data-pattern="continuity">
+            <div class="pattern-btn-title">05 — Continuity</div>
+            <div class="pattern-btn-desc">Sustained flow</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Motion Parameters -->
+      <div class="section">
+        <div class="section-title">Motion</div>
+        
+        <div class="control-group">
+          <label for="speed">Speed</label>
+          <input type="range" id="speed" min="0.001" max="0.03" step="0.001" value="0.01">
+          <div class="value-display">0.01</div>
+        </div>
+
+        <div class="control-group">
+          <label for="amplitude">Amplitude (%)</label>
+          <input type="range" id="amplitude" min="1" max="5" step="0.5" value="2">
+          <div class="value-display">2%</div>
+        </div>
+      </div>
+
+      <!-- Visual Parameters -->
+      <div class="section">
+        <div class="section-title">Visual</div>
+        
+        <div class="control-group">
+          <label for="density">Density</label>
+          <input type="range" id="density" min="0.3" max="1.0" step="0.05" value="0.7">
+          <div class="value-display">0.7</div>
+        </div>
+
+        <div class="control-group">
+          <label for="contrast">Contrast</label>
+          <input type="range" id="contrast" min="0.5" max="1.5" step="0.1" value="1.0">
+          <div class="value-display">1.0</div>
+        </div>
+
+        <div class="control-group">
+          <label for="gridSize">Grid Size</label>
+          <input type="range" id="gridSize" min="32" max="64" step="4" value="48">
+          <div class="value-display">48</div>
+        </div>
+      </div>
+
+      <!-- Export -->
+      <div class="export-section">
+        <button class="export-btn" onclick="exportConfig()">Export Config</button>
+      </div>
+    </div>
+
+    <!-- Canvas Area -->
+    <div class="canvas-area">
+      <div class="canvas-info">
+        <h2 id="patternName">Erosion</h2>
+        <p id="patternDesc">Time & worn steps pattern</p>
+      </div>
+      <canvas id="canvas" width="600" height="600"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // Current state
+    let currentPattern = 'erosion';
+    let animationId = null;
+    let t = 0;
+
+    const params = {
+      speed: 0.01,
+      amplitude: 2,
+      density: 0.7,
+      contrast: 1.0,
+      gridSize: 48
+    };
+
+    const patterns = {
+      erosion: {
+        name: 'Erosion',
+        desc: 'Time & worn steps pattern',
+        chars: ['.', '·', ':', '∶', '|', '‖'],
+        defaultSpeed: 0.005,
+        render: renderErosion
+      },
+      weaving: {
+        name: 'Weaving',
+        desc: 'Connection & threads pattern',
+        chars: ['/', '\\', '|', '—', '~', '╱', '╲'],
+        defaultSpeed: 0.01,
+        render: renderWeaving
+      },
+      accumulation: {
+        name: 'Accumulation',
+        desc: 'Practice & ripples pattern',
+        chars: ['·', ':', '∴', '⋮', '○', '◦'],
+        defaultSpeed: 0.012,
+        render: renderAccumulation
+      },
+      emergence: {
+        name: 'Emergence',
+        desc: 'No mud, no lotus pattern',
+        chars: ['▓', '▒', '░', '∙', '·', '˙'],
+        defaultSpeed: 0.008,
+        render: renderEmergence
+      },
+      continuity: {
+        name: 'Continuity',
+        desc: 'Sustained flow pattern',
+        chars: ['~', '≈', '∼', '⁓', '∿', '〰'],
+        defaultSpeed: 0.015,
+        render: renderContinuity
+      }
+    };
+
+    // Canvas setup
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // Initialize controls
+    const controls = {
+      speed: document.getElementById('speed'),
+      amplitude: document.getElementById('amplitude'),
+      density: document.getElementById('density'),
+      contrast: document.getElementById('contrast'),
+      gridSize: document.getElementById('gridSize')
+    };
+
+    // Update value displays
+    Object.entries(controls).forEach(([key, input]) => {
+      const display = input.nextElementSibling;
+      input.addEventListener('input', (e) => {
+        const value = parseFloat(e.target.value);
+        params[key] = value;
+        
+        let displayValue = value;
+        if (key === 'amplitude') displayValue += '%';
+        display.textContent = displayValue;
+      });
+    });
+
+    // Pattern switching
+    document.querySelectorAll('.pattern-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        currentPattern = btn.dataset.pattern;
+        document.getElementById('patternName').textContent = patterns[currentPattern].name;
+        document.getElementById('patternDesc').textContent = patterns[currentPattern].desc;
+        
+        // Reset speed to pattern default
+        controls.speed.value = patterns[currentPattern].defaultSpeed;
+        params.speed = patterns[currentPattern].defaultSpeed;
+        controls.speed.nextElementSibling.textContent = patterns[currentPattern].defaultSpeed;
+        
+        t = 0; // Reset time
+      });
+    });
+
+    // Render functions (simplified versions)
+    function renderErosion() {
+      const CHARS = patterns.erosion.chars;
+      const GRID_SIZE = params.gridSize;
+      const cellW = canvas.width / GRID_SIZE;
+      const cellH = canvas.height / GRID_SIZE;
+      const CELL_SIZE = cellW * 0.8;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#F0EEE6';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+      ctx.fillStyle = `rgba(51, 51, 51, ${params.contrast})`;
+
+      for (let y = 0; y < GRID_SIZE; y++) {
+        for (let x = 0; x < GRID_SIZE; x++) {
+          const stepLayer = Math.floor(y / 6);
+          const dx = Math.abs(x - GRID_SIZE / 2) / (GRID_SIZE / 2);
+          const erosion = 1 - dx * 0.8;
+          const yPhase = y / GRID_SIZE;
+          const wave = Math.sin(yPhase * Math.PI * 2 + t * params.speed * 100 + stepLayer * 0.4) * 0.3;
+          const intensity = erosion * params.density + wave * erosion * 0.3;
+          const edgeFade = Math.min(x / 6, (GRID_SIZE - x) / 6, y / 6, (GRID_SIZE - y) / 6, 1);
+
+          if (intensity > 0.2 && edgeFade > 0.3) {
+            const charIndex = Math.floor(intensity * CHARS.length);
+            const char = CHARS[Math.min(charIndex, CHARS.length - 1)];
+            const xp = x * cellW + cellW / 2;
+            const yp = y * cellH + cellH / 2;
+            ctx.fillText(char, xp, yp);
+          }
+        }
+      }
+    }
+
+    function renderWeaving() {
+      const CHARS = patterns.weaving.chars;
+      const GRID_SIZE = params.gridSize;
+      const cellW = canvas.width / GRID_SIZE;
+      const cellH = canvas.height / GRID_SIZE;
+      const CELL_SIZE = cellW * 0.8;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#F0EEE6';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+
+      const threads = [
+        { color: '#e8a76e', phase: 0, speed: 1 },
+        { color: '#93c5fd', phase: Math.PI * 2/3, speed: 0.8 },
+        { color: '#8b8680', phase: Math.PI * 4/3, speed: 1.2 }
+      ];
+
+      threads.forEach(thread => {
+        ctx.fillStyle = thread.color;
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let x = 0; x < GRID_SIZE; x++) {
+            const nx = x - GRID_SIZE / 2;
+            const ny = y - GRID_SIZE / 2;
+            const wave1 = Math.sin(nx * 0.15 + t * params.speed * 100 * thread.speed + thread.phase) * (8 * params.amplitude / 2);
+            const wave2 = Math.sin(ny * 0.15 - t * params.speed * 80 * thread.speed + thread.phase) * (8 * params.amplitude / 2);
+            const dist = Math.abs(ny - wave1) + Math.abs(nx - wave2);
+
+            if (dist < 2.5 * params.density) {
+              const angle = Math.atan2(ny - wave1, nx - wave2);
+              const charIndex = Math.floor((angle + Math.PI) / (Math.PI * 2) * CHARS.length);
+              const char = CHARS[charIndex % CHARS.length];
+              const xp = x * cellW + cellW / 2;
+              const yp = y * cellH + cellH / 2;
+              ctx.globalAlpha = (1 - (dist / 2.5)) * 0.8 * params.contrast;
+              ctx.fillText(char, xp, yp);
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+      });
+    }
+
+    function renderAccumulation() {
+      const CHARS = patterns.accumulation.chars;
+      const GRID_SIZE = params.gridSize;
+      const cellW = canvas.width / GRID_SIZE;
+      const cellH = canvas.height / GRID_SIZE;
+      const CELL_SIZE = cellW * 0.8;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#F0EEE6';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+      ctx.fillStyle = `rgba(51, 51, 51, ${params.contrast})`;
+
+      for (let y = 0; y < GRID_SIZE; y++) {
+        for (let x = 0; x < GRID_SIZE; x++) {
+          const nx = x - GRID_SIZE / 2;
+          const ny = y - GRID_SIZE / 2;
+          const dist = Math.sqrt(nx * nx + ny * ny);
+          const ripple1 = Math.sin(dist * 0.25 - t * params.speed * 150);
+          const ripple2 = Math.sin(dist * 0.4 - t * params.speed * 110 + Math.PI / 3);
+          const ripple3 = Math.sin(dist * 0.6 - t * params.speed * 75 + Math.PI / 2);
+          const combined = (ripple1 + ripple2 * 0.7 + ripple3 * 0.5) / 2.2;
+          const maxDist = GRID_SIZE / 2;
+          const fade = Math.max(0, 1 - (dist / maxDist));
+          const intensity = combined * fade * params.density;
+
+          if (intensity > 0.1) {
+            const charIndex = Math.floor(((intensity + 1) / 2) * CHARS.length);
+            const char = CHARS[Math.min(Math.max(charIndex, 0), CHARS.length - 1)];
+            const xp = x * cellW + cellW / 2;
+            const yp = y * cellH + cellH / 2;
+            ctx.globalAlpha = ((intensity + 1) / 2) * params.contrast;
+            ctx.fillText(char, xp, yp);
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function renderEmergence() {
+      const CHARS = patterns.emergence.chars;
+      const GRID_SIZE = params.gridSize;
+      const cellW = canvas.width / GRID_SIZE;
+      const cellH = canvas.height / GRID_SIZE;
+      const CELL_SIZE = cellW * 0.8;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#F0EEE6';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+      ctx.fillStyle = `rgba(51, 51, 51, ${params.contrast})`;
+
+      for (let y = 0; y < GRID_SIZE; y++) {
+        for (let x = 0; x < GRID_SIZE; x++) {
+          const yNorm = y / GRID_SIZE;
+          const verticalDensity = 1 - yNorm;
+          const drift = Math.sin(x * 0.2 + t * params.speed * 50) * 0.1 * params.amplitude / 2;
+          const adjustedY = yNorm + drift;
+          const emergence = Math.sin(adjustedY * Math.PI - t * params.speed * 60) * 0.5 + 0.5;
+          const intensity = (verticalDensity * 0.6 + emergence * 0.4) * params.density;
+          const edgeFade = Math.min(x / 8, (GRID_SIZE - x) / 8, 1);
+
+          if (intensity > 0.15 && edgeFade > 0.3) {
+            const charIndex = Math.floor((1 - intensity) * CHARS.length);
+            const char = CHARS[Math.min(charIndex, CHARS.length - 1)];
+            const xp = x * cellW + cellW / 2;
+            const yp = y * cellH + cellH / 2;
+            ctx.globalAlpha = intensity * 0.9 * params.contrast;
+            ctx.fillText(char, xp, yp);
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function renderContinuity() {
+      const CHARS = patterns.continuity.chars;
+      const GRID_SIZE = params.gridSize;
+      const cellW = canvas.width / GRID_SIZE;
+      const cellH = canvas.height / GRID_SIZE;
+      const CELL_SIZE = cellW * 0.8;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#F0EEE6';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+      ctx.fillStyle = `rgba(51, 51, 51, ${params.contrast})`;
+
+      const pathLength = 180 * params.density;
+      const path = [];
+
+      for (let i = 0; i < pathLength; i++) {
+        const progress = i / pathLength;
+        const angle = progress * Math.PI * 6 + t * params.speed * 100;
+        const radiusBase = 14 * params.amplitude / 2;
+        const radiusModulation = Math.sin(progress * Math.PI * 2 + t * params.speed * 50) * 0.25;
+        const radius = radiusBase * (1 + radiusModulation);
+        const x = GRID_SIZE / 2 + Math.cos(angle) * radius;
+        const y = GRID_SIZE / 2 + Math.sin(angle) * radius * 0.85;
+        path.push({ x, y, age: progress });
+      }
+
+      path.forEach((p, i) => {
+        if (i > 0 && p.x >= 0 && p.x < GRID_SIZE && p.y >= 0 && p.y < GRID_SIZE) {
+          const prev = path[i - 1];
+          const dx = p.x - prev.x;
+          const dy = p.y - prev.y;
+          const angle = Math.atan2(dy, dx);
+          const charIndex = Math.floor((angle + Math.PI) / (Math.PI * 2) * CHARS.length);
+          const char = CHARS[charIndex % CHARS.length];
+          const fade = 0.5 + 0.5 * Math.sin(p.age * Math.PI * 4 + t * params.speed * 200);
+          ctx.globalAlpha = fade * 0.8 * params.contrast;
+          const xp = Math.floor(p.x) * cellW + cellW / 2;
+          const yp = Math.floor(p.y) * cellH + cellH / 2;
+          ctx.fillText(char, xp, yp);
+        }
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    // Animation loop
+    function animate() {
+      patterns[currentPattern].render();
+      t += 0.01;
+      animationId = requestAnimationFrame(animate);
+    }
+
+    // Export config
+    function exportConfig() {
+      const config = {
+        pattern: currentPattern,
+        parameters: params,
+        timestamp: new Date().toISOString()
+      };
+      
+      const json = JSON.stringify(config, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `animation-config-${currentPattern}-${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Start animation
+    animate();
+  </script>
+</body>
+</html>

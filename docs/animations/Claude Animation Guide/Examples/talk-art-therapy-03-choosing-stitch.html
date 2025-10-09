@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choosing the Stitch — Talk Art Therapy Animation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #F0EEE6;
+      color: #333333;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: #1a1816;
+    }
+
+    .concept {
+      background: #FDFCF9;
+      border-left: 3px solid #e8a76e;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: #333;
+    }
+
+    .canvas-wrapper {
+      background: #FDFCF9;
+      border: 1px solid #d4cfc7;
+      padding: 2rem;
+      margin: 2rem 0;
+      border-radius: 4px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      margin: 0 auto;
+      background: #FDFCF9;
+    }
+
+    .documentation {
+      margin-top: 3rem;
+    }
+
+    .doc-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: #FDFCF9;
+      border-radius: 4px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #1a1816;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin: 1.5rem 0 0.5rem;
+      color: #333;
+    }
+
+    code {
+      background: #e8e6df;
+      padding: 0.2rem 0.4rem;
+      border-radius: 2px;
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 0.9em;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    li {
+      margin: 0.5rem 0;
+    }
+
+    .parameters {
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 0.9em;
+      background: #e8e6df;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      canvas {
+        opacity: 0.5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Choosing the Stitch</h1>
+
+    <div class="concept">
+      "I'm not here with answers. I'm a witness and companion to the process — offering tools, holding steady while they choose the stitch. Asking questions that help them find their own way through the territory they're traveling."
+    </div>
+
+    <div class="canvas-wrapper">
+      <canvas id="choosingStitch"></canvas>
+    </div>
+
+    <div class="documentation">
+      <div class="doc-section">
+        <h2>Why This Works (A+ Criteria)</h2>
+
+        <h3>✓ Conceptual Clarity</h3>
+        <p>Multiple faint paths are visible simultaneously—potential directions, possible stitches. Gradually, one path becomes clearer and more defined while others fade into the background. This visualizes the therapeutic process: not imposing a direction, but holding space while the person finds their own way. The chosen path doesn't erase the others—they remain faintly visible, acknowledging roads not taken.</p>
+
+        <h3>✓ Organic Beauty</h3>
+        <p>Paths don't emerge mechanically. There's variation in when each path appears, how it develops, and which one ultimately clarifies. The "choosing" happens organically over time, not as a sudden switch. Like hand-stitching where you try a few approaches before committing to one.</p>
+
+        <h3>✓ Temporal Patience</h3>
+        <p>The full cycle takes 16-18 seconds. The clarifying process is gradual—you watch one path slowly gain definition while others gently recede. This mirrors the actual pace of therapeutic clarity: not instant insight, but gradual understanding through sustained attention.</p>
+
+        <h3>✓ Restraint</h3>
+        <p>Only 3-4 potential paths shown (not overwhelming). The chosen path reaches only moderate opacity (0.7), never harsh or definitive. The unchosen paths fade but don't disappear entirely—acknowledging their presence without emphasizing rejection.</p>
+
+        <h3>✓ Material Integrity</h3>
+        <p>Uses cross-stitch and running-stitch characters (<code>+ × ┼ ┄ ╌</code>), staying in textile vocabulary. The crosses suggest decision points, intersections where choices happen.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Aesthetic References</h2>
+        <ul>
+          <li><strong>Pathfinding in landscape</strong> — Multiple trails visible, one becomes the way forward</li>
+          <li><strong>Cross-stitch sampler</strong> — Testing different patterns before committing</li>
+          <li><strong>Taoist concept of Wu Wei</strong> — Effortless action, finding the natural path</li>
+          <li><strong>Fork in the road</strong> — Moment of choice visualized as gentle divergence</li>
+          <li><strong>Thread-testing in embroidery</strong> — Trying different threads/stitches before choosing the right one</li>
+          <li><strong>Robert Frost's "Two roads diverged"</strong> — Choice that shapes the journey, paths that fade but remain part of the story</li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h2>Character Choice Rationale</h2>
+        <p><strong>Primary characters:</strong> <code>+ × ┼ ╋ ┄ ╌ ·</code></p>
+
+        <h3>Why These Work:</h3>
+        <ul>
+          <li><code>+ × ┼</code> — Cross-stitch marks, decision points, intersections</li>
+          <li><code>╋</code> — Stronger cross, the chosen path gaining clarity</li>
+          <li><code>┄ ╌</code> — Running stitches connecting the crosses</li>
+          <li><code>·</code> — Small moments, subtle markers (used sparingly)</li>
+        </ul>
+
+        <p>The cross characters create a sense of multiple possibilities intersecting—the moment of choice. The dashed characters connect them into paths, making the routes visible without being harsh or definitive.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Motion Philosophy</h2>
+        <p><strong>Multiple Paths Simultaneously:</strong> 3-4 paths are visible at once, each following slightly different trajectories. This honors the reality that multiple options coexist before clarity emerges.</p>
+
+        <p><strong>Gradual Clarification:</strong> Rather than sudden selection, one path slowly increases in opacity while others gradually fade. The transition takes 6-8 seconds, suggesting that clarity comes through sustained attention, not instant decision.</p>
+
+        <p><strong>Curved Divergence:</strong> Paths don't branch sharply but curve gently away from each other. This creates organic, natural-looking separation—the way real choices unfold, not as dramatic splits but subtle differentiations over time.</p>
+
+        <p><strong>Persistent Traces:</strong> Unchosen paths fade to ~0.2 opacity but don't disappear. This acknowledges that paths not taken still shape the journey—they're part of the territory being traveled.</p>
+
+        <p><strong>Speed:</strong> 0.007 (contemplative). Choice should feel like patient discernment, not rushed decision.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Technical Parameters</h2>
+        <div class="parameters">
+GRID_SIZE: 48
+SPEED: 0.007
+NUM_PATHS: 3-4
+PATH_DIVERGENCE: 0.15 (vertical separation)
+CLARIFICATION_DURATION: 6-8 seconds
+CHOSEN_OPACITY: 0.7
+UNCHOSEN_OPACITY: 0.2
+PATH_LENGTH: Full canvas width
+CHARACTERS:
+  Crosses: ['+', '×', '┼', '╋']
+  Connectors: ['┄', '╌']
+  Markers: ['·']
+COLORS:
+  - Chosen: rgba(51,51,51,0.7)
+  - Unchosen: rgba(51,51,51,0.2)
+  - Mid-transition: rgba(51,51,51,0.45)
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2>Lessons for Style Guide</h2>
+        <ul>
+          <li><strong>Multiple simultaneous paths = holding complexity</strong> — Don't collapse to single option too quickly; honor the coexistence of possibilities</li>
+          <li><strong>Gradual clarification = organic choosing</strong> — Use slow opacity transitions to show clarity emerging through sustained attention</li>
+          <li><strong>Persistent traces of unchosen = acknowledgment</strong> — Paths not taken don't vanish; they become context for the chosen way</li>
+          <li><strong>Curved divergence = natural separation</strong> — Gentle curves feel more organic than sharp branching</li>
+          <li><strong>Cross characters = decision points</strong> — Use crosses to suggest moments where directions intersect and choices happen</li>
+          <li><strong>Moderate final opacity = humility</strong> — Even the chosen path doesn't become absolute (0.7 not 1.0); acknowledges uncertainty</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('choosingStitch');
+    const ctx = canvas.getContext('2d');
+    const GRID_SIZE = 48;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Set canvas size
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
+    const canvasWidth = rect.width;
+    const canvasHeight = rect.height;
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const CROSS_CHARS = ['+', '×', '┼', '╋'];
+    const CONNECTOR_CHARS = ['┄', '╌'];
+
+    const NUM_PATHS = 4;
+    const DIVERGENCE = 0.15; // How much paths separate vertically
+    const CYCLE_DURATION = 18; // Full cycle in seconds
+
+    let t = 0;
+
+    class Path {
+      constructor(index, total) {
+        this.index = index;
+        this.baseY = GRID_SIZE / 2;
+
+        // Vertical offset from center
+        const spread = (index - (total - 1) / 2) * DIVERGENCE * GRID_SIZE;
+        this.offsetY = spread;
+
+        // Unique wave phase for organic variation
+        this.phase = (index / total) * Math.PI * 2;
+
+        // Character pattern
+        this.charPattern = index % CROSS_CHARS.length;
+      }
+
+      draw(currentTime, chosenIndex) {
+        const cellW = canvasWidth / GRID_SIZE;
+        const cellH = canvasHeight / GRID_SIZE;
+        const cellSize = cellW * 0.7;
+
+        ctx.font = `${cellSize}px ui-monospace, Menlo, Monaco, monospace`;
+
+        // Opacity based on whether this is the chosen path
+        const cyclePhase = (currentTime % CYCLE_DURATION) / CYCLE_DURATION;
+
+        let opacity;
+        if (this.index === chosenIndex) {
+          // Chosen path fades in to 0.7
+          opacity = 0.3 + (Math.min(cyclePhase * 2, 1) * 0.4);
+        } else {
+          // Unchosen paths fade out to 0.2
+          opacity = 0.45 - (Math.min(cyclePhase * 2, 1) * 0.25);
+        }
+
+        // Draw path across canvas
+        for (let x = 0; x < GRID_SIZE; x++) {
+          // Gentle wave for organic quality
+          const wave = Math.sin(x * 0.2 + this.phase + currentTime * 0.3) * 0.8;
+          const y = this.baseY + this.offsetY + wave;
+
+          // Character selection (alternates for stitch pattern)
+          let char;
+          if (x % 3 === 0) {
+            char = CROSS_CHARS[this.charPattern];
+          } else {
+            char = CONNECTOR_CHARS[x % 2];
+          }
+
+          // Position
+          const xp = (x + 0.5) * cellW;
+          const yp = (y + 0.5) * cellH;
+
+          // Draw with calculated opacity
+          ctx.fillStyle = `rgba(51, 51, 51, ${opacity})`;
+          ctx.fillText(char, xp, yp);
+        }
+      }
+    }
+
+    // Create paths
+    const paths = [];
+    for (let i = 0; i < NUM_PATHS; i++) {
+      paths.push(new Path(i, NUM_PATHS));
+    }
+
+    // Which path becomes chosen (cycles through them)
+    function getChosenPath(currentTime) {
+      const cycleIndex = Math.floor(currentTime / CYCLE_DURATION) % NUM_PATHS;
+      return cycleIndex;
+    }
+
+    function draw() {
+      // Clear
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      // Background
+      ctx.fillStyle = '#FDFCF9';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+      // Determine chosen path
+      const chosenIndex = getChosenPath(t);
+
+      // Draw all paths
+      paths.forEach(path => path.draw(t, chosenIndex));
+
+      if (!prefersReducedMotion) {
+        t += 0.016;
+        requestAnimationFrame(draw);
+      } else {
+        // Static frame showing all paths equally
+        paths.forEach(path => path.draw(4, -1)); // No chosen path in static mode
+      }
+    }
+
+    draw();
+  </script>
+</body>
+</html>

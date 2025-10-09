@@ -547,3 +547,46 @@ The tag system demonstrates systematic design principles:
 - Manual tag collection handles Jekyll collection limitations
 - Smart pluralization maintains professional content presentation
 - Clean URL structure follows SEO best practices
+
+---
+
+## 11. Animation Palette & Presentation
+
+Purpose: Establish consistent, quiet presentations for animated ASCII pieces that harmonize with the site’s warm, dark aesthetic.
+
+Reference
+- Canonical examples and approved palettes live in `docs/animations/ascii-petals-style-guide.html`.
+
+Approved Variants (Pairs)
+- Plain — Cream: no frame or paper; bright cream/white glyphs on the site background.
+- Noir — Framed Cream: deep charcoal “paper” with a 1px border; cream/white glyphs.
+- Plain — Blue: no frame or paper; blue glyphs.
+- Indigo — Framed Blue: indigo “paper” with a 1px border; blue glyphs.
+
+System Rules
+- No shadows or vignettes: framed variants use only background color + 1px border to match the site’s quiet aesthetic.
+- Colors via CSS variables on the wrapper:
+  - `--paper`: canvas background (use `transparent` for Plain variants)
+  - `--accent`, `--accent2`: glyph color stops for the pulsing blend
+- Accessibility: animations honor `prefers-reduced-motion: reduce` (render a static frame).
+
+Color Tokens
+- Cream pair: `--accent: #ffffff`, `--accent2: #e8ddd4`
+- Blue pair: `--accent: #3b82f6`, `--accent2: #93c5fd`
+- Papers: `#151311` (Noir), `#0f1218` (Indigo), or `transparent` (Plain variants)
+
+Usage Pattern
+Wrap the canvas in a container that defines the palette via CSS variables. The renderer reads colors from the closest wrapper.
+
+```html
+<section class="ascii ascii-noir-cream"
+  style="--paper:#151311; --accent:#ffffff; --accent2:#e8ddd4; border:1px solid var(--color-graphite); background: var(--color-charcoal);">
+  <canvas width="920" height="920"></canvas>
+  <!-- animation script reads --paper/--accent/--accent2 from this wrapper -->
+  <!-- no shadows; only simple background + 1px border for framed variants -->
+  <!-- use transparent paper for Plain variants -->
+</section>
+```
+
+Future Extraction
+- Extract these into `_sass/_ascii.scss` as reusable classes (e.g., `.ascii-plain-cream`, `.ascii-noir-cream`, `.ascii-plain-blue`, `.ascii-indigo-blue`) to standardize usage across pages.

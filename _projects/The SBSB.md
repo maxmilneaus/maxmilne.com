@@ -1,8 +1,8 @@
 ---
 title: The SBSB
 year: 2011 - 2014
-description: National touring, award winning, interactive public art project.
-order: 2
+description: National award winning interactive public art project.
+order: 4
 tags:
   - art
   - performance

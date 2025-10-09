@@ -1,0 +1,435 @@
+{
+  "metadata": {
+    "title": "Animation System Configuration",
+    "version": "1.0.0",
+    "description": "Parameter definitions for generating concept-based animations",
+    "style_reference": "The Way of Code"
+  },
+
+  "global_constraints": {
+    "motion": {
+      "drift_min": "1%",
+      "drift_max": "5%",
+      "duration_min": "8s",
+      "duration_max": "20s",
+      "pulse_min": 0.98,
+      "pulse_max": 1.02,
+      "easing_default": "cubic-bezier(0.4, 0.0, 0.2, 1)"
+    },
+    "colors": {
+      "background_options": ["#F0EEE6", "#FDFCF9"],
+      "foreground_options": ["#1a1816", "#333333", "#8b8680"],
+      "accent_warm": "#e8a76e",
+      "accent_cool": "#93c5fd",
+      "accent_neutral": "#8b8680"
+    },
+    "fade": {
+      "duration": "1s",
+      "delay": "0.3s",
+      "stagger": "0.2s"
+    },
+    "grid": {
+      "size": 48,
+      "cell_size": 12.5
+    }
+  },
+
+  "pattern_library": {
+    
+    "erosion": {
+      "id": "time_erosion",
+      "name": "Time & Erosion",
+      "description": "Horizontal layers showing wear and patina from sustained use",
+      "keywords": ["worn", "erosion", "generations", "time", "patina", "staircase", "slowly"],
+      
+      "structure": {
+        "type": "horizontal_layers",
+        "layer_height": 6,
+        "center_emphasis": 0.8,
+        "edge_fade": true
+      },
+      
+      "characters": {
+        "set": [".", "·", ":", "∶", "|", "‖"],
+        "description": "Gradual density increase",
+        "mapping": "intensity-based"
+      },
+      
+      "motion": {
+        "type": "vertical_wave",
+        "amplitude": "2%",
+        "duration": "15s",
+        "speed": 0.005,
+        "easing": "ease-in-out",
+        "phase_offset": 0.4
+      },
+      
+      "colors": {
+        "primary": "#333333",
+        "background": "#F0EEE6",
+        "opacity_range": [0.6, 1.0]
+      },
+      
+      "parameters": {
+        "erosion_strength": 0.7,
+        "wave_influence": 0.3,
+        "edge_fade_distance": 6
+      }
+    },
+
+    "weaving": {
+      "id": "connection_weaving",
+      "name": "Connection & Weaving",
+      "description": "Multiple thread-like paths intersecting and connecting",
+      "keywords": ["weave", "thread", "connection", "mend", "crossing", "intertwine"],
+      
+      "structure": {
+        "type": "multiple_paths",
+        "thread_count": 3,
+        "intersection_emphasis": true
+      },
+      
+      "characters": {
+        "set": ["/", "\\", "|", "—", "~", "╱", "╲"],
+        "description": "Directional flow characters",
+        "mapping": "angle-based"
+      },
+      
+      "threads": [
+        {
+          "color": "#e8a76e",
+          "phase": 0,
+          "speed": 1.0,
+          "amplitude": 8
+        },
+        {
+          "color": "#93c5fd",
+          "phase": 2.094,
+          "speed": 0.8,
+          "amplitude": 8
+        },
+        {
+          "color": "#8b8680",
+          "phase": 4.189,
+          "speed": 1.2,
+          "amplitude": 8
+        }
+      ],
+      
+      "motion": {
+        "type": "sinusoidal_paths",
+        "amplitude": "3%",
+        "duration": "12s",
+        "speed": 0.01,
+        "easing": "cubic-bezier(0.4, 0.0, 0.2, 1)"
+      },
+      
+      "colors": {
+        "background": "#F0EEE6",
+        "opacity_range": [0.6, 0.8]
+      },
+      
+      "parameters": {
+        "wave_frequency": 0.15,
+        "path_thickness": 2.5
+      }
+    },
+
+    "accumulation": {
+      "id": "practice_accumulation",
+      "name": "Practice & Accumulation",
+      "description": "Concentric ripples building from center like sustained meditation",
+      "keywords": ["practice", "meditation", "ripples", "capacity", "sustained", "building", "layers"],
+      
+      "structure": {
+        "type": "concentric_ripples",
+        "center_point": [0.5, 0.5],
+        "radial_fade": true
+      },
+      
+      "characters": {
+        "set": ["·", ":", "∴", "⋮", "○", "◦"],
+        "description": "Density increases with intensity",
+        "mapping": "intensity-based"
+      },
+      
+      "ripples": [
+        {
+          "frequency": 0.25,
+          "speed": 1.8,
+          "weight": 1.0
+        },
+        {
+          "frequency": 0.4,
+          "speed": 1.3,
+          "weight": 0.7
+        },
+        {
+          "frequency": 0.6,
+          "speed": 0.9,
+          "weight": 0.5
+        }
+      ],
+      
+      "motion": {
+        "type": "expanding_waves",
+        "amplitude": "2%",
+        "duration": "12s",
+        "speed": 0.012,
+        "easing": "ease-in-out"
+      },
+      
+      "colors": {
+        "primary": "#333333",
+        "background": "#F0EEE6",
+        "opacity_range": [0.3, 1.0]
+      },
+      
+      "parameters": {
+        "fade_power": 1.0,
+        "ripple_combine_factor": 2.2
+      }
+    },
+
+    "emergence": {
+      "id": "emergence_transformation",
+      "name": "Emergence & Transformation",
+      "description": "Dense foundation rising to clarity - no mud, no lotus",
+      "keywords": ["emerge", "lotus", "mud", "grow", "transform", "clarity", "foundation", "rise"],
+      
+      "structure": {
+        "type": "vertical_gradient",
+        "direction": "bottom_to_top",
+        "density_curve": "exponential"
+      },
+      
+      "characters": {
+        "set": ["▓", "▒", "░", "∙", "·", "˙"],
+        "description": "Dense to sparse progression",
+        "mapping": "inverse-intensity"
+      },
+      
+      "motion": {
+        "type": "upward_drift",
+        "amplitude": "1.5%",
+        "duration": "14s",
+        "speed": 0.008,
+        "easing": "ease-in-out",
+        "wave_influence": 0.1
+      },
+      
+      "colors": {
+        "primary": "#333333",
+        "background": "#F0EEE6",
+        "opacity_range": [0.4, 0.9]
+      },
+      
+      "parameters": {
+        "bottom_density": 1.0,
+        "top_density": 0.2,
+        "emergence_frequency": 0.6,
+        "edge_fade_distance": 8
+      }
+    },
+
+    "continuity": {
+      "id": "continuity_flow",
+      "name": "Continuity & Flow",
+      "description": "Continuous spiral path representing sustained practice over years",
+      "keywords": ["continuous", "sustained", "years", "flow", "ongoing", "never stops", "long view"],
+      
+      "structure": {
+        "type": "continuous_path",
+        "path_style": "spiral",
+        "never_breaks": true
+      },
+      
+      "characters": {
+        "set": ["~", "≈", "∼", "⁓", "∿", "〰"],
+        "description": "Flow and wave characters",
+        "mapping": "angle-based"
+      },
+      
+      "path": {
+        "length": 180,
+        "rotations": 6,
+        "radius_base": 14,
+        "radius_modulation": 0.25,
+        "aspect_ratio": 0.85
+      },
+      
+      "motion": {
+        "type": "continuous_rotation",
+        "amplitude": "2%",
+        "duration": "20s",
+        "speed": 0.015,
+        "easing": "linear",
+        "infinite": true
+      },
+      
+      "colors": {
+        "primary": "#333333",
+        "background": "#F0EEE6",
+        "opacity_range": [0.4, 0.8]
+      },
+      
+      "parameters": {
+        "breathing_frequency": 4,
+        "breathing_amplitude": 2
+      }
+    }
+  },
+
+  "scene_templates": {
+    
+    "standard": {
+      "name": "Standard Scene",
+      "structure": [
+        {
+          "layer": "background",
+          "type": "canvas",
+          "fade_in": true
+        },
+        {
+          "layer": "content",
+          "type": "animation",
+          "drift": true
+        }
+      ],
+      "timing": {
+        "fade_in_duration": "1s",
+        "fade_in_delay": "0.3s"
+      }
+    },
+
+    "layered": {
+      "name": "Layered Scene",
+      "description": "Primary pattern with subtle secondary influence",
+      "structure": [
+        {
+          "layer": "background",
+          "type": "canvas",
+          "fade_in": true
+        },
+        {
+          "layer": "primary",
+          "type": "animation",
+          "weight": 0.7
+        },
+        {
+          "layer": "secondary",
+          "type": "animation",
+          "weight": 0.3,
+          "opacity": 0.5
+        }
+      ]
+    },
+
+    "transition": {
+      "name": "Scene Transition",
+      "description": "Crossfade between two scenes",
+      "timing": {
+        "fade_out_duration": "0.8s",
+        "gap": "0.1s",
+        "fade_in_duration": "0.8s"
+      }
+    }
+  },
+
+  "responsive_rules": {
+    "mobile": {
+      "max_width": "768px",
+      "adjustments": {
+        "drift_distance": "0.5",
+        "grid_size": 40,
+        "cell_size": 11,
+        "simplify_motion": true
+      }
+    },
+    "tablet": {
+      "max_width": "1024px",
+      "adjustments": {
+        "drift_distance": "0.75",
+        "grid_size": 44
+      }
+    }
+  },
+
+  "accessibility": {
+    "prefers_reduced_motion": {
+      "enabled": true,
+      "fallback": "static_frame",
+      "animation_duration": "0.01ms"
+    },
+    "high_contrast": {
+      "enabled": true,
+      "adjustments": {
+        "increase_contrast": 1.3,
+        "simplify_patterns": true
+      }
+    }
+  },
+
+  "generation_examples": {
+    
+    "stone_staircase": {
+      "concept": "A stone staircase with slowly rounded edges, curved by generations of feet",
+      "primary_pattern": "erosion",
+      "secondary_pattern": null,
+      "custom_parameters": {
+        "erosion_strength": 0.8,
+        "center_emphasis": 0.9,
+        "duration": "16s"
+      },
+      "notes": "Strong center wear, very slow motion to emphasize centuries of use"
+    },
+
+    "meditation_practice": {
+      "concept": "Building capacity through meditation across years",
+      "primary_pattern": "accumulation",
+      "secondary_pattern": "continuity",
+      "blend_ratio": [0.7, 0.3],
+      "custom_parameters": {
+        "ripple_count": 3,
+        "duration": "14s"
+      },
+      "notes": "Ripples for practice moments, hint of continuity for sustained view"
+    },
+
+    "mending_work": {
+      "concept": "Threads weaving together, mending and connecting",
+      "primary_pattern": "weaving",
+      "secondary_pattern": null,
+      "custom_parameters": {
+        "thread_count": 3,
+        "intersection_glow": true,
+        "colors": ["#e8a76e", "#93c5fd", "#8b8680"]
+      },
+      "notes": "Three threads for complexity, emphasis on intersection points"
+    }
+  },
+
+  "usage_notes": {
+    "how_to_use": [
+      "1. Choose a pattern from pattern_library based on concept keywords",
+      "2. Apply global_constraints to ensure consistency",
+      "3. Optionally blend patterns using scene_templates.layered",
+      "4. Adjust parameters in custom_parameters for fine-tuning",
+      "5. Respect accessibility settings for reduced motion"
+    ],
+    
+    "parameter_tweaking": [
+      "- Duration: Longer = more contemplative (erosion, continuity)",
+      "- Amplitude: Keep under 5% for subtlety",
+      "- Speed: Slower = more patient (0.005-0.015 range)",
+      "- Opacity: Lower = more ethereal, higher = more present"
+    ],
+    
+    "combination_guidelines": [
+      "Primary pattern should be 60-70% of the visual",
+      "Secondary pattern 20-30% for subtle influence",
+      "Tertiary (if any) 10% as accent only",
+      "Never combine more than 2 patterns without clear hierarchy"
+    ]
+  }
+}

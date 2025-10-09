@@ -1,8 +1,11 @@
 ---
 title: VOICE
 year: "2013"
-description: Interactive Performance Art
-order: 2
+description: Internationally toured interactive performance art.
+order: 5
+tags:
+  - performance
+  - art
 ---
 # VOICE
 
@@ -132,6 +135,8 @@ Over two showings we have 60 audience members come through and we received great
 Adam and I submitted our work to the nascent ABC podcast – Long Story Short – Australia’s version of “This American Life”. They selected a 5 minute narrative driven component of the work that was performed in one take by the delightful [Penny Harpham.](https://pennyharpham.wordpress.com/) A visceral retelling on a time she found someone in a crashed car alongside a highway road in country Australia. It is incredible piece that Adam so skilfully edited and crafted sound wise.
 
 Have a look here on the ABC website here: [LINK](https://www.abc.net.au/listen/radionational/archived/longstoryshort/breath/4574480)
+
+
 
 We eventually submitted to Arts House – North Melbourne and APAM in Brisbane though didn’t have any takers for the show and that ended the VOICE exploration. 
 

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refined Animation System — The Way of Practice</title>
+  <style>
+    /* ========================================
+       DESIGN TOKENS / CSS VARIABLES
+       Following The Way of Code principles
+       ======================================== */
+    :root {
+      /* Color palette - muted, soft */
+      --cream: #F0EEE6;
+      --off-white: #FDFCF9;
+      --charcoal: #1a1816;
+      --stone: #8b8680;
+      --stone-light: #b5aea7;
+      --warm-thread: #e8a76e;
+      --cool-thread: #93c5fd;
+      --accent-subtle: #c4bfb8;
+      
+      /* Motion constraints */
+      --drift-distance: 2%; /* ±1-5% as per spec */
+      --drift-duration: 12s; /* 8-20s range */
+      --fade-duration: 1s; /* 0.8-1.5s */
+      --fade-delay: 0.3s; /* 0.2-0.5s */
+      --pulse-scale: 1.02; /* ±2-3% */
+      --pulse-duration: 6s; /* 4-8s */
+      
+      /* Easing */
+      --ease-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);
+      --ease-soft: ease-in-out;
+      
+      /* Spacing */
+      --scene-padding: 3rem;
+      --content-max-width: 1200px;
+    }
+
+    /* ========================================
+       BASE STYLES
+       ======================================== */
+    * { box-sizing: border-box; }
+    
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--charcoal);
+      font-family: ui-monospace, 'SF Mono', Menlo, Monaco, monospace;
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    /* Accessibility: Respect motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ========================================
+       SCENE STRUCTURE
+       Each animation is a "scene" with layers
+       ======================================== */
+    .container {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+      padding: var(--scene-padding) 2rem;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .intro h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin: 0 0 1rem;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeIn var(--fade-duration) var(--ease-smooth) forwards;
+    }
+
+    .intro .subtitle {
+      font-size: 1rem;
+      color: var(--stone);
+      font-style: italic;
+      opacity: 0;
+      animation: fadeIn var(--fade-duration) var(--ease-smooth) var(--fade-delay) forwards;
+    }
+
+    /* Scene card wrapper */
+    .scene-card {
+      background: #0f0e0d;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #2a2826;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeIn var(--fade-duration) var(--ease-smooth) calc(var(--fade-delay) * 2) forwards;
+    }
+
+    .scene-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #2a2826;
+    }
+
+    .scene-number {
+      font-size: 0.875rem;
+      color: var(--stone);
+      margin: 0 0 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .scene-title {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin: 0 0 0.75rem;
+    }
+
+    .scene-description {
+      font-size: 0.95rem;
+      color: var(--stone);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .scene-concept {
+      font-size: 0.85rem;
+      color: var(--accent-subtle);
+      margin: 0.75rem 0 0;
+      font-style: italic;
+    }
+
+    /* Canvas container - the "stage" */
+    .canvas-stage {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 2rem;
+      background: var(--cream);
+      min-height: 500px;
+    }
+
+    /* Base canvas styling */
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      /* Subtle shadow for depth */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    /* ========================================
+       KEYFRAME DEFINITIONS
+       Core animations following constraints
+       ======================================== */
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes drift {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(
+          var(--drift-distance),
+          calc(var(--drift-distance) * -0.5)
+        );
+      }
+    }
+
+    @keyframes breathe {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(var(--pulse-scale));
+      }
+    }
+
+    /* Gentle rotation for certain scenes */
+    @keyframes gentle-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ========================================
+       RESPONSIVE ADJUSTMENTS
+       ======================================== */
+    @media (max-width: 768px) {
+      :root {
+        --drift-distance: 1%; /* Reduce motion on mobile */
+        --scene-padding: 2rem;
+      }
+      
+      .intro h1 {
+        font-size: 2rem;
+      }
+      
+      .canvas-stage {
+        padding: 2rem 1rem;
+        min-height: 400px;
+      }
+    }
+
+    /* ========================================
+       CONCEPT → VISUAL MAPPING GUIDE
+       (Embedded as reference)
+       ======================================== */
+    /*
+    CONCEPT MAPPING SYSTEM:
+    
+    1. TIME & EROSION
+       - Pattern: horizontal layers with center emphasis
+       - Motion: slow vertical wave, ±2% drift
+       - Chars: gradual density (. : ∶ | ‖)
+       - Duration: 15s+
+    
+    2. CONNECTION & WEAVING
+       - Pattern: multiple paths intersecting
+       - Motion: sinusoidal crossing, different phases
+       - Chars: directional (/ \ ~ ╱ ╲)
+       - Colors: 2-3 muted threads
+    
+    3. PRACTICE & ACCUMULATION
+       - Pattern: center-out ripples
+       - Motion: expanding waves at different frequencies
+       - Chars: density increases outward (· : ∴ ○)
+       - Duration: 10-12s
+    
+    4. EMERGENCE (mud → lotus)
+       - Pattern: bottom density → top clarity
+       - Motion: subtle upward drift
+       - Chars: sparse at top, dense at bottom
+       - Transition: gradual reveal
+    
+    5. CONTINUITY
+       - Pattern: flowing path, never breaks
+       - Motion: continuous rotation/spiral
+       - Chars: flow direction (~ ≈ ∿)
+       - Duration: 18-20s
+    */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="intro">
+      <h1>The Way of Practice</h1>
+      <p class="subtitle">Refined animations following The Way of Code principles</p>
+    </div>
+
+    <!-- ========================================
+         SCENE 01: EROSION
+         Concept: Time & worn steps
+         ======================================== -->
+    <div class="scene-card">
+      <div class="scene-header">
+        <div class="scene-number">01</div>
+        <h2 class="scene-title">Erosion</h2>
+        <p class="scene-description">
+          Stone steps curved by generations of feet. The center wears deeper; 
+          edges remain sharper. Movement is patient, barely perceptible.
+        </p>
+        <p class="scene-concept">
+          Concept: Time & Erosion → Horizontal layers, center emphasis, vertical wave
+        </p>
+      </div>
+      <div class="canvas-stage">
+        <canvas id="erosion" width="600" height="600"></canvas>
+      </div>
+    </div>
+
+    <!-- ========================================
+         SCENE 02: WEAVING
+         Concept: Connection & threads
+         ======================================== -->
+    <div class="scene-card">
+      <div class="scene-header">
+        <div class="scene-number">02</div>
+        <h2 class="scene-title">Weaving</h2>
+        <p class="scene-description">
+          Three threads crossing paths, each at their own pace. Where they meet, 
+          something new emerges. Function and beauty intertwined.
+        </p>
+        <p class="scene-concept">
+          Concept: Connection → Multiple paths, sinusoidal crossing, directional chars
+        </p>
+      </div>
+      <div class="canvas-stage">
+        <canvas id="weaving" width="600" height="600"></canvas>
+      </div>
+    </div>
+
+    <!-- ========================================
+         SCENE 03: ACCUMULATION
+         Concept: Practice & ripples
+         ======================================== -->
+    <div class="scene-card">
+      <div class="scene-header">
+        <div class="scene-number">03</div>
+        <h2 class="scene-title">Accumulation</h2>
+        <p class="scene-description">
+          Ripples building from center. Not one big insight but continuous moments 
+          creating capacity. The meditation analogy.
+        </p>
+        <p class="scene-concept">
+          Concept: Practice → Center-out ripples, multiple frequencies, density increase
+        </p>
+      </div>
+      <div class="canvas-stage">
+        <canvas id="accumulation" width="600" height="600"></canvas>
+      </div>
+    </div>
+
+    <!-- ========================================
+         SCENE 04: EMERGENCE
+         Concept: No mud, no lotus
+         ======================================== -->
+    <div class="scene-card">
+      <div class="scene-header">
+        <div class="scene-number">04</div>
+        <h2 class="scene-title">Emergence</h2>
+        <p class="scene-description">
+          Dense foundation below, clarity emerging above. From difficulty comes beauty. 
+          No mud, no lotus.
+        </p>
+        <p class="scene-concept">
+          Concept: Emergence → Bottom density to top clarity, upward drift, gradual reveal
+        </p>
+      </div>
+      <div class="canvas-stage">
+        <canvas id="emergence" width="600" height="600"></canvas>
+      </div>
+    </div>
+
+    <!-- ========================================
+         SCENE 05: CONTINUITY
+         Concept: Sustained practice
+         ======================================== -->
+    <div class="scene-card">
+      <div class="scene-header">
+        <div class="scene-number">05</div>
+        <h2 class="scene-title">Continuity</h2>
+        <p class="scene-description">
+          A path that never stops, evolving across years. Spaces created through 
+          attention and use. The long view.
+        </p>
+        <p class="scene-concept">
+          Concept: Continuity → Flowing path, continuous motion, spiral/rotation
+        </p>
+      </div>
+      <div class="canvas-stage">
+        <canvas id="continuity" width="600" height="600"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ========================================
+    // ANIMATION ENGINE
+    // Following The Way of Code constraints
+    // ========================================
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Shared utilities
+    const GRID_SIZE = 48;
+    const CELL_SIZE = 12.5;
+
+    function setupCanvas(id) {
+      const canvas = document.getElementById(id);
+      const ctx = canvas.getContext('2d');
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      return { canvas, ctx };
+    }
+
+    function getCellCoords(x, y, canvas) {
+      const cellW = canvas.width / GRID_SIZE;
+      const cellH = canvas.height / GRID_SIZE;
+      return {
+        xp: x * cellW + cellW / 2,
+        yp: y * cellH + cellH / 2,
+        cellW,
+        cellH
+      };
+    }
+
+    // ========================================
+    // SCENE 01: EROSION
+    // Time & worn steps pattern
+    // ========================================
+    (function() {
+      const { canvas, ctx } = setupCanvas('erosion');
+      const CHARS = ['.', '·', ':', '∶', '|', '‖'];
+      let t = 0;
+      const DURATION = 15; // Slow, patient
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#F0EEE6';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+        ctx.fillStyle = '#333333';
+
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let x = 0; x < GRID_SIZE; x++) {
+            // Horizontal emphasis (stair steps)
+            const stepLayer = Math.floor(y / 6);
+            
+            // Center erosion (where feet fall)
+            const dx = Math.abs(x - GRID_SIZE / 2) / (GRID_SIZE / 2);
+            const erosion = 1 - dx * 0.8; // Stronger in center
+            
+            // Slow vertical wave (barely perceptible)
+            const yPhase = y / GRID_SIZE;
+            const wave = Math.sin(yPhase * Math.PI * 2 + t * 0.3 + stepLayer * 0.4) * 0.3;
+            
+            // Combined intensity
+            const intensity = erosion * 0.7 + wave * erosion * 0.3;
+            
+            // Edge fade for cleanliness
+            const edgeFade = Math.min(x / 6, (GRID_SIZE - x) / 6, y / 6, (GRID_SIZE - y) / 6, 1);
+            
+            if (intensity > 0.2 && edgeFade > 0.3) {
+              const charIndex = Math.floor(intensity * CHARS.length);
+              const char = CHARS[Math.min(charIndex, CHARS.length - 1)];
+              const { xp, yp } = getCellCoords(x, y, canvas);
+              ctx.fillText(char, xp, yp);
+            }
+          }
+        }
+        
+        if (!prefersReducedMotion) {
+          t += 0.005; // Very slow progression
+          requestAnimationFrame(draw);
+        }
+      }
+      
+      draw();
+    })();
+
+    // ========================================
+    // SCENE 02: WEAVING
+    // Connection & threads pattern
+    // ========================================
+    (function() {
+      const { canvas, ctx } = setupCanvas('weaving');
+      const CHARS = ['/', '\\', '|', '—', '~', '╱', '╲'];
+      let t = 0;
+      const threads = [
+        { color: '#e8a76e', phase: 0, speed: 1 },
+        { color: '#93c5fd', phase: Math.PI * 2/3, speed: 0.8 },
+        { color: '#8b8680', phase: Math.PI * 4/3, speed: 1.2 }
+      ];
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#F0EEE6';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+
+        // Draw each thread
+        threads.forEach(thread => {
+          ctx.fillStyle = thread.color;
+          
+          for (let y = 0; y < GRID_SIZE; y++) {
+            for (let x = 0; x < GRID_SIZE; x++) {
+              const nx = x - GRID_SIZE / 2;
+              const ny = y - GRID_SIZE / 2;
+              
+              // Sinusoidal path for this thread
+              const wave1 = Math.sin(nx * 0.15 + t * thread.speed + thread.phase) * 8;
+              const wave2 = Math.sin(ny * 0.15 - t * thread.speed * 0.8 + thread.phase) * 8;
+              
+              const dist = Math.abs(ny - wave1) + Math.abs(nx - wave2);
+              
+              if (dist < 2.5) {
+                const angle = Math.atan2(ny - wave1, nx - wave2);
+                const charIndex = Math.floor((angle + Math.PI) / (Math.PI * 2) * CHARS.length);
+                const char = CHARS[charIndex % CHARS.length];
+                
+                const { xp, yp } = getCellCoords(x, y, canvas);
+                const alpha = 1 - (dist / 2.5);
+                ctx.globalAlpha = alpha * 0.8;
+                ctx.fillText(char, xp, yp);
+              }
+            }
+          }
+          ctx.globalAlpha = 1;
+        });
+        
+        if (!prefersReducedMotion) {
+          t += 0.01; // Moderate pace
+          requestAnimationFrame(draw);
+        }
+      }
+      
+      draw();
+    })();
+
+    // ========================================
+    // SCENE 03: ACCUMULATION
+    // Practice & ripples pattern
+    // ========================================
+    (function() {
+      const { canvas, ctx } = setupCanvas('accumulation');
+      const CHARS = ['·', ':', '∴', '⋮', '○', '◦'];
+      let t = 0;
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#F0EEE6';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+        ctx.fillStyle = '#333333';
+
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let x = 0; x < GRID_SIZE; x++) {
+            const nx = x - GRID_SIZE / 2;
+            const ny = y - GRID_SIZE / 2;
+            const dist = Math.sqrt(nx * nx + ny * ny);
+            
+            // Multiple ripple frequencies (meditation practice layers)
+            const ripple1 = Math.sin(dist * 0.25 - t * 1.8);
+            const ripple2 = Math.sin(dist * 0.4 - t * 1.3 + Math.PI / 3);
+            const ripple3 = Math.sin(dist * 0.6 - t * 0.9 + Math.PI / 2);
+            
+            const combined = (ripple1 + ripple2 * 0.7 + ripple3 * 0.5) / 2.2;
+            
+            // Fade toward edges
+            const maxDist = GRID_SIZE / 2;
+            const fade = Math.max(0, 1 - (dist / maxDist));
+            
+            const intensity = combined * fade;
+            
+            if (intensity > 0.1) {
+              const charIndex = Math.floor(((intensity + 1) / 2) * CHARS.length);
+              const char = CHARS[Math.min(Math.max(charIndex, 0), CHARS.length - 1)];
+              const { xp, yp } = getCellCoords(x, y, canvas);
+              ctx.globalAlpha = (intensity + 1) / 2;
+              ctx.fillText(char, xp, yp);
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+        
+        if (!prefersReducedMotion) {
+          t += 0.012;
+          requestAnimationFrame(draw);
+        }
+      }
+      
+      draw();
+    })();
+
+    // ========================================
+    // SCENE 04: EMERGENCE
+    // No mud, no lotus pattern
+    // ========================================
+    (function() {
+      const { canvas, ctx } = setupCanvas('emergence');
+      const CHARS = ['▓', '▒', '░', '∙', '·', '˙'];
+      let t = 0;
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#F0EEE6';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+        ctx.fillStyle = '#333333';
+
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let x = 0; x < GRID_SIZE; x++) {
+            // Vertical gradient: dense at bottom, sparse at top
+            const yNorm = y / GRID_SIZE;
+            const verticalDensity = 1 - yNorm; // Strong at bottom
+            
+            // Upward drift (subtle)
+            const drift = Math.sin(x * 0.2 + t * 0.5) * 0.1;
+            const adjustedY = yNorm + drift;
+            
+            // Emergence pattern (lotus growing from mud)
+            const emergence = Math.sin(adjustedY * Math.PI - t * 0.6) * 0.5 + 0.5;
+            
+            // Combined intensity
+            const intensity = verticalDensity * 0.6 + emergence * 0.4;
+            
+            // Edge fade
+            const edgeFade = Math.min(x / 8, (GRID_SIZE - x) / 8, 1);
+            
+            if (intensity > 0.15 && edgeFade > 0.3) {
+              const charIndex = Math.floor((1 - intensity) * CHARS.length);
+              const char = CHARS[Math.min(charIndex, CHARS.length - 1)];
+              const { xp, yp } = getCellCoords(x, y, canvas);
+              ctx.globalAlpha = intensity * 0.9;
+              ctx.fillText(char, xp, yp);
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+        
+        if (!prefersReducedMotion) {
+          t += 0.008;
+          requestAnimationFrame(draw);
+        }
+      }
+      
+      draw();
+    })();
+
+    // ========================================
+    // SCENE 05: CONTINUITY
+    // Sustained practice pattern
+    // ========================================
+    (function() {
+      const { canvas, ctx } = setupCanvas('continuity');
+      const CHARS = ['~', '≈', '∼', '⁓', '∿', '〰'];
+      let t = 0;
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#F0EEE6';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.font = `${CELL_SIZE}px ui-monospace, Menlo, monospace`;
+        ctx.fillStyle = '#333333';
+
+        const pathLength = 180;
+        const path = [];
+        
+        // Generate continuous flowing spiral path
+        for (let i = 0; i < pathLength; i++) {
+          const progress = i / pathLength;
+          const angle = progress * Math.PI * 6 + t; // Slower rotation
+          const radiusBase = 14;
+          const radiusModulation = Math.sin(progress * Math.PI * 2 + t * 0.5) * 0.25;
+          const radius = radiusBase * (1 + radiusModulation);
+          
+          const x = GRID_SIZE / 2 + Math.cos(angle) * radius;
+          const y = GRID_SIZE / 2 + Math.sin(angle) * radius * 0.85;
+          
+          path.push({ x, y, age: progress });
+        }
+
+        // Draw the continuous path
+        path.forEach((p, i) => {
+          if (i > 0 && p.x >= 0 && p.x < GRID_SIZE && p.y >= 0 && p.y < GRID_SIZE) {
+            const prev = path[i - 1];
+            const dx = p.x - prev.x;
+            const dy = p.y - prev.y;
+            const angle = Math.atan2(dy, dx);
+            
+            const charIndex = Math.floor((angle + Math.PI) / (Math.PI * 2) * CHARS.length);
+            const char = CHARS[charIndex % CHARS.length];
+            
+            // Fade based on position in path (breathing effect)
+            const fade = 0.5 + 0.5 * Math.sin(p.age * Math.PI * 4 + t * 2);
+            ctx.globalAlpha = fade * 0.8;
+            
+            const { xp, yp } = getCellCoords(Math.floor(p.x), Math.floor(p.y), canvas);
+            ctx.fillText(char, xp, yp);
+          }
+        });
+        
+        ctx.globalAlpha = 1;
+        
+        if (!prefersReducedMotion) {
+          t += 0.015; // Continuous, never stopping
+          requestAnimationFrame(draw);
+        }
+      }
+      
+      draw();
+    })();
+
+    // Listen for motion preference changes
+    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => {
+      location.reload();
+    });
+  </script>
+</body>
+</html>

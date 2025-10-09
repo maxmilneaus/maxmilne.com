@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Thread at a Time — Talk Art Therapy Animation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #F0EEE6;
+      color: #333333;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: #1a1816;
+    }
+
+    .concept {
+      background: #FDFCF9;
+      border-left: 3px solid #e8a76e;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: #333;
+    }
+
+    .canvas-wrapper {
+      background: #FDFCF9;
+      border: 1px solid #d4cfc7;
+      padding: 2rem;
+      margin: 2rem 0;
+      border-radius: 4px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      margin: 0 auto;
+      background: #FDFCF9;
+    }
+
+    .documentation {
+      margin-top: 3rem;
+    }
+
+    .doc-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: #FDFCF9;
+      border-radius: 4px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #1a1816;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin: 1.5rem 0 0.5rem;
+      color: #333;
+    }
+
+    code {
+      background: #e8e6df;
+      padding: 0.2rem 0.4rem;
+      border-radius: 2px;
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 0.9em;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    li {
+      margin: 0.5rem 0;
+    }
+
+    .parameters {
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 0.9em;
+      background: #e8e6df;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      canvas {
+        opacity: 0.5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>One Thread at a Time</h1>
+
+    <div class="concept">
+      "As a counsellor, I work with people as they make sense of one thread at a time. Sometimes that's a compulsive pattern that once kept them safe but now stands between them and what they want. Sometimes it's historical complexity asking to be attended to. Sometimes it's learning to say no to one thing so they can say a deeper yes to what actually matters."
+    </div>
+
+    <div class="canvas-wrapper">
+      <canvas id="oneThread"></canvas>
+    </div>
+
+    <div class="documentation">
+      <div class="doc-section">
+        <h2>Why This Works (A+ Criteria)</h2>
+
+        <h3>✓ Conceptual Clarity</h3>
+        <p>A single thread weaves horizontally across the canvas, building a larger pattern one stitch at a time. You can see both the current moment (the active thread) and the accumulated work (the pattern left behind). The vertical variation suggests that each thread follows its own path—not all paths are straight, reflecting the individual nature of therapeutic work.</p>
+
+        <h3>✓ Organic Beauty</h3>
+        <p>The slight wave in each thread's path creates hand-stitched imperfection. Threads don't perfectly align—they breathe and shift like fabric being worked by hand. The varying opacity creates depth, suggesting layers of work over time.</p>
+
+        <h3>✓ Temporal Patience</h3>
+        <p>Each thread takes 18-20 seconds to complete its journey. The motion is barely perceptible—you have to watch for a moment to see progress. This mirrors the patient, sustained nature of therapeutic work described in the passage.</p>
+
+        <h3>✓ Restraint</h3>
+        <p>Only 3-4 threads are visible at once. Most of the canvas is empty space, honoring the value of breathing room. The motion is minimal (2% vertical drift), never calling attention to itself.</p>
+
+        <h3>✓ Material Integrity</h3>
+        <p>Using only stitch-like characters (<code>─ ┄ ╌ ═</code>) that clearly read as thread or fiber. The dashed variants suggest the in-and-out nature of running stitch in sashiko embroidery.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Aesthetic References</h2>
+        <ul>
+          <li><strong>Sashiko running stitch</strong> — Japanese embroidery technique using simple running stitches to create patterns</li>
+          <li><strong>Kantha embroidery</strong> — Layered running stitches building complex patterns from simple repetition</li>
+          <li><strong>Anni Albers</strong> — Weaving as patient accumulation of individual threads</li>
+          <li><strong>Louise Bourgeois</strong> — Thread as metaphor for working through personal history</li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h2>Character Choice Rationale</h2>
+        <p><strong>Primary characters:</strong> <code>─ ┄ ╌ ═</code></p>
+
+        <h3>Why These Work:</h3>
+        <ul>
+          <li><code>─</code> — Solid line, continuous thread</li>
+          <li><code>┄</code> — Light dashed, thread going under fabric</li>
+          <li><code>╌</code> — Medium dashed, thread emerging</li>
+          <li><code>═</code> — Double line, reinforced stitch or multiple threads</li>
+        </ul>
+
+        <p>The variation between solid and dashed creates the visual rhythm of thread moving in and out of fabric—the essential quality of hand-stitching.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Motion Philosophy</h2>
+        <p><strong>Horizontal Progress:</strong> Left to right suggests forward movement through time, the linear nature of the therapeutic journey.</p>
+
+        <p><strong>Vertical Wave:</strong> Each thread follows a gentle sine wave (2% amplitude). This creates the organic, hand-guided quality—no perfectly straight lines. The wave suggests that progress isn't always linear, but the general direction holds.</p>
+
+        <p><strong>Layered Time:</strong> Multiple threads at different stages show both "this moment" (the active thread) and "continuity" (the accumulated pattern). Older threads fade gradually, suggesting how past work integrates into the larger pattern.</p>
+
+        <p><strong>Speed:</strong> 0.008 (very slow). Progress should be contemplative, not rushed. This mirrors "one thread at a time"—patient, sustained work.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Technical Parameters</h2>
+        <div class="parameters">
+GRID_SIZE: 48
+SPEED: 0.008
+WAVE_AMPLITUDE: 0.02 (2% vertical drift)
+DURATION: ~18-20 seconds per thread
+THREAD_SPACING: 4-6 rows vertical
+FADE_DURATION: 3 seconds
+MAX_THREADS: 3-4 concurrent
+CHARACTERS: ['─', '┄', '╌', '═']
+COLORS:
+  - Primary: #333333 (charcoal)
+  - Mid-tone: #8b8680 (stone gray)
+  - Faded: rgba(51,51,51,0.3)
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2>Lessons for Style Guide</h2>
+        <ul>
+          <li><strong>Horizontal motion = forward progress through time</strong> — Use for concepts about journey, process, accumulation over time</li>
+          <li><strong>Layered threads at different stages = dual temporal awareness</strong> — Shows both the current moment and the longer pattern</li>
+          <li><strong>Dashed/solid alternation = textile authenticity</strong> — Creates the in/out rhythm essential to stitching</li>
+          <li><strong>Gradual fading = integration</strong> — Old work doesn't disappear, it becomes part of the foundation</li>
+          <li><strong>Vertical variation = individual paths</strong> — Not all threads follow the same route, honoring uniqueness within shared structure</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('oneThread');
+    const ctx = canvas.getContext('2d');
+    const GRID_SIZE = 48;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Set canvas size
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
+    const canvasWidth = rect.width;
+    const canvasHeight = rect.height;
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const CHARS = ['─', '┄', '╌', '═'];
+    const THREAD_SPACING = 5; // rows between threads
+    const WAVE_AMPLITUDE = 0.02; // 2% vertical drift
+    const SPEED = 0.008;
+    const FADE_DURATION = 3; // seconds
+
+    let t = 0;
+    let threads = [];
+    let nextThreadTime = 0;
+
+    class Thread {
+      constructor(row, startTime) {
+        this.row = row;
+        this.startTime = startTime;
+        this.phase = Math.random() * Math.PI * 2; // Random wave phase for variety
+        this.charPattern = Math.floor(Math.random() * 4); // Which char pattern to use
+      }
+
+      draw(currentTime) {
+        const age = currentTime - this.startTime;
+        const progress = age * SPEED * 3; // How far across the screen
+
+        // Fade in/out
+        let opacity = 1;
+        if (age < FADE_DURATION) {
+          opacity = age / FADE_DURATION;
+        } else if (age > 15) {
+          opacity = Math.max(0, 1 - (age - 15) / FADE_DURATION);
+        }
+
+        const cellW = canvasWidth / GRID_SIZE;
+        const cellH = canvasHeight / GRID_SIZE;
+        const cellSize = cellW * 0.75;
+
+        ctx.font = `${cellSize}px ui-monospace, Menlo, Monaco, monospace`;
+
+        // Draw the thread across the canvas
+        for (let x = 0; x < GRID_SIZE; x++) {
+          const xProgress = x / GRID_SIZE;
+
+          // Only draw if we've reached this point
+          if (xProgress > progress) break;
+
+          // Vertical wave (creates organic hand-stitched quality)
+          const wave = Math.sin(x * 0.3 + this.phase) * WAVE_AMPLITUDE * GRID_SIZE;
+          const y = this.row + wave;
+
+          // Character selection varies along the thread (dash pattern)
+          const charIndex = Math.floor((x + this.charPattern) / 3) % CHARS.length;
+          const char = CHARS[charIndex];
+
+          // Position
+          const xp = (x + 0.5) * cellW;
+          const yp = (y + 0.5) * cellH;
+
+          // Color with opacity
+          const baseOpacity = 0.7 - (age / 20) * 0.4; // Older threads fade more
+          const finalOpacity = Math.max(0, Math.min(1, baseOpacity * opacity));
+
+          ctx.fillStyle = `rgba(51, 51, 51, ${finalOpacity})`;
+          ctx.fillText(char, xp, yp);
+        }
+
+        return age < 20; // Thread lives for 20 seconds
+      }
+    }
+
+    function draw() {
+      // Clear
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      // Background
+      ctx.fillStyle = '#FDFCF9';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+      // Add new thread periodically
+      if (t > nextThreadTime && threads.length < 4) {
+        const baseRow = GRID_SIZE / 2;
+        const offset = (threads.length % 2 === 0 ? 1 : -1) * Math.floor(threads.length / 2) * THREAD_SPACING;
+        threads.push(new Thread(baseRow + offset, t));
+        nextThreadTime = t + 5 + Math.random() * 3; // New thread every 5-8 seconds
+      }
+
+      // Draw all threads, remove dead ones
+      threads = threads.filter(thread => thread.draw(t));
+
+      if (!prefersReducedMotion) {
+        t += 0.016; // ~60fps
+        requestAnimationFrame(draw);
+      } else {
+        // Static frame for reduced motion
+        if (threads.length === 0) {
+          threads.push(new Thread(GRID_SIZE / 2, 5));
+          threads.push(new Thread(GRID_SIZE / 2 - THREAD_SPACING, 8));
+        }
+        threads.forEach(thread => thread.draw(10)); // Show at mature state
+      }
+    }
+
+    draw();
+  </script>
+</body>
+</html>

@@ -1,30 +1,44 @@
 ---
 title: Studio Brunswick
 year: 2015 - 2020
-description: Three Studios. Many square metres. 800 hires.
-order: 2
+description: Three photographic studios designed and built for hire.
+order: 3
 tags:
-  - photography
+  - business
 ---
-![[Studio_Brunswick_Logo_sqaure.jpeg|200]]
-I founded Studio Brunswick out of an Artist Studio I was part of and built it into three individual 100 square meter loft-style photography studios.
+![[Website/assets/Studio_Brunswick_Logo_sqaure.jpeg|left|200]]
+## Overview:
+I founded Studio Brunswick to transform the artist studio I was co-running into a thriving photography rental space. Over three years, I expanded to build two additional studios in separate buildings across Brunswick's industrial redevelopment zones.
 
-Working via a strategic partnership with [Nightgale Housing](https://www.nightingalehousing.org) for Studio Two and Three. Transforming buildings earmarked for development into vibrant creative spaces for the final three years of their lives in Brunswick Industrial Area. 
+For Studios Two and Three, I established a strategic partnership with [Nightingale Housing](https://www.nightingalehousing.org), taking on leases to convert buildings slated for demolition into vibrant creative spaces during their final three years in the Brunswick Industrial Area.
 
-[ Image of Studio 1,2 and 3]
+At our peak, we operated as a team of five, managing in-house staff and administrative operations while facilitating over 800 studio hires. We attracted diverse and notable clients including Kodak, Foxtel, Google, Milk Records, Universal Music Group, MECCA, and Discount Universe.
 
-At our peak we were a team of five, orchestrating in-house staff and administrative duties, culminating in over 800 successful studio hires.
+![[Website/assets/Studio Brunswick/Studio_Brunswick_Studio_Two_Max_Milne.jpeg|alt=Description|page]]
+*Studio two - 30 Hope Street, Brunswick.*
 
-Plenty of interesting clients with brands such as Kodak, Foxtel, Google, Milk Records, Universal Music Group, MECCA and Discount Universe.
+Check out the original website for Studio Brunswick [>here<.]({{ '/studiobrunswick/' | absolute_url }})
 
-[Photos of clients work shot - 3 images. Musican lady, fashion stuff, ad campaign]
 
-During this time I wanted to help support Photography Assistant's in ways I felt I would of loved to be supported when I was training. Thus we established the Photography Assistant School alongside the 'Assistant in Residence' program. Where we provided ten emerging photographers with two-month residencies that included free weekly studio use.
+-------
+## Ethos & Grants
 
-[image from the Photography Assistant Training program - link to the Medium page on it.]
+We ran many different initiatives to help support the local community and here are some we came up with.
 
-Being based in a creative zone we organised and co-curated annual Multidisciplinary Community Art Show fundraisers from 2015 to 2018, focusing on climate change themes. Successfully raised over $20,000 for environmental and humanitarian organisations, including Friends of the Earth and The Asylum Seeker Resource Centre.
+### The Assistant in Residence:
+The Assistant in Residence program provided ten emerging photographers with two-month residencies including free weekly studio access. The program was designed to support early-career photographers with the resources and space needed to develop their practice without financial burden.
 
-[Photos of the lunch and people in the spaces]
+### Community Grants:
+Studio Brunswick offered weekly community grants, providing free or low-cost studio access to local artists and community groups for rehearsals, exhibitions, and workshops. Regular recipients included The Body Speaks dance project, Extinction Rebellion art workshops, and various theatre groups. Over forty community projects utilised the space through this program, with a nominal $20 fee covering insurance and utilities.
 
-Many thanks to James Lim for designing the logo. 
+### Fundraiser Exhibitions:
+Between 2015 and 2018, we organised annual multidisciplinary art shows focusing on climate change and environmental themes. These exhibitions - Ocean, Volcano, and Boil the Ocean - raised over $20,000 for organisations including Friends of the Earth and the Asylum Seeker Resource Centre.
+![[Website/assets/Studio Brunswick/Studio Brunswick Exhibitions.jpg]]
+### Awards & Contributions:
+We established ongoing partnerships with local creative institutions, providing awards and prizes including: $1500 for RRR Radio's radiothon, $2500 for the Centre for Contemporary Photography's Salon award, and $1250 in studio credit for RMIT fashion graduates. Quarterly donations of $500 supported organisations including the Melbourne Buddhist Centre, Doctors Without Borders, and Waltja Tjutangku Palyapayi Aboriginal Corporation.
+
+This community-focused approach aimed to balance commercial operations with support for Melbourne's creative sector, providing accessible workspace and resources for emerging artists and community initiatives.
+
+------
+
+Many thanks to [James Lim of Your Creative](https://yourcreative.com.au/studio) for designing the logo.

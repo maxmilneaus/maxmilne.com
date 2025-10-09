@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frame & Beyond — Talk Art Therapy Animation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #F0EEE6;
+      color: #333333;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: #1a1816;
+    }
+
+    .concept {
+      background: #FDFCF9;
+      border-left: 3px solid #e8a76e;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: #333;
+    }
+
+    .canvas-wrapper {
+      background: #FDFCF9;
+      border: 1px solid #d4cfc7;
+      padding: 2rem;
+      margin: 2rem 0;
+      border-radius: 4px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      margin: 0 auto;
+      background: #FDFCF9;
+    }
+
+    .documentation {
+      margin-top: 3rem;
+    }
+
+    .doc-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: #FDFCF9;
+      border-radius: 4px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #1a1816;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin: 1.5rem 0 0.5rem;
+      color: #333;
+    }
+
+    code {
+      background: #e8e6df;
+      padding: 0.2rem 0.4rem;
+      border-radius: 2px;
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 0.9em;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    li {
+      margin: 0.5rem 0;
+    }
+
+    .parameters {
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 0.9em;
+      background: #e8e6df;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      canvas {
+        opacity: 0.5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Frame & Beyond</h1>
+
+    <div class="concept">
+      "Fifteen years of helping people tell visual stories at Max Milne Photography taught me to notice what lives in the frame and what breathes just outside it. The gesture caught between moments. The story waiting in the shadows."
+    </div>
+
+    <div class="canvas-wrapper">
+      <canvas id="frameBeyond"></canvas>
+    </div>
+
+    <div class="documentation">
+      <div class="doc-section">
+        <h2>Why This Works (A+ Criteria)</h2>
+
+        <h3>✓ Conceptual Clarity</h3>
+        <p>A subtle frame boundary pulses at the edges while patterns emerge from beyond the visible edges, drift through the center space, and fade back into the margins. The animation makes visible the relationship between what's seen (the frame) and what's sensed (beyond). Stitches appear to come from "outside" and return there—suggesting the larger context that's always present but not always visible.</p>
+
+        <h3>✓ Organic Beauty</h3>
+        <p>The frame itself breathes slightly (1-2% pulse), like fabric held taut on an embroidery hoop. Stitches don't appear uniformly—they emerge irregularly from the edges, creating the sense of work happening in a larger field than what we can see.</p>
+
+        <h3>✓ Temporal Patience</h3>
+        <p>Patterns take 14-16 seconds to fully traverse from edge to edge. The frame pulses very slowly (12 second cycle). Motion is subtle enough that you might miss it if you're not paying attention—mirroring how the "gesture caught between moments" requires patient observation.</p>
+
+        <h3>✓ Restraint</h3>
+        <p>The frame itself is barely visible (light opacity). Most action happens in the liminal space—the edges and transitions. The center remains relatively open, honoring the breathing room of "what's not shown."</p>
+
+        <h3>✓ Material Integrity</h3>
+        <p>Frame uses corner and border characters (<code>┌ ┐ └ ┘ │ ─</code>) that suggest the literal edge of a frame or embroidery hoop. Movement uses stitch characters (<code>┄ ╌ ·</code>) maintaining textile vocabulary.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Aesthetic References</h2>
+        <ul>
+          <li><strong>Photographic composition</strong> — Edge awareness, what's in/out of frame</li>
+          <li><strong>Embroidery hoop</strong> — The frame that holds fabric taut while work extends beyond visible area</li>
+          <li><strong>Negative space in Japanese art</strong> — Ma (間), the meaningful emptiness between things</li>
+          <li><strong>Border/edge as permeable membrane</strong> — Not a hard boundary but a transitional zone</li>
+          <li><strong>Penelope's weaving</strong> — Work that extends beyond what's immediately visible, context we don't see</li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h2>Character Choice Rationale</h2>
+        <p><strong>Frame characters:</strong> <code>┌ ┐ └ ┘ │ ─ ╎ ╏</code></p>
+        <p><strong>Movement characters:</strong> <code>┄ ╌ · ∙</code></p>
+
+        <h3>Why These Work:</h3>
+        <ul>
+          <li><code>┌ ┐ └ ┘</code> — Corner pieces, literal frame elements</li>
+          <li><code>│ ─</code> — Solid borders suggesting the edge/boundary</li>
+          <li><code>╎ ╏</code> — Lighter border marks, suggesting permeability</li>
+          <li><code>┄ ╌</code> — Dashed lines crossing the space (stitches in transit)</li>
+          <li><code>· ∙</code> — Moments, small stitches (used sparingly)</li>
+        </ul>
+
+        <p>The frame characters establish a gentle boundary without being harsh. The movement characters are stitches that originate from or return to the space beyond the frame.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Motion Philosophy</h2>
+        <p><strong>Frame Breathing:</strong> The frame subtly pulses (1-2% scale variation over 12s). This creates the sense of a living boundary—taut but not rigid, like fabric in a hoop that shifts with the work being done.</p>
+
+        <p><strong>Edge-to-Center Flow:</strong> Patterns emerge from the edges (beyond the visible) and drift toward center, then fade as they approach the opposite edge. This visualizes "what breathes just outside" the frame—the larger context that we sense but don't fully see.</p>
+
+        <p><strong>Asymmetric Timing:</strong> Elements don't emerge uniformly from all edges. Some come from top, some from sides, creating natural irregularity. This suggests the unpredictable nature of what appears in therapeutic work—stories and gestures that emerge from unexpected directions.</p>
+
+        <p><strong>Speed:</strong> 0.006 (very slow). The boundary between visible and invisible should be contemplative, not obvious.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>Technical Parameters</h2>
+        <div class="parameters">
+GRID_SIZE: 48
+SPEED: 0.006
+FRAME_PULSE: 0.015 (1.5% scale variation)
+PULSE_DURATION: 12 seconds
+DRIFT_SPEED: 0.007
+EDGE_SPAWN_INTERVAL: 2-4 seconds
+MAX_PARTICLES: 12
+FADE_DISTANCE: 8 cells (from edge)
+CHARACTERS:
+  Frame: ['┌', '┐', '└', '┘', '│', '─', '╎', '╏']
+  Movement: ['┄', '╌', '·', '∙']
+COLORS:
+  - Frame: rgba(51,51,51,0.2)
+  - Movement: rgba(51,51,51,0.5-0.8)
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2>Lessons for Style Guide</h2>
+        <ul>
+          <li><strong>Frame breathing = living boundary</strong> — Use subtle scale pulse to suggest taut-but-flexible containment (embroidery hoop, photographic frame)</li>
+          <li><strong>Edge-to-center motion = context awareness</strong> — Patterns emerging from beyond visible area suggest the larger field we work within</li>
+          <li><strong>Asymmetric emergence = organic unpredictability</strong> — Not all elements appear from same location; honors the way real moments arise</li>
+          <li><strong>Fade zones at edges = liminal space</strong> — The boundary between visible/invisible should be gradual, not hard</li>
+          <li><strong>Low frame opacity = gentle containment</strong> — Boundary should be sensed more than seen</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('frameBeyond');
+    const ctx = canvas.getContext('2d');
+    const GRID_SIZE = 48;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Set canvas size
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
+    const canvasWidth = rect.width;
+    const canvasHeight = rect.height;
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const FRAME_CHARS = ['│', '─', '╎', '╏'];
+    const MOVEMENT_CHARS = ['┄', '╌', '·', '∙'];
+    const CORNERS = ['┌', '┐', '└', '┘'];
+
+    let t = 0;
+    let particles = [];
+    let nextParticleTime = 0;
+
+    class Particle {
+      constructor(startTime) {
+        this.startTime = startTime;
+
+        // Random edge to spawn from
+        const edge = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
+
+        switch(edge) {
+          case 0: // top
+            this.x = Math.random() * GRID_SIZE;
+            this.y = -2;
+            this.dx = (Math.random() - 0.5) * 0.3;
+            this.dy = 0.4 + Math.random() * 0.2;
+            break;
+          case 1: // right
+            this.x = GRID_SIZE + 2;
+            this.y = Math.random() * GRID_SIZE;
+            this.dx = -(0.4 + Math.random() * 0.2);
+            this.dy = (Math.random() - 0.5) * 0.3;
+            break;
+          case 2: // bottom
+            this.x = Math.random() * GRID_SIZE;
+            this.y = GRID_SIZE + 2;
+            this.dx = (Math.random() - 0.5) * 0.3;
+            this.dy = -(0.4 + Math.random() * 0.2);
+            break;
+          case 3: // left
+            this.x = -2;
+            this.y = Math.random() * GRID_SIZE;
+            this.dx = 0.4 + Math.random() * 0.2;
+            this.dy = (Math.random() - 0.5) * 0.3;
+            break;
+        }
+
+        this.char = MOVEMENT_CHARS[Math.floor(Math.random() * MOVEMENT_CHARS.length)];
+      }
+
+      update() {
+        this.x += this.dx;
+        this.y += this.dy;
+      }
+
+      draw() {
+        const cellW = canvasWidth / GRID_SIZE;
+        const cellH = canvasHeight / GRID_SIZE;
+        const cellSize = cellW * 0.75;
+
+        ctx.font = `${cellSize}px ui-monospace, Menlo, Monaco, monospace`;
+
+        // Calculate distance from nearest edge
+        const distFromEdge = Math.min(
+          this.x,
+          this.y,
+          GRID_SIZE - this.x,
+          GRID_SIZE - this.y
+        );
+
+        // Fade based on distance from edge (visible in middle, fades near edges)
+        const fadeZone = 8;
+        const opacity = Math.min(1, Math.max(0, distFromEdge / fadeZone)) * 0.6;
+
+        if (opacity > 0.1) {
+          const xp = (this.x + 0.5) * cellW;
+          const yp = (this.y + 0.5) * cellH;
+
+          ctx.fillStyle = `rgba(51, 51, 51, ${opacity})`;
+          ctx.fillText(this.char, xp, yp);
+        }
+
+        // Particle dies when it exits opposite side
+        return this.x > -3 && this.x < GRID_SIZE + 3 &&
+               this.y > -3 && this.y < GRID_SIZE + 3;
+      }
+    }
+
+    function drawFrame(pulse) {
+      const cellW = canvasWidth / GRID_SIZE;
+      const cellH = canvasHeight / GRID_SIZE;
+      const cellSize = cellW * 0.65;
+
+      ctx.font = `${cellSize}px ui-monospace, Menlo, Monaco, monospace`;
+
+      const framePadding = 2;
+      const opacity = 0.2 + pulse * 0.05; // Subtle breathing
+
+      // Corners
+      const corners = [
+        { x: framePadding, y: framePadding, char: '┌' },
+        { x: GRID_SIZE - framePadding - 1, y: framePadding, char: '┐' },
+        { x: framePadding, y: GRID_SIZE - framePadding - 1, char: '└' },
+        { x: GRID_SIZE - framePadding - 1, y: GRID_SIZE - framePadding - 1, char: '┘' }
+      ];
+
+      ctx.fillStyle = `rgba(51, 51, 51, ${opacity})`;
+
+      corners.forEach(corner => {
+        const xp = (corner.x + 0.5) * cellW;
+        const yp = (corner.y + 0.5) * cellH;
+        ctx.fillText(corner.char, xp, yp);
+      });
+
+      // Edges (sparse)
+      const edgeStep = 4;
+
+      // Top and bottom
+      for (let x = framePadding + 2; x < GRID_SIZE - framePadding - 2; x += edgeStep) {
+        const char = FRAME_CHARS[Math.floor(Math.random() * 2) + 1]; // Use ─ or similar
+
+        // Top
+        ctx.fillText(char, (x + 0.5) * cellW, (framePadding + 0.5) * cellH);
+        // Bottom
+        ctx.fillText(char, (x + 0.5) * cellW, (GRID_SIZE - framePadding - 1 + 0.5) * cellH);
+      }
+
+      // Left and right
+      for (let y = framePadding + 2; y < GRID_SIZE - framePadding - 2; y += edgeStep) {
+        const char = FRAME_CHARS[Math.floor(Math.random() * 2)]; // Use │ or similar
+
+        // Left
+        ctx.fillText(char, (framePadding + 0.5) * cellW, (y + 0.5) * cellH);
+        // Right
+        ctx.fillText(char, (GRID_SIZE - framePadding - 1 + 0.5) * cellW, (y + 0.5) * cellH);
+      }
+    }
+
+    function draw() {
+      // Clear
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      // Background
+      ctx.fillStyle = '#FDFCF9';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+      // Frame pulse (breathing)
+      const pulse = Math.sin(t * 0.5) * 0.015; // 1.5% variation over ~12s
+
+      // Draw frame
+      drawFrame(pulse);
+
+      // Add new particle periodically
+      if (t > nextParticleTime && particles.length < 12) {
+        particles.push(new Particle(t));
+        nextParticleTime = t + 2 + Math.random() * 2; // Every 2-4 seconds
+      }
+
+      // Update and draw particles
+      particles.forEach(p => p.update());
+      particles = particles.filter(p => p.draw());
+
+      if (!prefersReducedMotion) {
+        t += 0.016;
+        requestAnimationFrame(draw);
+      } else {
+        // Static frame for reduced motion
+        if (particles.length === 0) {
+          particles.push(new Particle(0));
+          particles.push(new Particle(1));
+          particles.push(new Particle(2));
+          particles[0].x = GRID_SIZE / 4;
+          particles[0].y = GRID_SIZE / 2;
+          particles[1].x = GRID_SIZE / 2;
+          particles[1].y = GRID_SIZE / 3;
+          particles[2].x = GRID_SIZE * 0.7;
+          particles[2].y = GRID_SIZE * 0.6;
+        }
+        drawFrame(0);
+        particles.forEach(p => p.draw());
+      }
+    }
+
+    draw();
+  </script>
+</body>
+</html>

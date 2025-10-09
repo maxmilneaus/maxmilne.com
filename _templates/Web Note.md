@@ -1,4 +1,7 @@
 ---
 title: "{{title}}"
 layout: note
-tags: []
+# id: "{{note_id}}"
+# permalink: /{{note_permalink}}/
+tags:
+---

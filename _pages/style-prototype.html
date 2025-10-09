@@ -24,12 +24,14 @@ permalink: /style-prototype/
   #style-prototype :focus-visible{outline:2px dotted var(--accent); outline-offset:4px;} 
   #style-prototype figure{margin:var(--space-6) 0;} 
   #style-prototype figure img{display:block; width:100%; height:auto; border-radius:8px;} 
+  /* Cap tall variants while keeping aspect ratio */
+  #style-prototype figure.page-plus img{max-height:85vh;}
   #style-prototype figcaption{color:var(--meta); font-size:.95rem; margin-top:var(--space-3)} 
   /* Page-plus media */
   #style-prototype figure.page-plus{width:min(80vw, 72rem); max-width:none; margin-left:calc(50% - (min(80vw, 72rem)/2)); margin-right:calc(50% - (min(80vw, 72rem)/2));}
   /* Full-bleed */
   #style-prototype .full-bleed{width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); margin-top:var(--space-8); margin-bottom:var(--space-8);} 
-  #style-prototype .full-bleed img{width:100%; height:auto; display:block; border-radius:0} 
+  #style-prototype .full-bleed img{width:100%; height:auto; max-height:90vh; display:block; border-radius:0} 
   #style-prototype .caption-overlay{position:relative; color:var(--meta); font-size:.95rem; text-align:center; margin-top:.5rem;} 
   #style-prototype .continue{margin-top:var(--space-8)} 
   #style-prototype .continue h3{margin-bottom:var(--space-4)} 
@@ -84,4 +86,3 @@ permalink: /style-prototype/
     </div>
   </div>
 </section>
-
