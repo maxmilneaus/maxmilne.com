@@ -632,10 +632,58 @@ Examples:
 Service pages (e.g., ABC, Apple, Spotify) typically don’t provide universal iframe embeds. If an official “Embed” is offered, paste that iframe as-is. Otherwise, download or locate the direct media URL and use the audio embed above.
 
 ### Troubleshooting
+
+#### Audio/Video Player Issues
 - Player not showing: Restart Jekyll after adding or changing plugins (`Ctrl+C` then `bundle exec jekyll serve`).
 - File location: Ensure the audio file lives in a published folder (e.g., `assets/`), not under an underscored folder like `_notes/`.
 - Short form paths: `![[Breath.mp3]]` resolves to `assets/Breath.mp3`. Use `![[assets/Breath.mp3]]` for an explicit path.
-- Title text: Use `title=...` to set the player’s `title` attribute; free text after `|` does not set title unless you write `title=`.
+- Title text: Use `title=...` to set the player's `title` attribute; free text after `|` does not set title unless you write `title=`.
+
+#### Jekyll Build Errors
+
+**Error: `undefined method '[]' for nil:NilClass`**
+
+This error typically occurs when the `jekyll-last-modified-at` plugin cannot get git timestamps for files.
+
+**Common Causes:**
+1. **Git repository corruption** - Missing git objects prevent git commands from returning valid data
+2. **Bundler version mismatch** - Old vendor/bundle with different bundler version
+
+**Diagnosis:**
+```bash
+# Check git health
+git fsck --full
+
+# Look for "missing blob/tree/commit" errors (bad)
+# "dangling blob/commit" warnings are harmless
+```
+
+**Solutions:**
+
+For git corruption:
+```bash
+# Option 1: Restore .git from backup
+mv .git .git.backup
+cp -r /path/to/backup/.git ./
+
+# Option 2: Fresh git init (loses history)
+rm -rf .git
+git init
+git add .
+git commit -m "Fresh start"
+```
+
+For bundler mismatch:
+```bash
+# Clean and reinstall gems
+rm -rf vendor/bundle
+bundle install
+```
+
+**Prevention:**
+- Regularly backup the `.git` folder (Carbon Copy Cloner does this by default)
+- Use `git fsck` periodically to catch corruption early
+- Keep bundler version consistent across environments
 
 ### Obsidian-friendly authoring
 
@@ -811,3 +859,74 @@ Project Page Cream Background: Individual project pages use a light palette.
 Projects Index Tag Filter: `/projects/` supports client-side filtering by tags.
 - Template: `_layouts/projects.html` builds unique tag buttons, annotates entries with `data-tag-slugs`, and includes a small JS toggle.
 - Styles: `_sass/_projects.scss` adds `.project-filters`, `.project-filter`, and `.project-entry.is-hidden` (with light/dark variants for cream detail pages).
+
+---
+
+## Backup and Disaster Recovery
+
+### Backup Strategy
+
+**What to Backup:**
+- The entire project folder (including hidden files)
+- Carbon Copy Cloner automatically includes `.git` folder
+- All content, configuration, plugins, and git history are preserved
+
+**What Gets Backed Up:**
+- ✅ All content files (`_notes/`, `_pages/`, `_projects/`)
+- ✅ `.git` folder (critical for last-modified dates)
+- ✅ Configuration files (`_config.yml`, `Gemfile`, `Gemfile.lock`)
+- ✅ Custom code (`_plugins/`, `_layouts/`, `_includes/`, `_sass/`)
+- ✅ Project-specific settings (`.claude/settings.local.json`)
+
+**What Doesn't Get Backed Up:**
+- ❌ Claude Code conversation history (stored globally in `~/.claude/`)
+- ❌ Generated output (`_site/` - can be rebuilt)
+- ❌ Installed gems (`vendor/bundle/` - can be reinstalled)
+
+### Restoring from Backup
+
+**To Restore on Same Machine:**
+1. Copy backup folder to desired location
+2. Navigate to folder: `cd /path/to/restored/Website`
+3. Reinstall gems: `bundle install`
+4. Start Jekyll: `bundle exec jekyll serve`
+
+**To Restore on Different Machine:**
+1. Install Ruby 3.2.2 (via rbenv):
+   ```bash
+   brew install rbenv
+   rbenv install 3.2.2
+   rbenv global 3.2.2
+   eval "$(rbenv init -)"
+   ```
+2. Copy backup folder to machine
+3. Navigate to folder and run: `bundle install`
+4. Start Jekyll: `bundle exec jekyll serve`
+
+**Important Notes:**
+- Backups are fully functional - no additional configuration needed
+- Git remote connections preserved but require authentication on new machines
+- Claude Code conversation history is tied to original folder path
+- To resume conversations in restored copy, they must be at same absolute path
+
+### Claude Code Conversation History
+
+**Storage Location:**
+- Conversations stored in: `~/.claude/`
+- Path-specific: linked to absolute folder path
+- Universal: contains history for ALL projects
+
+**Implications:**
+- Restoring to different path = no conversation history
+- Restoring to same path = conversation history available
+- For disaster recovery: code/content backup is what matters
+- Can always start new conversations in any copy
+
+### Verification Checklist
+
+After restoring from backup, verify:
+- [ ] Git works: `git log --oneline`
+- [ ] Git is healthy: `git fsck --full` (only dangling objects OK)
+- [ ] Jekyll builds: `bundle exec jekyll build`
+- [ ] Server starts: `bundle exec jekyll serve --livereload`
+- [ ] Can access site at http://localhost:4000

@@ -285,9 +285,42 @@ Outcome: Visitors can filter projects by tag on the `/projects/` index without l
 
 - Template: `_layouts/projects.html`
   - Collects unique tags from `site.projects`.
-  - Renders filter buttons (including “All”) and adds `data-tag-slugs` attributes to each project entry.
+  - Renders filter buttons (including "All") and adds `data-tag-slugs` attributes to each project entry.
   - Appends a lightweight JS snippet to toggle visibility on click.
 - Styles: `_sass/_projects.scss`
   - Adds `.project-filters`, `.project-filter`, and `.project-entry.is-hidden` for the filtering UI.
   - Provides light/dark variants so project detail pages remain cohesive on cream background.
 - Impact: Enables quick scanning of related work while preserving existing ordering and layout.
+
+## Git Corruption + Jekyll Build Failure - 2025-10-29
+
+**Problem**: Jekyll crashed with `undefined method '[]' for nil:NilClass` error during regeneration. Bundler version mismatch also prevented initial startup.
+
+**Root Causes**:
+1. **Git repository corruption** - Hundreds of missing objects in `.git/` folder
+   - `git fsck` revealed extensive corruption with missing blobs, trees, and commits
+   - The `jekyll-last-modified-at` plugin queries git for file timestamps
+   - With corrupted git, commands returned `nil` instead of timestamps
+   - Plugin tried to regex match on `nil` → crash
+2. **Bundler version mismatch** - Gems installed with bundler 2.2.3, system using 2.7.2
+   - Old `vendor/bundle` directory caused Jekyll executable not to be found
+
+**Solution Steps**:
+1. Removed corrupted `vendor/bundle`: `rm -rf vendor/bundle`
+2. Reinstalled gems with current bundler: `bundle install`
+3. Restored `.git` folder from backup (renamed corrupted one to `.git2`)
+4. Verified git health: `git log`, `git fsck` (only harmless "dangling" objects remain)
+5. Tested Jekyll build: Success - completed in ~11 seconds without errors
+
+**Key Learnings**:
+- Git corruption can cause Jekyll plugins to fail in non-obvious ways
+- The `jekyll-last-modified-at` plugin depends on healthy git repository
+- Always check `git fsck` if seeing mysterious nil errors
+- Bundler version mismatches require clean reinstall of vendor/bundle
+
+**Backup Verification**:
+- Confirmed Carbon Copy Cloner backups include `.git` folder by default
+- Backups are fully functional - can `bundle exec jekyll serve` immediately
+- Claude Code conversation history stored separately in `~/.claude/` (not in project)
+- Conversations are path-allocated, so restoring to different path won't have history
+- For disaster recovery: project backup (code/git/content) is what matters
