@@ -11,33 +11,33 @@ permalink: /cv
 
 ### Work History
 
-|Period|Role|Organisation|
-|---|---|---|
-|2020 – Current|Arts & Health Facilitator|AUS|
-|2008 – 2023|Photographer|Max Milne Photography, AUS + USA|
-|2015 – 2020|Founder|Studio Brunswick, AUS|
-|2018 – 2019|Sessional Lecturer|Photography Studio College, AUS|
-|2014 – 2015|Lecturer, Photo Media|Holmesglen TAFE, AUS|
-|2008 – 2011|Photography Assistant|AUS|
-|2010 – 2011|Prepress Manager|The Colour Factory, AUS|
-|2008 – 2010|Post Production Manager|G-Media, AUS|
-|2006 – 2008|Young Ambassador|National Gallery of Victoria, AUS|
-|2004 – 2007|Market Researcher|The Social Research Centre and NWC, AUS|
+| Period         | Role                      | Organisation                            |
+| -------------- | ------------------------- | --------------------------------------- |
+| 2020 – Current | Arts & Health Facilitator | AUS                                     |
+| 2008 – 2023    | Photographer              | Max Milne Photography, AUS + USA        |
+| 2015 – 2020    | Founder                   | Studio Brunswick, AUS                   |
+| 2018 – 2019    | Sessional Lecturer        | Photography Studio College, AUS         |
+| 2014 – 2015    | Lecturer, Photo Media     | Holmesglen TAFE, AUS                    |
+| 2008 – 2011    | Photography Assistant     | AUS                                     |
+| 2010 – 2011    | Prepress Manager          | The Colour Factory, AUS                 |
+| 2008 – 2010    | Post Production Manager   | G-Media, AUS                            |
+| 2006 – 2008    | Young Ambassador          | National Gallery of Victoria, AUS       |
+| 2004 – 2007    | Market Researcher         | The Social Research Centre and NWC, AUS |
 
 ### Education Timeline
 
-|Period|Qualification|Institution|
-|---|---|---|
-|2022 – Current|Masters Counselling|Swinburne University, AUS|
-|2023|Addiction and Mental Health Training|PACFA, AUS|
-|2023|Mindfulness Teacher Training|Insight Meditation, Europe|
-|2020 – 2022|Lam Rim Dharma Study|Gelugpa, Drol Kar, AUS|
-|2021 – 2022|First Nations Cultural Literacy & Story Telling|YARN, AUS|
-|2021|HLTAID 009, 010 & 011 First Aid|AUS|
-|2021|Mindfulness Based Addiction Recovery Training|Vimilasara, Canada|
-|2015|Adv. Dip, Art Therapy|The Phoenix Institute, AUS|
-|2014|Cert. IV, Training and Assessment|HBA Learning, AUS|
-|2012|Cert. IV, Photo Imaging|Melbourne Polytechnic, AUS|
+| Period         | Qualification                                   | Institution                |
+| -------------- | ----------------------------------------------- | -------------------------- |
+| 2022 – Current | Masters Counselling                             | Swinburne University, AUS  |
+| 2023           | Addiction and Mental Health Training            | PACFA, AUS                 |
+| 2023           | Mindfulness Teacher Training                    | Insight Meditation, Europe |
+| 2020 – 2022    | Lam Rim Dharma Study                            | Gelugpa, Drol Kar, AUS     |
+| 2021 – 2022    | First Nations Cultural Literacy & Story Telling | YARN, AUS                  |
+| 2021           | HLTAID 009, 010 & 011 First Aid                 | AUS                        |
+| 2021           | Mindfulness Based Addiction Recovery Training   | Vimilasara, Canada         |
+| 2015           | Adv. Dip, Art Therapy                           | The Phoenix Institute, AUS |
+| 2014           | Cert. IV, Training and Assessment               | HBA Learning, AUS          |
+| 2012           | Cert. IV, Photo Imaging                         | Melbourne Polytechnic, AUS |
 
 
 

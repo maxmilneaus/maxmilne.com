@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goldsworthy's Digital Ephemera</title>
+    <style>
+        :root {
+            --color-deep: #141210;
+            --color-charcoal: #201d1a;
+            --color-graphite: #2d2926;
+            --color-stone: #4a453f;
+            --color-cream: #e8ddd4;
+            --color-warm-gray: #c7beb5;
+            --color-meta: #9c958c;
+            --color-accent-hover: #93c5fd;
+            --color-accent-subtle: #3b82f6;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.75rem;
+            --space-xl: 3rem;
+            --border-radius: 3px;
+            --max-width: 42rem;
+        }
+
+        body {
+            background: var(--color-deep);
+            color: var(--color-cream);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin: 0 auto;
+            max-width: var(--max-width);
+            padding: var(--space-xl) 2rem;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            color: var(--color-cream);
+            line-height: 1.25;
+            margin: var(--space-lg) 0 var(--space-md) 0;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        h1 { font-size: 2rem; font-weight: 600; }
+        h2 { font-size: 1.65rem; }
+        h3 { font-size: 1.35rem; color: var(--color-warm-gray); }
+
+        p { margin: var(--space-md) 0 var(--space-lg) 0; }
+
+        .demo-section {
+            margin: var(--space-xl) 0;
+            padding: var(--space-lg) 0;
+            border-top: 1px solid var(--color-stone);
+        }
+
+        .demo-label {
+            color: var(--color-accent-subtle);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* 1. TIDE POOL SCROLLING - Content reveals like tide receding */
+        .tide-pool {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tide-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .tide-content.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 2. FROST FORMATION - Text crystallizes as you read */
+        @keyframes frost-form {
+            0% { text-shadow: 0 0 0px rgba(147, 197, 253, 0); }
+            100% { text-shadow: 0 0 8px rgba(147, 197, 253, 0.3), 0 0 16px rgba(147, 197, 253, 0.1); }
+        }
+
+        .frost-text {
+            animation: frost-form 3s ease-in-out forwards;
+            animation-delay: 2s;
+        }
+
+        /* 3. STONE STACKING - Headers build upon each other */
+        .stone-stack h2, .stone-stack h3 {
+            position: relative;
+            transform-origin: bottom center;
+        }
+
+        .stone-stack h2::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-stone), transparent);
+            opacity: 0;
+            animation: stone-settle 0.8s ease-out 1s forwards;
+        }
+
+        @keyframes stone-settle {
+            0% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1); }
+        }
+
+        /* 4. LEAF DECAY - Old content fades like autumn */
+        .decay-text {
+            transition: color 8s ease-out, opacity 8s ease-out;
+        }
+
+        .decay-text.aging {
+            color: var(--color-meta);
+            opacity: 0.7;
+        }
+
+        /* 5. WIND PATTERNS - Subtle text movement on scroll */
+        .wind-text {
+            transition: transform 0.3s ease-out;
+        }
+
+        .wind-text.blown {
+            transform: translateX(2px) rotate(0.2deg);
+        }
+
+        /* 6. ICE MELT - Links warm and flow when hovered */
+        .ice-link {
+            display: inline-block;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            color: var(--color-meta);
+            text-decoration: underline;
+        }
+
+        .ice-link:hover {
+            transform: scale(1.02) translateY(-1px);
+            color: var(--color-cream);
+            text-shadow: 0 2px 8px rgba(147, 197, 253, 0.2);
+        }
+
+        /* 7. GROWTH RINGS - Paragraphs expand with reading time */
+        @keyframes growth-ring {
+            0% { padding-left: 0; border-left: none; }
+            100% { padding-left: var(--space-sm); border-left: 2px solid rgba(59, 130, 246, 0.1); }
+        }
+
+        .growth-ring {
+            animation: growth-ring 5s ease-out 3s forwards;
+        }
+
+        /* 8. SHADOW PLAY - Elements cast shadows based on "sun" position */
+        .shadow-play {
+            position: relative;
+            transition: filter 2s ease-out;
+        }
+
+        .shadow-play::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: -4px;
+            bottom: -4px;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: -1;
+            border-radius: var(--border-radius);
+            transform: skew(-2deg, -1deg);
+            transition: transform 3s ease-out, opacity 3s ease-out;
+            opacity: 0;
+        }
+
+        .shadow-play.lit::after {
+            opacity: 1;
+            transform: skew(-1deg, -0.5deg);
+        }
+
+        /* 9. EROSION PATTERNS - Text edges wear away and reform */
+        @keyframes erode {
+            0%, 100% { filter: blur(0px); opacity: 1; }
+            50% { filter: blur(0.3px); opacity: 0.9; }
+        }
+
+        .erosion {
+            animation: erode 12s ease-in-out infinite;
+        }
+
+        /* 10. SEASONAL SHIFT - Entire palette subtly changes over time */
+        @keyframes seasonal-shift {
+            0% { filter: hue-rotate(0deg) brightness(1); }
+            25% { filter: hue-rotate(5deg) brightness(1.02); }
+            50% { filter: hue-rotate(10deg) brightness(1.05); }
+            75% { filter: hue-rotate(5deg) brightness(1.02); }
+            100% { filter: hue-rotate(0deg) brightness(1); }
+        }
+
+        .seasonal {
+            animation: seasonal-shift 60s ease-in-out infinite;
+        }
+
+        code {
+            background: var(--color-charcoal);
+            color: var(--color-warm-gray);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--border-radius);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="seasonal">
+    <h1>Andy Goldsworthy's Digital Ephemera</h1>
+    <p class="frost-text">Ten natural phenomena translated into code—impermanent, alive, responding to presence and time.</p>
+
+    <div class="demo-section tide-pool">
+        <div class="demo-label">1. Tide Pool Scrolling</div>
+        <div class="tide-content">
+            <h3>Content Reveals Like Receding Tide</h3>
+            <p>As you scroll, content emerges gently from below, like shells and stones revealed as water pulls away. Each section appears with the patience of natural revelation.</p>
+        </div>
+    </div>
+
+    <div class="demo-section stone-stack">
+        <div class="demo-label">2. Stone Stacking</div>
+        <h2>Headers Build Upon Each Other</h2>
+        <h3>Like Cairns in the Landscape</h3>
+        <p>Each heading settles into place with weight, creating subtle foundation lines that anchor the text hierarchy like carefully balanced stones.</p>
+    </div>
+
+    <div class="demo-section">
+        <div class="demo-label">3. Frost Formation</div>
+        <p class="frost-text">Text slowly crystallizes with a delicate blue glow, as if frost is forming on the words over time. <code>animation-delay: 2s</code> allows natural timing.</p>
+    </div>
+
+    <div class="demo-section">
+        <div class="demo-label">4. Leaf Decay</div>
+        <p class="decay-text">Content ages gracefully, colors shifting like leaves through autumn. Older text becomes muted, creating visual hierarchy through temporal layers.</p>
+    </div>
+
+    <div class="demo-section">
+        <div class="demo-label">5. Wind Patterns</div>
+        <p class="wind-text">Text subtly shifts and sways as you scroll, like grass bending in an invisible breeze. Movement follows the natural rhythm of reading.</p>
+    </div>
+
+    <div class="demo-section">
+        <div class="demo-label">6. Ice Melt</div>
+        <p>Links are frozen until touched, then <a href="#" class="ice-link">warm and flow</a> with <a href="#" class="ice-link">liquid movement</a>, rising slightly as if lifted by warmth.</p>
+    </div>
+
+    <div class="demo-section">
+        <div class="demo-label">7. Growth Rings</div>
+        <p class="growth-ring">Paragraphs slowly develop subtle borders after being read, like tree rings marking time spent with the text. The growth happens unconsciously, noticed only in reflection.</p>
+    </div>
+
+    <div class="demo-section shadow-play">
+        <div class="demo-label">8. Shadow Play</div>
+        <h3>Elements Cast Shadows</h3>
+        <p>Like sundials, content develops shadows based on the "sun's" position (time of day), creating depth that shifts with temporal rhythms.</p>
+    </div>
+
+    <div class="demo-section">
+        <div class="demo-label">9. Erosion Patterns</div>
+        <p class="erosion">Text edges wear away and reform in slow cycles, like stone shaped by water. The impermanence is barely perceptible but deeply felt.</p>
+    </div>
+
+    <div class="demo-section">
+        <div class="demo-label">10. Seasonal Shift</div>
+        <p>The entire palette slowly shifts over minutes, like light changing throughout the day. Visitors who stay longer witness the subtle transformation of the entire environment.</p>
+    </div>
+
+    <div class="demo-section">
+        <h3>Implementation Philosophy</h3>
+        <p>Each effect uses:</p>
+        <p><strong>Natural timing:</strong> <code>cubic-bezier(0.25, 0.46, 0.45, 0.94)</code> - the rhythm of water</p>
+        <p><strong>Organic imperfection:</strong> <code>skew(-2deg, -1deg)</code> - nothing in nature is perfectly aligned</p>
+        <p><strong>Temporal awareness:</strong> Long animations (60s+) that unfold like weather</p>
+        <p><strong>Subtle presence:</strong> Effects that enhance without demanding attention</p>
+    </div>
+
+    <script>
+        // Tide pool reveal on scroll
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -100px 0px' };
+        const tideObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.tide-content').forEach(el => {
+            tideObserver.observe(el);
+        });
+
+        // Wind patterns on scroll
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const windElements = document.querySelectorAll('.wind-text');
+            const scrollDelta = window.scrollY - lastScrollY;
+            
+            windElements.forEach(el => {
+                if (Math.abs(scrollDelta) > 10) {
+                    el.classList.add('blown');
+                    setTimeout(() => el.classList.remove('blown'), 300);
+                }
+            });
+            lastScrollY = window.scrollY;
+        });
+
+        // Decay aging after time
+        setTimeout(() => {
+            document.querySelectorAll('.decay-text').forEach(el => {
+                el.classList.add('aging');
+            });
+        }, 5000);
+
+        // Shadow play based on time
+        setTimeout(() => {
+            document.querySelectorAll('.shadow-play').forEach(el => {
+                el.classList.add('lit');
+            });
+        }, 2000);
+    </script>
+</body>
+</html>

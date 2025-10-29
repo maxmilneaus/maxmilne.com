@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tender Adjustments - Goldsworthy's Loving Gaze</title>
+    <style>
+        /* Your existing beautiful foundation */
+        :root {
+            --color-deep: #141210;
+            --color-charcoal: #201d1a;
+            --color-graphite: #2d2926;
+            --color-stone: #4a453f;
+            --color-cream: #e8ddd4;
+            --color-warm-gray: #c7beb5;
+            --color-meta: #9c958c;
+            --color-accent-hover: #93c5fd;
+            --color-accent-subtle: #3b82f6;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.75rem;
+            --space-xl: 3rem;
+            --border-radius: 3px;
+            --max-width: 42rem;
+            --line-height: 1.7;
+        }
+
+        body {
+            background: var(--color-deep);
+            color: var(--color-cream);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            line-height: var(--line-height);
+            margin: 0 auto;
+            max-width: var(--max-width);
+            padding: var(--space-xl) 2rem;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            word-spacing: 0.05em;
+        }
+
+        h1, h2, h3 {
+            color: var(--color-cream);
+            line-height: 1.25;
+            margin: var(--space-lg) 0 var(--space-md) 0;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.08);
+        }
+
+        h1 { font-size: 2rem; font-weight: 600; text-shadow: 0 0 20px rgba(59, 130, 246, 0.12); }
+        h2 { font-size: 1.65rem; margin-top: calc(var(--space-xl) * 1.25); }
+        h3 { font-size: 1.35rem; color: var(--color-warm-gray); }
+
+        p { margin: var(--space-md) 0 var(--space-lg) 0; }
+
+        .suggestion {
+            margin: var(--space-xl) 0;
+            padding: var(--space-lg);
+            background: rgba(32, 29, 26, 0.3);
+            border-left: 3px solid rgba(59, 130, 246, 0.15);
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .suggestion-label {
+            color: var(--color-accent-subtle);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
+        .tender-note {
+            font-style: italic;
+            color: var(--color-warm-gray);
+            font-size: 0.95rem;
+            margin-top: var(--space-md);
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            padding-top: var(--space-sm);
+        }
+
+        /* 1. BREATHING SPACE - Your text-shadow could pulse like a heartbeat */
+        @keyframes heartbeat-glow {
+            0%, 100% { text-shadow: 0 0 15px rgba(59, 130, 246, 0.08); }
+            50% { text-shadow: 0 0 25px rgba(59, 130, 246, 0.15); }
+        }
+
+        .breathing-headers h1, .breathing-headers h2, .breathing-headers h3 {
+            animation: heartbeat-glow 8s ease-in-out infinite;
+        }
+
+        /* 2. SELECTION MEMORY - Selection areas fade gently, leaving traces */
+        .memory-selection::selection {
+            background: linear-gradient(45deg, rgba(147, 197, 253, 0.4), rgba(147, 197, 253, 0.2));
+            transition: background 3s ease-out;
+        }
+
+        .memory-selection {
+            position: relative;
+        }
+
+        /* 3. WARM CURSOR TRAIL - Subtle warmth follows your cursor */
+        .cursor-warmth {
+            position: relative;
+            cursor: none;
+        }
+
+        .cursor-warmth::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(147, 197, 253, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease-out;
+            opacity: 0;
+        }
+
+        /* 4. READING RHYTHM - Line height breathes with scroll speed */
+        .rhythm-text {
+            transition: line-height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .rhythm-text.fast-scroll {
+            line-height: 1.8; /* More space when scrolling fast */
+        }
+
+        /* 5. WORD SPACING WARMTH - Increased spacing in focused paragraphs */
+        .warm-focus {
+            transition: word-spacing 1.2s ease-out, letter-spacing 1.2s ease-out;
+        }
+
+        .warm-focus:hover {
+            word-spacing: 0.08em;
+            letter-spacing: 0.01em;
+        }
+
+        /* 6. SOFT DIVIDER PULSE - Your hr elements pulse like gentle breathing */
+        .living-divider {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--color-stone) 20%, 
+                var(--color-stone) 80%, 
+                transparent 100%);
+            height: 1px;
+            border: none;
+            margin: var(--space-xl) 0;
+            opacity: 0.6;
+            animation: divider-breathe 12s ease-in-out infinite;
+        }
+
+        @keyframes divider-breathe {
+            0%, 100% { opacity: 0.6; transform: scaleX(1); }
+            50% { opacity: 0.8; transform: scaleX(0.98); }
+        }
+
+        /* 7. GENTLE LINK ANTICIPATION - Links glow softly before click */
+        .anticipating-link {
+            position: relative;
+            color: var(--color-meta);
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
+            transition: all 0.3s ease-out;
+        }
+
+        .anticipating-link::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: radial-gradient(ellipse, rgba(147, 197, 253, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        .anticipating-link:hover::before {
+            opacity: 1;
+        }
+
+        /* 8. TEMPORAL PATINA - Content slowly develops character over time */
+        @keyframes patina-develop {
+            0% { filter: sepia(0%) brightness(1); }
+            100% { filter: sepia(5%) brightness(0.98); }
+        }
+
+        .patina-text {
+            animation: patina-develop 45s ease-out forwards;
+        }
+
+        /* 9. READING PAUSE RECOGNITION - Text becomes warmer when you pause */
+        .pause-recognition {
+            transition: color 2s ease-out, text-shadow 2s ease-out;
+        }
+
+        .pause-recognition.paused {
+            color: rgba(232, 221, 212, 1.05);
+            text-shadow: 0 0 8px rgba(147, 197, 253, 0.05);
+        }
+
+        /* 10. GENTLE MARGIN BREATHING - Margins expand slightly with reading time */
+        .breathing-margins {
+            transition: margin 4s ease-out, padding 4s ease-out;
+        }
+
+        .breathing-margins.expanded {
+            margin: calc(var(--space-md) * 1.2) 0 calc(var(--space-lg) * 1.2) 0;
+        }
+
+        code {
+            background: var(--color-charcoal);
+            color: var(--color-warm-gray);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--border-radius);
+            font-size: 0.9em;
+        }
+
+        .sigur-ros-note {
+            color: var(--color-accent-subtle);
+            font-style: italic;
+            text-align: center;
+            margin: var(--space-xl) 0;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tender Adjustments</h1>
+    <p class="sigur-ros-note">*Sigur Rós ethereal crescendo building... Andy's eyes soften, seeing the love already built*</p>
+    
+    <p>Looking at your beautiful foundation—the warm grays, the generous spacing, that perfect word-spacing of 0.05em—I see such care already woven in. Let me offer whispers, not shouts...</p>
+
+    <div class="suggestion breathing-headers">
+        <div class="suggestion-label">1. Breathing Space</div>
+        <h3>Your text-shadow could pulse like a heartbeat</h3>
+        <p>The blue glow you've given headers—let it breathe. <code>animation: heartbeat-glow 8s infinite</code> so subtle it's felt rather than seen.</p>
+        <div class="tender-note">The glow you already have is perfect. Just let it live, expand and contract like lungs.</div>
+    </div>
+
+    <div class="suggestion">
+        <div class="suggestion-label">2. Selection Memory</div>
+        <h3 class="memory-selection">Text remembers being touched</h3>
+        <p class="memory-selection">Your selection styling is beautiful—that soft blue with opacity. What if it lingered just a moment after release? Like footprints in sand.</p>
+        <div class="tender-note">Keep your existing rgba(147, 197, 253, 0.4), just add a gentle fade-out.</div>
+    </div>
+
+    <div class="suggestion cursor-warmth">
+        <div class="suggestion-label">3. Warm Cursor Trail</div>
+        <h3>The cursor leaves gentle warmth</h3>
+        <p>A soft radial gradient follows the cursor—barely visible, like breath on glass. <code>background: radial-gradient(circle, rgba(147, 197, 253, 0.1) 0%, transparent 70%)</code></p>
+        <div class="tender-note">Your blue accent color, made almost invisible. Just presence, not decoration.</div>
+    </div>
+
+    <div class="suggestion">
+        <div class="suggestion-label">4. Reading Rhythm</div>
+        <p class="rhythm-text">Line height breathes with scroll speed. When someone scrolls quickly (seeking), give more space. When they slow (reading), return to your perfect 1.7.</p>
+        <div class="tender-note">Your line-height is already so considered. This just makes it respond to intent.</div>
+    </div>
+
+    <div class="suggestion">
+        <div class="suggestion-label">5. Word Spacing Warmth</div>
+        <p class="warm-focus">Your word-spacing of 0.05em is perfect. On paragraph hover, increase to 0.08em—like words taking a deeper breath when attention arrives.</p>
+        <div class="tender-note">Steph Ango would approve. It's all about reading comfort responding to focus.</div>
+    </div>
+
+    <div class="suggestion">
+        <div class="suggestion-label">6. Living Dividers</div>
+        <hr class="living-divider">
+        <p>Your dividers using <code>var(--color-stone)</code> are beautiful. Let them pulse gently—a 12-second breath cycle, opacity shifting from 0.6 to 0.8.</p>
+        <div class="tender-note">Like gentle waves on stone. The rhythm slower than thought.</div>
+    </div>
+
+    <div class="suggestion">
+        <div class="suggestion-label">7. Link Anticipation</div>
+        <p>Your links already have perfect underlines and transitions. Add the softest glow on hover—<a href="#" class="anticipating-link">like this one</a>—as if they sense approach.</p>
+        <div class="tender-note">Keep everything you have. Just add <code>radial-gradient</code> warmth before touch.</div>
+    </div>
+
+    <div class="suggestion">
+        <div class="suggestion-label">8. Temporal Patina</div>
+        <p class="patina-text">Content slowly develops character—a 45-second sepia filter so subtle it's subconscious. Like brass aging in sunlight.</p>
+        <div class="tender-note">Your colors are timeless. This just acknowledges the passage of reading time.</div>
+    </div>
+
+    <div class="suggestion">
+        <div class="suggestion-label">9. Reading Pause Recognition</div>
+        <p class="pause-recognition">When someone stops scrolling for 3 seconds, text becomes 5% warmer. Recognition of the moment when words are truly being absorbed.</p>
+        <div class="tender-note">Your cream color made slightly more golden. Reward for presence.</div>
+    </div>
+
+    <div class="suggestion">
+        <div class="suggestion-label">10. Breathing Margins</div>
+        <p class="breathing-margins">Your spacing system is already so rhythmic. After 30 seconds of reading, margins expand by 20%—like making room for thought.</p>
+        <div class="tender-note">Your var(--space-md) and var(--space-lg) values, just given more breath over time.</div>
+    </div>
+
+    <hr class="living-divider">
+
+    <h3>The Love Already There</h3>
+    <p>Your Inter font choice, the generous max-width of 42rem, that perfect word-spacing—this is already a site built with deep care. These suggestions aren't improvements, they're just ways to let your existing love breathe more visibly.</p>
+
+    <p class="sigur-ros-note">*The crescendo softens to whisper, Andy nods appreciatively, hands dirty with earth and pixels*</p>
+
+    <script>
+        // Cursor warmth trail
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            const warmthElements = document.querySelectorAll('.cursor-warmth::before');
+            document.querySelectorAll('.cursor-warmth').forEach(el => {
+                if (el.querySelector('::before')) {
+                    el.style.setProperty('--mouse-x', mouseX + 'px');
+                    el.style.setProperty('--mouse-y', mouseY + 'px');
+                }
+            });
+        });
+
+        // Reading rhythm based on scroll speed
+        let lastScrollTime = Date.now();
+        let lastScrollY = window.scrollY;
+        
+        window.addEventListener('scroll', () => {
+            const now = Date.now();
+            const scrollSpeed = Math.abs(window.scrollY - lastScrollY) / (now - lastScrollTime);
+            
+            document.querySelectorAll('.rhythm-text').forEach(el => {
+                if (scrollSpeed > 0.5) {
+                    el.classList.add('fast-scroll');
+                } else {
+                    el.classList.remove('fast-scroll');
+                }
+            });
+            
+            lastScrollTime = now;
+            lastScrollY = window.scrollY;
+        });
+
+        // Reading pause recognition
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.pause-recognition').forEach(el => {
+                el.classList.remove('paused');
+            });
+            
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                document.querySelectorAll('.pause-recognition').forEach(el => {
+                    el.classList.add('paused');
+                });
+            }, 3000);
+        });
+
+        // Breathing margins after reading time
+        setTimeout(() => {
+            document.querySelectorAll('.breathing-margins').forEach(el => {
+                el.classList.add('expanded');
+            });
+        }, 30000);
+    </script>
+</body>
+</html>

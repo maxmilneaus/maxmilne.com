@@ -21,8 +21,8 @@ Then my attention turned to counselling. I worked as a student counsellor at Don
 
 Now I work at [[Talk. Art. Therapy.]], helping people build capacity for awareness — to notice patterns, to hold what's difficult, to choose what matters. The work happens through sustained attention, not sudden transformation. Like the stone stairs worn smooth, like the meditation practice built over years. Something grows through the continuity of showing up.
 
-_Want to know more about what that looks like?_  
-[Projects]({{ site.baseurl }}/projects) | [What I'm up to now]({{ site.baseurl }}/now) | [[cv]]
+_Want to know more about what I am doing and what I have done?_  
+[Projects]({{ site.baseurl }}/projects) | [What I'm up to now]({{ site.baseurl }}/now) | [[CV]]
 
 ---
 ### Awards:

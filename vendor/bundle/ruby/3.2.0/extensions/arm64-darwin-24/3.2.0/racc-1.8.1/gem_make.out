@@ -3,17 +3,17 @@ current directory: /Volumes/aWork Drive/1. Projects/Vibe Coding/1 . Active/Websi
 creating Makefile
 
 current directory: /Volumes/aWork Drive/1. Projects/Vibe Coding/1 . Active/Website/vendor/bundle/ruby/3.2.0/gems/racc-1.8.1/ext/racc/cparse
-make DESTDIR\= sitearchdir\=./.gem.20250825-15993-ohxhoz sitelibdir\=./.gem.20250825-15993-ohxhoz clean
+make DESTDIR\= sitearchdir\=./.gem.20251029-17377-c80wng sitelibdir\=./.gem.20251029-17377-c80wng clean
 
 current directory: /Volumes/aWork Drive/1. Projects/Vibe Coding/1 . Active/Website/vendor/bundle/ruby/3.2.0/gems/racc-1.8.1/ext/racc/cparse
-make DESTDIR\= sitearchdir\=./.gem.20250825-15993-ohxhoz sitelibdir\=./.gem.20250825-15993-ohxhoz
+make DESTDIR\= sitearchdir\=./.gem.20251029-17377-c80wng sitelibdir\=./.gem.20251029-17377-c80wng
 compiling cparse.c
 linking shared-object racc/cparse.bundle
 ld: warning: ignoring duplicate libraries: '-lruby.3.2'
 
 current directory: /Volumes/aWork Drive/1. Projects/Vibe Coding/1 . Active/Website/vendor/bundle/ruby/3.2.0/gems/racc-1.8.1/ext/racc/cparse
-make DESTDIR\= sitearchdir\=./.gem.20250825-15993-ohxhoz sitelibdir\=./.gem.20250825-15993-ohxhoz install
-/usr/bin/install -c -m 0755 cparse.bundle ./.gem.20250825-15993-ohxhoz/racc
+make DESTDIR\= sitearchdir\=./.gem.20251029-17377-c80wng sitelibdir\=./.gem.20251029-17377-c80wng install
+/usr/bin/install -c -m 0755 cparse.bundle ./.gem.20251029-17377-c80wng/racc
 
 current directory: /Volumes/aWork Drive/1. Projects/Vibe Coding/1 . Active/Website/vendor/bundle/ruby/3.2.0/gems/racc-1.8.1/ext/racc/cparse
-make DESTDIR\= sitearchdir\=./.gem.20250825-15993-ohxhoz sitelibdir\=./.gem.20250825-15993-ohxhoz clean
+make DESTDIR\= sitearchdir\=./.gem.20251029-17377-c80wng sitelibdir\=./.gem.20251029-17377-c80wng clean

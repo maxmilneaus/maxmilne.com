@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+
+  <link rel="canonical" href="http://localhost:4000/style-prototype/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Max Milne">
+
+  <!-- Add author meta tag -->
+  <meta name="author" content="Max Milne">
+
+  <meta property="og:site_name" content="Max Milne">
+
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+
+  <link rel="stylesheet" href="/styles.css">
+
+  
+  <meta property="og:description" content="Max Milne"/>
+  
+
+  
+  <meta property="og:title" content="Style Prototype">
+  <meta property="og:type" content="article">
+  
+
+  
+
+  <meta property="og:url" content="http://localhost:4000/style-prototype/" />
+
+  
+
+  <title>
+    
+      Style Prototype &mdash; Max Milne
+    
+  </title>
+</head>
+
+  <body>
+    <nav><div class="nav-container">
+    <div class="nav-left">
+        <a class="internal-link site-title" href="/">Max Milne</a>
+        
+    </div>
+    <div class="nav-links">
+        <a class="internal-link" href="/projects">Projects</a>
+        <a class="internal-link" href="/about">About</a>
+        <a class="internal-link" href="/now">Now</a>
+    </div>
+</div>
+</nav>
+    <div class="wrapper">
+      <main><style>
+  /* Scoped to this prototype only */
+  #style-prototype{ --bg:#0d0e10; --ink:#f5efe7; --meta:#9aa3a8; --accent:#76e2d4;
+    --space-2:.25rem; --space-3:.5rem; --space-4:.75rem; --space-5:1rem; --space-6:1.5rem; --space-7:2.25rem; --space-8:3.375rem;
+    color:var(--ink);
+  }
+  #style-prototype .content{width:min(70ch, 90vw); margin:0 auto; padding:var(--space-7) var(--space-5);} 
+  #style-prototype h1{font-size:2.25rem; letter-spacing:-0.01em; margin:.2em 0 var(--space-5);} 
+  #style-prototype h2{font-size:1.5rem; letter-spacing:-0.01em; margin:var(--space-7) 0 var(--space-4);} 
+  #style-prototype h3{font-size:1.25rem; letter-spacing:-0.005em; margin:var(--space-6) 0 var(--space-3);} 
+  #style-prototype p,#style-prototype li{max-width:66ch;} 
+  #style-prototype .meta{color:var(--meta); font-size:.95rem;} 
+  #style-prototype .breadcrumb{color:var(--meta); font-size:.95rem; margin-bottom:var(--space-4)} 
+  #style-prototype .breadcrumb a{color:var(--meta); text-decoration:none; border-bottom:1px dotted var(--meta);} 
+  #style-prototype a{color:var(--ink); text-underline-offset:.15em; text-decoration-thickness:.06em; transition: color 120ms ease, text-decoration-color 120ms ease;} 
+  #style-prototype a:hover{color:var(--accent); text-decoration-color:var(--accent);} 
+  #style-prototype a[target="_blank"]::after{content:"↗"; margin-left:.25em; color:var(--meta);} 
+  #style-prototype :focus-visible{outline:2px dotted var(--accent); outline-offset:4px;} 
+  #style-prototype figure{margin:var(--space-6) 0;} 
+  #style-prototype figure img{display:block; width:100%; height:auto; border-radius:8px;} 
+  /* Cap tall variants while keeping aspect ratio */
+  #style-prototype figure.page-plus img{max-height:85vh;}
+  #style-prototype figcaption{color:var(--meta); font-size:.95rem; margin-top:var(--space-3)} 
+  /* Page-plus media */
+  #style-prototype figure.page-plus{width:min(80vw, 72rem); max-width:none; margin-left:calc(50% - (min(80vw, 72rem)/2)); margin-right:calc(50% - (min(80vw, 72rem)/2));}
+  /* Full-bleed */
+  #style-prototype .full-bleed{width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); margin-top:var(--space-8); margin-bottom:var(--space-8);} 
+  #style-prototype .full-bleed img{width:100%; height:auto; max-height:90vh; display:block; border-radius:0} 
+  #style-prototype .caption-overlay{position:relative; color:var(--meta); font-size:.95rem; text-align:center; margin-top:.5rem;} 
+  #style-prototype .continue{margin-top:var(--space-8)} 
+  #style-prototype .continue h3{margin-bottom:var(--space-4)} 
+  #style-prototype .continue a{display:inline-block; margin-right:1rem; margin-bottom:.5rem; padding:.25rem .5rem; border:1px solid rgba(255,255,255,.12); border-radius:.5rem; color:var(--ink); text-decoration:none;} 
+  #style-prototype .continue a:hover{border-color:var(--accent); color:var(--accent);} 
+</style>
+
+<section id="style-prototype">
+  <div class="content">
+    <div class="breadcrumb">
+      <a href="/#topics" class="internal-link">Topics</a> / Projects
+    </div>
+
+    <h1>VOICE</h1>
+    <div class="meta">2013 • Interactive Performance Art</div>
+
+    <p>VOICE was a public art project co‑designed by Adam Hunt and myself as <a href="http://transmitreceive.tumblr.com/" target="_blank" rel="noopener">Transmit Receive</a> in 2012. We took a therapeutic approach to capturing peoples personal stories and turned them into a series of performance art projects in Edinburgh, UK and Melbourne, AUS. Along with a special edition developed for ABC Radio National podcast Long Story Short. Here is a little story of how it all came together.</p>
+
+    <!-- Inline (within measure) -->
+    <figure>
+      <img src="/assets/Max_Profile.png" alt="Max Milne portrait">
+      <figcaption>Inline visual: inside the reading column, supporting the nearby paragraph.</figcaption>
+    </figure>
+
+    <h2>Recording + Editing</h2>
+    <p>We worked with about 10 individuals ranging from Singers to Doctors of Neuroscience and helped build a journey for them to travel through at Adam’s studio Shotgun Studio. The editing process was extensive mainly driven by Adam on the technical side with me providing reflections and ideas as it progressed.</p>
+
+    <!-- Page‑plus (intentionally wider than text) -->
+    <figure class="page-plus">
+      <img src="/assets/Max%20Milne%20-%20Canberra-1.jpg" alt="Project documentation, Canberra">
+      <figcaption>Page‑plus: wider than text for a primary image; caption in meta tone.</figcaption>
+    </figure>
+
+    <p>We decided to show the work in Melbourne for a two week showing in mid 2013. The intention was to be in more fine control of the conditions of the space, and in the same way we worked with the Voice Artists we wanted to design the space for the audience to arrive into.</p>
+  </div>
+
+  <!-- Full‑bleed transition -->
+  <div class="full-bleed">
+    <img src="/assets/Portrait%20Studio%20Brunswick%20Melbourne%20Photography.jpg" alt="Full-bleed transition visual">
+    <div class="caption-overlay">Full‑bleed: used sparingly to mark a transition or anchor the page.</div>
+  </div>
+
+  <div class="content">
+    <h2>Long Story Short — Radio National ABC</h2>
+    <p>Adam and I submitted our work to the nascent ABC podcast — Long Story Short — Australia’s version of “This American Life”. They selected a 5 minute narrative driven component performed in one take by <a href="https://pennyharpham.wordpress.com/" target="_blank" rel="noopener">Penny Harpham</a>.</p>
+    <p><a href="https://www.abc.net.au/listen/radionational/archived/longstoryshort/breath/4574480" target="_blank" rel="noopener">Original ABC page</a></p>
+
+    <div class="continue">
+      <h3 class="meta">Continue with…</h3>
+      <a href="/projects/max-milne-photography/" target="_blank">Max Milne Photography</a>
+      <a href="/projects/studio-brunswick/" target="_blank">Studio Brunswick</a>
+    </div>
+  </div>
+</section>
+</main>
+      <footer><div style="display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <p>Say hello at <a href="https://bsky.app/profile/maxmilne.bsky.social" target="_blank" rel="noopener noreferrer">BlueSky</a>, and <a href="https://www.youtube.com/@maxmilne-aus" target="_blank" rel="noopener noreferrer">YouTube</a></p>
+  </div>
+  
+  <div class="stove-signature">
+    <div class="icon-base the-leap">
+      <svg viewBox="0 0 80 80">
+        <path class="path" d="M10 70 H 30"/>
+        <path class="path" d="M50 70 H 70"/>
+        <path class="spark" d="M30 70 C 40 40, 40 40, 50 70"/>
+      </svg>
+    </div>
+  </div>
+</div></footer>
+    </div>
+  </body>
+</html>

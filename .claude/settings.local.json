@@ -12,7 +12,13 @@
       "Bash(find:*)",
       "Bash(cat:*)",
       "mcp__ide__executeCode",
-      "Bash(npx:*)"
+      "Bash(npx:*)",
+      "Bash(git checkout HEAD -- Gemfile Gemfile.lock)",
+      "Bash(ruby -c:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(bundle exec jekyll serve:*)",
+      "Read(//Users/maxmilne/Desktop/Website Back Up/Website/**)"
     ],
     "deny": []
   }
