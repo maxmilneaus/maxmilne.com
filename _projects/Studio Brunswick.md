@@ -14,10 +14,13 @@ For Studios Two and Three, I established a strategic partnership with [Nightinga
 
 At our peak, we operated as a team of five, managing in-house staff and administrative operations while facilitating over 800 studio hires. We attracted diverse and notable clients including Kodak, Foxtel, Google, Milk Records, Universal Music Group, MECCA, and Discount Universe.
 
+You can see the original website here:
+[LINK]({{ '/studiobrunswick/' | absolute_url }})
+
 ![[Website/assets/Studio Brunswick/Studio_Brunswick_Studio_Two_Max_Milne.jpeg|alt=Description|page]]
 *Studio two - 30 Hope Street, Brunswick.*
 
-Check out the original website for Studio Brunswick [>here<.]({{ '/studiobrunswick/' | absolute_url }})
+
 
 
 -------

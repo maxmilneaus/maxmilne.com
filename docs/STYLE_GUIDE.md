@@ -146,6 +146,22 @@ footer { border-top: 1px solid var(--color-divider); }
 
 ## 4. Typography System
 
+### Emphasis and Strong Text
+
+**Bold/Strong Text Usage:**
+
+Bold text (`<strong>` or `**text**` in markdown) is used for emphasis within body content, typically in lists where category labels need visual distinction:
+
+```markdown
+**Awards:** Received X award for Y
+```
+
+**Design Principles:**
+- Use bold sparingly - primarily for category labels in structured content
+- Standard weight (600) through `<strong>` element
+- Emphasizes within content flow, not creating hierarchy level
+- Reserved for inline emphasis, not section headings
+
 ### Hierarchical Scale with Mathematical Relationships
 
 ```scss
@@ -309,6 +325,91 @@ ul a {
   align-items: baseline;
 }
 ```
+
+### Projects Components
+
+#### Dieter Rams Color Hierarchy
+The projects section follows a systematic color hierarchy inspired by Dieter Rams' design principles - functional, honest, and unobtrusive.
+
+```scss
+/* Primary content (titles) */
+.project-title a {
+  color: var(--color-cream);              /* Primary hierarchy - draws the eye */
+}
+
+/* Secondary content (metadata, descriptions, dates) */
+.project-description,
+.project-description-inline,
+.project-year,
+.project-year-inline,
+.project-meta {
+  color: var(--color-meta);               /* Secondary hierarchy - readable but supportive */
+}
+```
+
+**Design Principles:**
+- **Clear Hierarchy:** Project titles stand out in cream, while supporting details recede into the warm gray metadata tone
+- **Consistent System:** All secondary information shares the same color for visual coherence
+- **Dieter Rams Influence:** "As little design as possible" - typography and hierarchy over decoration
+- **Readability:** The `--color-meta` tone (#9c958c) maintains legibility while establishing clear information architecture
+
+**Applied To:**
+- `.project-description` - Short project summaries on listing pages
+- `.project-description-inline` - Descriptions shown under project titles on detail pages
+- `.project-year` - Date ranges on listing pages
+- `.project-year-inline` - Dates in grid layout
+- `.project-meta` - Metadata container for dates and status
+
+#### Filter Tabs (Minimal Rams Approach)
+
+The project filter tabs follow the "as little design as possible" principle with underline indicators for selection.
+
+```scss
+.project-filter {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-meta);               /* Gray by default */
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;                 /* Tight, refined spacing */
+  text-transform: capitalize;
+  transition: color 200ms ease, border-color 200ms ease;
+
+  &:hover {
+    color: var(--color-accent-hover);     /* Muted blue on hover */
+    border-bottom-color: var(--color-accent-hover);
+  }
+
+  &.is-active {
+    color: var(--color-accent-hover);     /* Muted blue when selected */
+    border-bottom-color: var(--color-accent-hover);
+  }
+}
+```
+
+**Filter Label Styling:**
+```scss
+.projects-filter-group .section-label {
+  color: var(--color-meta);               /* Non-interactive meta gray */
+  pointer-events: none;                   /* Cannot be clicked */
+  margin-bottom: var(--space-md);         /* 1rem space to buttons */
+}
+```
+
+**Design Principles:**
+- **Minimal UI:** No borders or backgrounds - only text and underline indicator
+- **Clear Affordance:** 2px bottom border appears on hover and selection
+- **Color Differentiation:** Static "Filter" label stays meta gray, interactive buttons change to muted blue
+- **Muted Palette:** Uses `--color-accent-hover` (#93c5fd) not electric blue for softer appearance
+- **Systematic Spacing:** Reduced letter-spacing (0.02em) creates tighter, more refined feel
+- **Rams Principle:** Pure function without decoration
+
+**Interaction Pattern:**
+- Default: Meta gray text, no underline (subtle invitation)
+- Hover: Muted blue text + underline (indicates interactivity)
+- Active: Muted blue text + underline (maintains consistency with hover)
+- Label: Always meta gray (non-interactive, descriptive only)
 
 ### Tag System Components
 

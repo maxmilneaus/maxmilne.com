@@ -849,7 +849,7 @@ Legacy Static Site Integration: Added support guidance and styles for hosting an
 
 Project Detail Descriptions: Project pages surface their short description under the title.
 - Template: `_layouts/project.html` renders `page.description` after `<h1>` when present.
-- Styles: `_sass/_projects.scss` adds `.project-description-inline` (stone tone, 1.05rem, system spacing).
+- Styles: `_sass/_projects.scss` keeps `.project-description-inline` in the Dieter Rams secondary tone (`var(--color-meta)` / #9c958c), 1.05rem, system spacing.
 
 Project Page Cream Background: Individual project pages use a light palette.
 - Defaults: `_config.yml` assigns `body_class: project-page` for `_projects/**`.
@@ -859,6 +859,72 @@ Project Page Cream Background: Individual project pages use a light palette.
 Projects Index Tag Filter: `/projects/` supports client-side filtering by tags.
 - Template: `_layouts/projects.html` builds unique tag buttons, annotates entries with `data-tag-slugs`, and includes a small JS toggle.
 - Styles: `_sass/_projects.scss` adds `.project-filters`, `.project-filter`, and `.project-entry.is-hidden` (with light/dark variants for cream detail pages).
+
+November 1, 2025
+
+**Dieter Rams Metadata Palette**: Unified project metadata colors for clear visual hierarchy.
+
+**Implementation:**
+- File: `_sass/_projects.scss`
+- Changed 5 color declarations from mixed values to systematic `var(--color-meta)`
+- Affected classes:
+  - `.project-description` - Previously `var(--color-cream)`, now `var(--color-meta)`
+  - `.project-description-inline` - Previously `var(--color-stone)`, now `var(--color-meta)`
+  - `.project-year` - Previously `var(--color-warm-gray)`, now `var(--color-meta)`
+  - `.project-year-inline` - Previously `var(--color-warm-gray)`, now `var(--color-meta)`
+  - `.project-meta` - Previously `var(--color-warm-gray)`, now `var(--color-meta)`
+
+**Design Rationale:**
+- Creates clear typographic hierarchy: project titles (cream) vs. supporting details (meta gray)
+- Follows Dieter Rams principle: "As little design as possible"
+- Eliminates color inconsistency between related metadata elements
+- Maintains readability while establishing clear information architecture
+
+**Color Reference:**
+- `--color-meta: #9c958c` - Warm gray metadata tone for labels, dates, and descriptions
+- `--color-cream: #e8ddd4` - Reserved for primary content (titles)
+
+## Design Consistency Refinement - November 1, 2025
+
+**Comprehensive design review and standardization** to ensure visual consistency and coherent refinement across all pages.
+
+**Changes Made:**
+
+1. **Fixed Divider Color Opacity** (`_sass/_style.scss`)
+   - Changed `--color-divider: var(--color-stone)` to `rgba(74, 69, 63, 0.6)`
+   - Matches documented design system with systematic 0.6 opacity
+   - Affects all HR elements, footer borders, and dividers site-wide
+
+2. **Fixed "You Might Also Enjoy" Link Colors** (`_sass/_style.scss`)
+   - Added `.you-might-enjoy` component styles
+   - Recommendation links now use standard meta gray with blue hover
+   - Matches all other link colors for consistency
+
+3. **Fixed Heading Hierarchy** (`_notes/Social Meditation...md`)
+   - Converted 3 mid-document H1s to H2s for proper semantic structure
+   - Ensures valid HTML heading outline (only one H1 per page)
+   - Improves accessibility and document semantics
+
+4. **Removed Unused Cream Background CSS** (`_sass/_projects.scss`)
+   - Deleted all `body.project-page` rules (67+ lines)
+   - Kept dark background theme per user preference
+   - Cleaned up unused code for easier maintenance
+
+5. **Replaced Magic Numbers with Variables** (`_sass/_projects.scss`)
+   - `.projects-list margin-top: 1rem` → `var(--space-md)`
+   - `.project-entry padding: 1rem 0` → `var(--space-md) 0`
+   - Ensures all spacing derives from systematic scale
+
+6. **Documented Bold/Strong Text** (`docs/STYLE_GUIDE.md`)
+   - Added new section explaining bold text usage
+   - Guidelines for category labels in structured content
+   - Clarifies distinction from heading hierarchy
+
+**Verification:**
+- All changes reviewed visually
+- No breaking changes to existing layouts
+- Typography hierarchy verified across all page types
+- Color system now fully aligned with documentation
 
 ---
 
@@ -930,3 +996,41 @@ After restoring from backup, verify:
 - [ ] Jekyll builds: `bundle exec jekyll build`
 - [ ] Server starts: `bundle exec jekyll serve --livereload`
 - [ ] Can access site at http://localhost:4000
+
+---
+
+## Repository Maintenance
+
+### Regular Cleanup
+
+**Dead Wood Removal** (November 1, 2025):
+Performed comprehensive cleanup of unused files and temporary artifacts:
+
+**Files Removed:**
+- Debug/development scripts (3 files): `analyze_copilot_structure.py`, `debug_copilot.rb`
+- Recovery documentation (2 files): `RECOVERY_PLAN.md`, `JEKYLL_FIX_README.md` (issues resolved)
+- Sync configuration (1 file): `com.maxmilne.obsidian-sync.plist` (sync agent not active)
+- All `.DS_Store` files (12 files - macOS Finder metadata)
+- All `.edtz` backup files (49 files - editor temporary backups)
+- All `.unison.tmp` files (4 files - orphaned sync temps)
+- Duplicate sync heartbeat: `.sync_heartbeat 2`
+- Test files: `unison_test_file.md`, old backup `sync_to_jekyll.sh.bak_20250613223739`
+- Empty shell scripts (4 files): `run_jekyll.sh`, `start.sh`, `sync_to_jekyll.sh`, `safe_sync_obsidian_to_jekyll.sh`
+- Empty draft test files (3 files): `Hello world.md`, `It is really working.md`, `yes.md`
+- Generated `_site/` directory (~24 MB - regenerates on build)
+
+**Total Impact:**
+- ~173 files removed
+- ~25+ MB freed
+- Significantly reduced repository clutter
+
+**Configuration Updates:**
+- Created comprehensive `.gitignore` to prevent temp files from returning
+- Patterns added: `.DS_Store`, `*.edtz`, `*.unison.tmp`, `*.bak`, `_site/`, `.bundle/`, `vendor/bundle/`, IDE files
+
+**Best Practices:**
+- Perform periodic cleanup of temp files (`.DS_Store`, editor backups)
+- Remove resolved documentation after archiving important information
+- Verify sync agents before retaining configuration files
+- Always regenerate `_site/` - never commit build output
+- Keep `.gitignore` updated with common temp file patterns

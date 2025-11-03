@@ -3,8 +3,11 @@ layout: default
 ---
 
 <section class="projects-page">
-  <article>
+  <article class="projects-intro">
     <h1>{{ page.title }}</h1>
+    {% if page.intro %}
+      <p class="projects-intro__deck">{{ page.intro }}</p>
+    {% endif %}
     {{ content }}
   </article>
 
@@ -21,12 +24,15 @@ layout: default
   {% assign tag_collection = tag_collection | sort %}
 
   {% if tag_collection.size > 0 %}
-  <div class="project-filters" data-project-filter>
-    <button class="project-filter is-active" type="button" data-filter="all">All</button>
-    {% for tag in tag_collection %}
-      {% assign tag_slug = tag | slugify %}
-      <button class="project-filter" type="button" data-filter="{{ tag_slug }}">{{ tag }}</button>
-    {% endfor %}
+  <div class="projects-filter-group">
+    <span class="section-label">Filter</span>
+    <div class="project-filters" data-project-filter>
+      <button class="project-filter is-active" type="button" data-filter="all">All</button>
+      {% for tag in tag_collection %}
+        {% assign tag_slug = tag | slugify %}
+        <button class="project-filter" type="button" data-filter="{{ tag_slug }}">{{ tag }}</button>
+      {% endfor %}
+    </div>
   </div>
   {% endif %}
 

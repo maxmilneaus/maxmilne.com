@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Spacing Variations — Max Milne Design System</title>
+  <style>
+    :root {
+      --color-deep: #141210;
+      --color-charcoal: #201d1a;
+      --color-graphite: #2d2926;
+      --color-stone: #4a453f;
+      --color-cream: #e8ddd4;
+      --color-warm-gray: #c7beb5;
+      --color-meta: #9c958c;
+      --color-accent-hover: #93c5fd;
+      --color-divider: rgba(74, 69, 63, 0.6);
+
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.75rem;
+      --space-xl: 3rem;
+      --section-spacing: var(--space-xl);
+
+      --font-primary: 'Inter', -apple-system, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--color-deep);
+      color: var(--color-cream);
+      font-family: var(--font-primary);
+      font-size: 15px;
+      line-height: 1.5;
+      padding: 2rem;
+    }
+
+    .page-header {
+      max-width: 1400px;
+      margin: 0 auto 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--color-divider);
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--color-cream);
+    }
+
+    .page-header p {
+      color: var(--color-meta);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .variations-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .variation {
+      background: var(--color-charcoal);
+      border: 1px solid var(--color-graphite);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .variation-header {
+      padding: 1rem 1.25rem;
+      background: var(--color-graphite);
+      border-bottom: 1px solid var(--color-divider);
+    }
+
+    .variation-number {
+      color: var(--color-accent-hover);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .variation-title {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--color-cream);
+      margin-bottom: 0.5rem;
+    }
+
+    .variation-description {
+      color: var(--color-warm-gray);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .variation-specs {
+      padding: 1rem 1.25rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid var(--color-divider);
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.35rem 0;
+      font-size: 0.85rem;
+    }
+
+    .spec-label {
+      color: var(--color-meta);
+    }
+
+    .spec-value {
+      font-family: 'Roboto Mono', monospace;
+      color: var(--color-accent-hover);
+      font-size: 0.8rem;
+    }
+
+    .mock-pages {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--color-divider);
+    }
+
+    .mock-page {
+      background: var(--color-deep);
+      padding: 0.75rem 0.5rem;
+      min-height: 180px;
+      position: relative;
+    }
+
+    .mock-nav {
+      height: 8px;
+      background: var(--color-graphite);
+      margin-bottom: 0.5rem;
+      opacity: 0.4;
+    }
+
+    .mock-content {
+      position: relative;
+    }
+
+    .spacing-indicator {
+      position: absolute;
+      left: -0.5rem;
+      top: 0;
+      width: 2px;
+      background: var(--color-accent-hover);
+      opacity: 0.3;
+    }
+
+    .spacing-label {
+      position: absolute;
+      left: -0.35rem;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-size: 0.65rem;
+      font-family: 'Roboto Mono', monospace;
+      color: var(--color-accent-hover);
+      white-space: nowrap;
+      opacity: 0.7;
+    }
+
+    .mock-heading {
+      height: 12px;
+      background: var(--color-cream);
+      border-radius: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .mock-text {
+      height: 4px;
+      background: var(--color-stone);
+      border-radius: 1px;
+      margin-bottom: 0.3rem;
+      opacity: 0.6;
+    }
+
+    .mock-text:last-child {
+      margin-bottom: 0;
+    }
+
+    .page-label {
+      font-size: 0.65rem;
+      color: var(--color-meta);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .pros-cons {
+      padding: 1rem 1.25rem;
+    }
+
+    .pros-cons h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-warm-gray);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pros-cons ul {
+      list-style: none;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .pros-cons li {
+      padding-left: 1rem;
+      position: relative;
+      margin-bottom: 0.35rem;
+      color: var(--color-warm-gray);
+    }
+
+    .pros-cons li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--color-meta);
+    }
+
+    .system-note {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 3px solid var(--color-accent-hover);
+      padding: 1rem 1.25rem;
+      margin-top: 2rem;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 4px;
+    }
+
+    .system-note h3 {
+      font-size: 1rem;
+      color: var(--color-accent-hover);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .system-note p {
+      color: var(--color-warm-gray);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1200px) {
+      .variations-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <h1>Page Spacing Variations</h1>
+    <p>Four systematic approaches to unify top spacing across Home, About, Now, and Projects pages. Each variation maintains the factor-based spacing system while creating different visual hierarchies.</p>
+  </header>
+
+  <div class="variations-grid">
+
+    <!-- Variation 1 -->
+    <div class="variation">
+      <div class="variation-header">
+        <div class="variation-number">Variation 1</div>
+        <h2 class="variation-title">Unified Baseline</h2>
+        <p class="variation-description">All pages start at identical vertical position. Simplest, most consistent approach following Rams' "as little design as possible."</p>
+      </div>
+
+      <div class="variation-specs">
+        <div class="spec-row">
+          <span class="spec-label">Home (Index)</span>
+          <span class="spec-value">3.75rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">About</span>
+          <span class="spec-value">3.75rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Now</span>
+          <span class="spec-value">3.75rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Projects</span>
+          <span class="spec-value">3.75rem</span>
+        </div>
+      </div>
+
+      <div class="mock-pages">
+        <div class="mock-page">
+          <div class="page-label">Home</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 30px;">
+            <div class="spacing-indicator" style="height: 30px;"></div>
+            <span class="spacing-label">3.75rem</span>
+            <div class="mock-heading" style="width: 60%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">About</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 30px;">
+            <div class="spacing-indicator" style="height: 30px;"></div>
+            <span class="spacing-label">3.75rem</span>
+            <div class="mock-heading" style="width: 80%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">Now</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 30px;">
+            <div class="spacing-indicator" style="height: 30px;"></div>
+            <span class="spacing-label">3.75rem</span>
+            <div class="mock-heading" style="width: 90%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">Projects</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 30px;">
+            <div class="spacing-indicator" style="height: 30px;"></div>
+            <span class="spacing-label">3.75rem</span>
+            <div class="mock-heading" style="width: 70%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <h4>Strengths</h4>
+        <ul>
+          <li>Perfect visual alignment when navigating between pages</li>
+          <li>Minimal cognitive load — one spacing rule for everything</li>
+          <li>Purest expression of systematic design</li>
+          <li>Easy to maintain and extend</li>
+        </ul>
+        <h4 style="margin-top: 1rem;">Considerations</h4>
+        <ul>
+          <li>No differentiation between page types</li>
+          <li>Projects filter may feel cramped without extra breathing room</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Variation 2 -->
+    <div class="variation">
+      <div class="variation-header">
+        <div class="variation-number">Variation 2</div>
+        <h2 class="variation-title">Breathing Room Baseline</h2>
+        <p class="variation-description">All pages use slightly more generous top spacing. Creates a calmer, more contemplative feel while maintaining uniformity.</p>
+      </div>
+
+      <div class="variation-specs">
+        <div class="spec-row">
+          <span class="spec-label">Home (Index)</span>
+          <span class="spec-value">4.5rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">About</span>
+          <span class="spec-value">4.5rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Now</span>
+          <span class="spec-value">4.5rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Projects</span>
+          <span class="spec-value">4.5rem</span>
+        </div>
+      </div>
+
+      <div class="mock-pages">
+        <div class="mock-page">
+          <div class="page-label">Home</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 40px;">
+            <div class="spacing-indicator" style="height: 40px;"></div>
+            <span class="spacing-label">4.5rem</span>
+            <div class="mock-heading" style="width: 60%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">About</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 40px;">
+            <div class="spacing-indicator" style="height: 40px;"></div>
+            <span class="spacing-label">4.5rem</span>
+            <div class="mock-heading" style="width: 80%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">Now</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 40px;">
+            <div class="spacing-indicator" style="height: 40px;"></div>
+            <span class="spacing-label">4.5rem</span>
+            <div class="mock-heading" style="width: 90%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">Projects</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 40px;">
+            <div class="spacing-indicator" style="height: 40px;"></div>
+            <span class="spacing-label">4.5rem</span>
+            <div class="mock-heading" style="width: 70%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <h4>Strengths</h4>
+        <ul>
+          <li>Enhanced sense of calm and spaciousness</li>
+          <li>Still perfectly aligned across all pages</li>
+          <li>Better suits "Mys" contemplative aesthetic</li>
+          <li>Single systematic rule (1.5× base spacing)</li>
+        </ul>
+        <h4 style="margin-top: 1rem;">Considerations</h4>
+        <ul>
+          <li>More vertical scrolling required</li>
+          <li>Content starts below the fold on smaller screens</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Variation 3 -->
+    <div class="variation">
+      <div class="variation-header">
+        <div class="variation-number">Variation 3</div>
+        <h2 class="variation-title">Two-Tier System</h2>
+        <p class="variation-description">Index pages (Home/Projects) share one spacing, content pages (About/Now) share another. Creates functional grouping.</p>
+      </div>
+
+      <div class="variation-specs">
+        <div class="spec-row">
+          <span class="spec-label">Home (Index)</span>
+          <span class="spec-value">3.75rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">About</span>
+          <span class="spec-value">4.5rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Now</span>
+          <span class="spec-value">4.5rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Projects</span>
+          <span class="spec-value">3.75rem</span>
+        </div>
+      </div>
+
+      <div class="mock-pages">
+        <div class="mock-page">
+          <div class="page-label">Home</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 30px;">
+            <div class="spacing-indicator" style="height: 30px;"></div>
+            <span class="spacing-label">3.75rem</span>
+            <div class="mock-heading" style="width: 60%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">About</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 40px;">
+            <div class="spacing-indicator" style="height: 40px;"></div>
+            <span class="spacing-label">4.5rem</span>
+            <div class="mock-heading" style="width: 80%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">Now</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 40px;">
+            <div class="spacing-indicator" style="height: 40px;"></div>
+            <span class="spacing-label">4.5rem</span>
+            <div class="mock-heading" style="width: 90%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">Projects</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 30px;">
+            <div class="spacing-indicator" style="height: 30px;"></div>
+            <span class="spacing-label">3.75rem</span>
+            <div class="mock-heading" style="width: 70%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <h4>Strengths</h4>
+        <ul>
+          <li>Home/Projects align perfectly (main navigation destinations)</li>
+          <li>About/Now get contemplative breathing room</li>
+          <li>Functional grouping — indexes vs narrative pages</li>
+          <li>Still uses systematic factor-based values</li>
+        </ul>
+        <h4 style="margin-top: 1rem;">Considerations</h4>
+        <ul>
+          <li>Two spacing rules to maintain instead of one</li>
+          <li>Slight visual jump when navigating between page types</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Variation 4 -->
+    <div class="variation">
+      <div class="variation-header">
+        <div class="variation-number">Variation 4</div>
+        <h2 class="variation-title">Progressive Hierarchy</h2>
+        <p class="variation-description">Each page type gets distinct spacing based on information density. Most differentiated approach.</p>
+      </div>
+
+      <div class="variation-specs">
+        <div class="spec-row">
+          <span class="spec-label">Home (Index)</span>
+          <span class="spec-value">3rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">About</span>
+          <span class="spec-value">4.5rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Now</span>
+          <span class="spec-value">4.5rem</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Projects</span>
+          <span class="spec-value">3rem</span>
+        </div>
+      </div>
+
+      <div class="mock-pages">
+        <div class="mock-page">
+          <div class="page-label">Home</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 24px;">
+            <div class="spacing-indicator" style="height: 24px;"></div>
+            <span class="spacing-label">3rem</span>
+            <div class="mock-heading" style="width: 60%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">About</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 40px;">
+            <div class="spacing-indicator" style="height: 40px;"></div>
+            <span class="spacing-label">4.5rem</span>
+            <div class="mock-heading" style="width: 80%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">Now</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 40px;">
+            <div class="spacing-indicator" style="height: 40px;"></div>
+            <span class="spacing-label">4.5rem</span>
+            <div class="mock-heading" style="width: 90%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+
+        <div class="mock-page">
+          <div class="page-label">Projects</div>
+          <div class="mock-nav"></div>
+          <div class="mock-content" style="margin-top: 24px;">
+            <div class="spacing-indicator" style="height: 24px;"></div>
+            <span class="spacing-label">3rem</span>
+            <div class="mock-heading" style="width: 70%;"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+            <div class="mock-text"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <h4>Strengths</h4>
+        <ul>
+          <li>Home/Projects maximized — more content above fold</li>
+          <li>About/Now get generous contemplative space</li>
+          <li>Density matches function (lists compact, narratives spacious)</li>
+          <li>All values still systematic (var(--space-xl), 1.5× factor)</li>
+        </ul>
+        <h4 style="margin-top: 1rem;">Considerations</h4>
+        <ul>
+          <li>Most complex — different spacing for different page types</li>
+          <li>Requires careful documentation for future additions</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="system-note">
+    <h3>Implementation Note</h3>
+    <p>All variations use factor-based values from your existing spacing system (--space-xl = 3rem, or 1.5× factor = 4.5rem). The choice depends on whether you prioritize absolute consistency (Variations 1-2), functional grouping (Variation 3), or information hierarchy (Variation 4). For the Viola/Rams aesthetic, Variation 1 or 2 likely feels most aligned with "as little design as possible."</p>
+  </div>
+
+</body>
+</html>

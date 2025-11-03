@@ -1,5 +1,5 @@
 .projects-list {
-  margin-top: 1rem;
+  margin-top: var(--space-md);  /* Use spacing variable instead of magic number */
 }
 
 .project-entry {
@@ -7,7 +7,7 @@
   grid-template-columns: 100px 1fr;
   row-gap: var(--space-sm);              /* vertical rhythm from system */
   column-gap: calc(var(--space-lg) * 1.25); /* slightly increased gutter between year and title */
-  padding: 1rem 0;           /* slightly tighter vertical rhythm */
+  padding: var(--space-md) 0;    /* Use spacing variable instead of magic number */
   border-bottom: 1px solid var(--color-divider);
   transition: background-color 200ms ease;
   border-radius: var(--border-radius);
@@ -27,7 +27,7 @@
 }
 
 .project-description-inline {
-  color: var(--color-stone);
+  color: var(--color-meta);
   font-size: 1.05rem;
   line-height: 1.5;
   margin: 0 0 var(--space-md) 0;
@@ -35,7 +35,7 @@
 }
 
 .project-year {
-  color: var(--color-warm-gray);          /* Match subtitle color */
+  color: var(--color-meta);               /* Dieter Rams secondary hierarchy */
   font-size: 1rem;
   font-weight: 400;
   padding-top: 0;          /* align with title baseline */
@@ -74,7 +74,7 @@
 
 /* Inline year shown before the heading link on the list */
 .project-year-inline {
-  color: var(--color-warm-gray);
+  color: var(--color-meta);               /* Dieter Rams secondary hierarchy */
   font-size: 1rem;     /* match heading size for alignment */
   font-weight: 400;
   line-height: 1;      /* match anchor line box to share baseline */
@@ -82,7 +82,7 @@
 }
 
 .project-description {
-  color: var(--color-cream);
+  color: var(--color-meta);               /* Dieter Rams secondary hierarchy */
   font-size: 0.97rem;
   line-height: 1.45;
   margin: 0;
@@ -104,7 +104,7 @@
   gap: 1rem;
   margin-bottom: 1rem;
   font-size: 0.9rem;
-  color: var(--color-warm-gray);          /* Use defined color variable */
+  color: var(--color-meta);               /* Dieter Rams secondary hierarchy */
 }
 
 .project-year {
@@ -138,7 +138,11 @@
 
 /* Add extra breathing room at the top of the Projects page only */
 .projects-page {
-  padding-top: calc(var(--section-spacing) * 0.75);
+  padding-top: 0;
+}
+
+.projects-page main {
+  margin-top: calc(var(--section-spacing) * 1.25) !important;
 }
 
 /* Increase space between page heading and list */
@@ -147,72 +151,23 @@
   margin-bottom: var(--section-spacing);
 }
 
-/* Project detail pages use a cream background */
-body.project-page {
-  background: var(--color-cream);
-  color: var(--color-deep);
-}
+/* Project detail pages keep dark backgrounds (cream background CSS removed per user decision) */
 
-body.project-page nav,
-body.project-page footer,
-body.project-page .wrapper {
-  background: transparent;
-}
+.projects-filter-group {
+  margin-bottom: var(--space-lg);
 
-body.project-page h1,
-body.project-page h2,
-body.project-page h3,
-body.project-page h4,
-body.project-page h5,
-body.project-page h6 {
-  color: var(--color-deep);
-}
+  .section-label {
+    display: block;
+    margin-bottom: var(--space-md);
+    color: var(--color-meta);
+    font-size: 1rem;
+    font-weight: var(--font-weight-normal);
+    letter-spacing: 0.03em;
+    pointer-events: none;  /* Non-interactive */
 
-body.project-page p,
-body.project-page li,
-body.project-page time {
-  color: var(--color-deep);
-}
-
-body.project-page .project-meta {
-  color: var(--color-stone);
-}
-
-body.project-page .project-meta .project-year {
-  color: var(--color-deep);
-}
-
-body.project-page .project-status {
-  background: var(--color-graphite);
-  color: var(--color-cream);
-}
-
-body.project-page .project-title a {
-  color: var(--color-deep);
-
-  &:hover {
-    color: var(--color-accent-subtle);
-    text-decoration-color: var(--color-accent-subtle);
-  }
-}
-
-body.project-page .project-entry {
-  border-bottom-color: rgba(32, 29, 26, 0.15);
-
-  &:hover {
-    background-color: rgba(32, 29, 26, 0.06);
-  }
-}
-
-body.project-page .project-year {
-  color: var(--color-stone);
-}
-
-body.project-page .back-link {
-  color: var(--color-deep);
-
-  &:hover {
-    color: var(--color-accent-subtle);
+    &:hover {
+      color: var(--color-meta);  /* Override any hover states - stays meta gray */
+    }
   }
 }
 
@@ -220,48 +175,48 @@ body.project-page .back-link {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
-  margin: 0 0 var(--space-lg) 0;
+  margin: 0;
 }
 
 .project-filter {
-  border: 1px solid var(--color-graphite);
   background: transparent;
-  color: var(--color-cream);
-  padding: 0.35rem 0.75rem;
-  border-radius: var(--border-radius);
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-meta);
+  padding: 0.5rem 0.75rem;
   font-size: 0.95rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
   cursor: pointer;
-  transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+  transition: color 200ms ease, border-color 200ms ease;
 
   &:hover {
-    border-color: var(--color-accent-subtle);
     color: var(--color-accent-hover);
+    border-bottom-color: var(--color-accent-hover);
   }
 
   &.is-active {
-    background: var(--color-accent-subtle);
-    color: var(--color-deep);
-    border-color: var(--color-accent-subtle);
+    color: var(--color-accent-hover);
+    border-bottom-color: var(--color-accent-hover);
   }
 }
 
-body.project-page .project-filter {
-  color: var(--color-deep);
-  border-color: rgba(32, 29, 26, 0.25);
-
-  &:hover {
-    color: var(--color-accent-subtle);
-    border-color: var(--color-accent-subtle);
-  }
-
-  &.is-active {
-    background: var(--color-deep);
-    color: var(--color-cream);
-    border-color: var(--color-deep);
-  }
+.project-filter:first-child {
+  position: relative;
+  margin-right: calc(var(--space-sm) * 3.5);
 }
+
+.project-filter:first-child::after {
+  content: "•";
+  position: absolute;
+  left: calc(100% + var(--space-sm) * 1.6);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-meta);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
 
 .project-entry.is-hidden {
   display: none;

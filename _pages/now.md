@@ -2,6 +2,7 @@
 layout: page
 title: Now
 permalink: /now
+body_class: content-page
 ---
 # What I'm doing now
 

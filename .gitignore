@@ -1,0 +1,36 @@
+# macOS system files
+.DS_Store
+**/.DS_Store
+
+# Editor backup files
+*.edtz
+**/*.edtz
+
+# Unison sync temporary files
+*.unison.tmp
+**/*.unison.tmp
+
+# Backup files
+*.bak
+*.bak_*
+
+# Jekyll build output
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Bundler
+.bundle/
+vendor/bundle/
+
+# Node modules
+node_modules/
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*~

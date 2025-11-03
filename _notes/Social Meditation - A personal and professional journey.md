@@ -42,7 +42,7 @@ These effects extend beyond the formal practice sessions. I’ve noticed these p
 
 Current to January 2025, the specific nine Interbe.ing practices are:
 
-# Agency by Design: Interbe.ing’s Trauma-Informed Framework
+## Agency by Design: Interbe.ing's Trauma-Informed Framework
 
 Interbe.ing’s trauma-informed foundation is evidenced through its explicit emphasis on participant agency and clearly articulated engagement parameters. Each session opens with the facilitator outlining a spectrum of participation options, termed ‘stances’:
 
@@ -57,7 +57,7 @@ This structure enables participants to modulate their engagement level in real t
 
 By normalizing fluid movement between different levels of participation, Interbe.ing creates conditions where individuals can safely explore the edges of their comfort zone while maintaining autonomy. This is particularly salient for those who typically freeze in communal settings – the explicit permission to adjust engagement without explanation transforms what could be a triggering group experience into an opportunity for building agency and capacity for presence.
 
-# Public Health Scope for Interbe.ing type practices:
+## Public Health Scope for Interbe.ing type practices:
 
 The potential integration of relational meditation practices like Interbe.ing into certified mindfulness programs presents an intriguing opportunity, particularly within Australia’s Medicare-supported mental health framework. Currently, Australians can access up to 10 individual sessions with a Psychologist or Mental Health Social Worker, plus 10 group therapy sessions through Medicare-certified practitioners under the Mental Health Care Plan.
 
@@ -69,9 +69,9 @@ The research potential here, particularly in measuring outcomes and establishing
 
 When Interbe.ing opened up to “doing it with other people” in November 2024, I jumped right in. I’ve been showing up three times a week, and I’m finding myself wanting to make it a daily thing. The practices have landed so well for me that I’m keen to do their teacher training. There’s a real gap in the Australian/Asian timezone, and I’d love to help fill that.
 
-What gets me excited about these practices is how they just work. Interbe.ing has created this clean, clear container for developing our inner skills, and it flows so naturally into how we show up with others. It’s like they’ve found this sweet spot – enough structure to hold the space, but plenty of room for everyone to find their own way.
+What gets me excited about these practices is how they just work. Interbe.ing has created this clean, clear container for developing our inner skills, and it flows so naturally into how we show up with others. It's like they've found this sweet spot – enough structure to hold the space, but plenty of room for everyone to find their own way.
 
-# How to check it out:
+## How to check it out:
 
 Interbe.ing is held online at the moment and accessible via with 2 sessions being held each USA timed week day. There are 8am sessions and 12:30pm sessions for the Australian time zone.   
 

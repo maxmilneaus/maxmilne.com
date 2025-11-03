@@ -27,7 +27,7 @@ html {
   --color-accent-secondary: #fca5a5;
   
   /* System colors for consistent dividers */
-  --color-divider: var(--color-stone); /* var(--color-stone) with systematic opacity */
+  --color-divider: rgba(74, 69, 63, 0.6); /* Stone + systematic 0.6 opacity */
   
   /* Typography - cozy yet precise */
   --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -374,6 +374,8 @@ a {
   text-decoration-color: currentColor;      /* underline matches text color */
   text-underline-offset: 0.2em;
   text-decoration-skip-ink: none;
+  text-decoration-skip: none;               /* ensure Safari keeps underline through spaces */
+  -webkit-text-decoration-skip: none;       /* Safari/WebKit override */
   transition: color 200ms ease, text-decoration-color 200ms ease;
 
   &:hover {
@@ -385,6 +387,33 @@ a {
 /* Internal links inherit base styling - no separate definition needed */
 .internal-link {
   /* Inherits all base link styles */
+}
+
+/* You might also enjoy recommendations - use lighter accent color for visibility */
+.you-might-enjoy {
+  h3 {
+    color: var(--color-warm-gray);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .recommendations-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .recommendations-list li {
+    margin-bottom: var(--space-sm);
+  }
+
+  .recommendations-list a.internal-link {
+    color: var(--color-meta) !important;  /* Gray like normal links */
+
+    &:hover {
+      color: var(--color-accent-hover) !important; /* Blue on hover like normal links */
+    }
+  }
 }
 
 /* External link styling */
@@ -439,6 +468,11 @@ a {
 
 main {
   margin: calc(var(--section-spacing) * 1.25) 0 var(--section-spacing) 0;
+}
+
+/* Two-Tier spacing system: content pages (About/Now) get more breathing room */
+body.content-page main {
+  margin-top: calc(var(--section-spacing) * 1.5);
 }
 
 footer {
@@ -646,6 +680,9 @@ pre {
   text-decoration: underline;
   text-decoration-color: currentColor;
   text-underline-offset: 0.15em;
+  text-decoration-skip-ink: none;
+  text-decoration-skip: none;               /* ensure Safari keeps underline through spaces */
+  -webkit-text-decoration-skip: none;       /* Safari/WebKit override */
   transition: color 200ms ease, text-decoration-color 200ms ease;
 }
 

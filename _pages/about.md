@@ -2,6 +2,7 @@
 layout: page
 title: About
 permalink: /about
+body_class: content-page
 ---
 # About me
 I enjoy function and public utility. The weave between practical and beauty. A stone staircase with slowly rounded edges, curved by generations of feet stepping into a library.
