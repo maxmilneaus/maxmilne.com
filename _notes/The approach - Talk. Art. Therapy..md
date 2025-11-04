@@ -1,5 +1,5 @@
 ---
-title: Talk. Art. Therapy. - The approach
+title: The approach - Talk. Art. Therapy.
 layout: note
 tags:
   - counselling

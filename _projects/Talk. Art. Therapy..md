@@ -14,4 +14,4 @@ As a counsellor, I work with people as they make sense of one thread at a time. 
 
 I'm not here with answers. I'm a witness and companion to the process — offering tools, holding steady while they choose the stitch. Asking questions that help them find their own way through the territory they're traveling.
 
-You can read more about the approach taken here: [[Talk. Art. Therapy.  approach]]
+You can read more about the approach taken here: [[The approach - Talk. Art. Therapy.]]
