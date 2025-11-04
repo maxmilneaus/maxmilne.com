@@ -5,16 +5,14 @@ permalink: /about
 body_class: content-page
 ---
 # About me
-I enjoy function and public utility. The weave between practical and beauty. A stone staircase with slowly rounded edges, curved by generations of feet stepping into a library.
 
-What appeals is not the staircase when first laid, but what it becomes through intentional use over time. The way the mind builds capacity through meditation, not via one big insight but through practice sustained across years. There is the awareness of this moment, and there is the awareness of continuity. Both matter.
+I enjoy function and public utility. The weave between practical and beauty. A stone staircase with slowly rounded edges, curved by generations of feet stepping into a library. This benefit for the public good and effort across time encapsulates my driving force.
 
-My work has moved through forms that share this quality: creating spaces where something can emerge through attention and use.
+My beginnings were with the [National Gallery of Victoria](https://www.ngv.vic.gov.au) as a Young Ambassador, learning to make art accessible to young people. 
 
----
-I started at the [National Gallery of Victoria](https://www.ngv.vic.gov.au) as a Young Ambassador, learning to make art accessible to young people. Then photography — fifteen years helping people tell visual stories through [[Max Milne Photography]], working with clients from Interview Magazine to Qantas and winning awards for portraiture. I learned to notice what lives in the frame and what breathes just outside it.
+Then photography — fifteen years helping people tell visual stories through [[Max Milne Photography]], working with clients from Interview Magazine to Qantas and winning awards for portraiture. I learned to notice what lives in the frame and what just outside the frame helps make it work - collaboration and patience.
 
-From 2015 to 2020, I built [[Studio Brunswick]] — three photography studios designed for hire. Spaces where others could make their work. During those years, I toured with performance art like [[The SBSB]] and [[VOICE]], made short films, taught photography at Holmesglen TAFE.
+From 2015 to 2020, I built [[Studio Brunswick]] — three photography studios designed for hire. Spaces where others could make their work. During those years, I toured with performance art such [[The SBSB]] and [[VOICE]], made short films, taught photography at Holmesglen TAFE.
 
 Throughout, I spent time in Buddhist monasteries — twelve months total across Thailand, India, and Australia. I facilitated meditation groups at Melbourne Buddhist Centre, taught mindfulness, sat in silence. I learned to notice, to be present, to hold space.
 
@@ -29,9 +27,9 @@ _Want to know more about what I am doing and what I have done?_
 ### Awards:
 
 **Photography**  
-Winner, BSG National Photographic Prize (2011)  
-Finalist, Head On Portrait Prize (2012)  
 Co-winner, Faces of Sydney Festival Competition (2017)
+Finalist, Head On Portrait Prize (2012)  
+Winner, BSG National Photographic Prize (2011)  
 
 **Performance**  
 Greenroom Award – Outstanding Production, Creative Agency for Audience (2012)

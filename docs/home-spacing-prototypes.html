@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Spacing Prototypes · Jamie Lewis Inspired</title>
+  <style>
+    :root {
+      --color-deep: #141210;
+      --color-charcoal: #201d1a;
+      --color-graphite: #2d2926;
+      --color-stone: #4a453f;
+      --color-cream: #e8ddd4;
+      --color-meta: #9c958c;
+      --color-accent-hover: #93c5fd;
+
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.75rem;
+      --space-xl: 3rem;
+      --section-spacing: var(--space-xl);
+      --section-content-spacing: var(--space-md);
+
+      --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--color-deep);
+      color: var(--color-cream);
+      font-family: var(--font-primary);
+      line-height: 1.65;
+      padding: 3rem clamp(1.75rem, 6vw, 4rem) 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    header {
+      max-width: 64rem;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    header h1 {
+      font-size: 2.3rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    header p {
+      color: var(--color-meta);
+      max-width: 42rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 2.25rem;
+    }
+
+    .variant {
+      border: 1px solid rgba(232, 221, 212, 0.08);
+      border-radius: 8px;
+      background: rgba(32, 29, 26, 0.65);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .variant-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: baseline;
+    }
+
+    .variant-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent-hover);
+    }
+
+    .variant-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--color-cream);
+    }
+
+    .variant-notes {
+      color: var(--color-meta);
+      font-size: 0.95rem;
+      max-width: 42rem;
+    }
+
+    .specs {
+      display: grid;
+      gap: 0.3rem;
+      font-size: 0.82rem;
+      color: var(--color-meta);
+    }
+
+    .specs span {
+      font-family: var(--font-mono);
+      color: var(--color-accent-hover);
+      margin-left: 0.5rem;
+    }
+
+    .prototype {
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(232, 221, 212, 0.14);
+      background: rgba(20, 18, 16, 0.8);
+    }
+
+    .viewport {
+      padding-block: var(--pad-block);
+      background: linear-gradient(180deg, rgba(32,29,26,0.55) 0%, rgba(20,18,16,0.9) 65%, rgba(20,18,16,1) 100%);
+    }
+
+    .viewport-inner {
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+      padding-inline: var(--pad-inline);
+      display: flex;
+      flex-direction: column;
+      gap: var(--stack-gap);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      color: var(--color-meta);
+      text-transform: uppercase;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: var(--grid-columns);
+      gap: var(--grid-gap);
+      align-items: start;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: var(--hero-gap);
+      max-width: var(--hero-width);
+    }
+
+    .hero-roles {
+      font-size: clamp(1.7rem, 3.3vw, 2.55rem);
+      font-weight: 500;
+      letter-spacing: var(--hero-letter);
+      text-transform: uppercase;
+      line-height: 1.22;
+    }
+
+    .hero-roles span { display: block; }
+
+    .hero-copy {
+      color: var(--color-meta);
+      font-size: clamp(1.03rem, 1.3vw, 1.18rem);
+      text-wrap: pretty;
+    }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: var(--column-gap);
+      padding-top: var(--right-offset);
+    }
+
+    .section-label {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--color-meta);
+      letter-spacing: 0.03em;
+    }
+
+    .writing-list {
+      list-style: none;
+      display: grid;
+      gap: var(--writing-gap);
+      margin-top: var(--writing-offset);
+    }
+
+    .writing-item a {
+      display: grid;
+      gap: 0.35rem;
+      text-decoration: none;
+      color: var(--color-cream);
+    }
+
+    .writing-title {
+      font-size: 1.1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .writing-meta {
+      display: flex;
+      gap: 0.5rem;
+      align-items: baseline;
+      font-size: 0.95rem;
+      color: var(--color-meta);
+    }
+
+    .writing-meta time {
+      font-family: var(--font-mono);
+      letter-spacing: 0.06em;
+    }
+
+    .arrow {
+      font-size: 0.95rem;
+    }
+
+    .topics-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-top: var(--topics-offset);
+    }
+
+    .topics-list a {
+      color: var(--color-cream);
+      text-decoration: underline;
+      text-underline-offset: 0.16em;
+    }
+
+    .footer {
+      border-top: 1px solid rgba(232, 221, 212, 0.12);
+      padding-top: var(--space-lg);
+      font-size: 0.9rem;
+      color: var(--color-meta);
+      text-transform: none;
+    }
+
+    @media (max-width: 980px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+      }
+      .right-column {
+        padding-top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jamie Lewis Inspired Home Spacing</h1>
+    <p>Two variants exploring Jamie’s generous two-column rhythm: thinner global padding, crisp uppercase hero lines, and a reading column that staggers just below the fold. Compare these against the current homepage to decide which spacing set migrates back into `_sass/_style.scss`.</p>
+  </header>
+
+  <section class="grid">
+    <article class="variant">
+      <div class="variant-header">
+        <div>
+          <div class="variant-label">Prototype A</div>
+          <div class="variant-title">Balanced Width · Soft Stagger</div>
+        </div>
+        <div class="specs">
+          <div>Padding<span>clamp(1.5rem, 6vw, 4.75rem)</span></div>
+          <div>Grid<span>62% / 38% · gap clamp(2rem, 5vw, 3rem)</span></div>
+          <div>Right offset<span>var(--space-lg)</span></div>
+        </div>
+      </div>
+      <p class="variant-notes">Hero breathes with a wide left column while the writing feed dips just below the hero baseline. Topics stay modest to keep focus on writing.</p>
+
+      <div class="prototype" style="--max-width: 68rem; --pad-inline: clamp(1.5rem, 6vw, 4.75rem); --pad-block: 2.75rem; --stack-gap: clamp(2rem, 6vw, 3.4rem); --grid-columns: minmax(20rem, 1.2fr) minmax(16rem, 0.8fr); --grid-gap: clamp(2rem, 5vw, 3rem); --hero-gap: var(--space-md); --hero-letter: 0.14em; --hero-width: 24ch; --right-offset: var(--space-lg); --column-gap: clamp(var(--space-md), 3vw, var(--space-xl)); --writing-gap: var(--space-sm); --writing-offset: var(--space-sm); --topics-offset: calc(var(--space-md) * 1.4);">
+        <div class="viewport">
+          <div class="viewport-inner">
+            <nav class="nav">
+              <span>Max Milne</span>
+              <span>Projects · About · Now</span>
+            </nav>
+
+            <div class="main-grid">
+              <section class="hero">
+                <p class="hero-roles">
+                  <span>COUNSELLOR . MEDITATOR .</span>
+                  <span>THERAPIST . TECHNOLOGIST .</span>
+                </p>
+                <p class="hero-copy">Helping people find clarity and connection through mindful practice and thoughtful tools at the intersection of counselling, meditation, therapy, and technology.</p>
+              </section>
+
+              <section class="right-column">
+                <div>
+                  <div class="section-label">Writing</div>
+                  <ul class="writing-list">
+                    <li class="writing-item">
+                      <a href="#">
+                        <div class="writing-title">Talk. Art. Therapy. — The approach</div>
+                        <div class="writing-meta"><time>Oct 02—2025</time><span class="arrow">↗</span></div>
+                      </a>
+                    </li>
+                    <li class="writing-item">
+                      <a href="#">
+                        <div class="writing-title">Social Meditation — A personal and professional journey</div>
+                        <div class="writing-meta"><time>Feb 12—2025</time><span class="arrow">↗</span></div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <div class="section-label">Topics</div>
+                  <ul class="topics-list">
+                    <li><a href="#">counselling</a>,</li>
+                    <li><a href="#">meditation</a>,</li>
+                    <li><a href="#">technology</a>,</li>
+                    <li><a href="#">therapy</a>,</li>
+                    <li><a href="#">groups</a></li>
+                  </ul>
+                </div>
+              </section>
+            </div>
+
+            <footer class="footer">Say hello at BlueSky ↗ and YouTube ↗</footer>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="variant">
+      <div class="variant-header">
+        <div>
+          <div class="variant-label">Prototype B</div>
+          <div class="variant-title">Tight Frame · Dramatic Drop</div>
+        </div>
+        <div class="specs">
+          <div>Padding<span>clamp(1.25rem, 5vw, 4rem)</span></div>
+          <div>Grid<span>58% / 42% · gap clamp(1.75rem, 4.5vw, 2.6rem)</span></div>
+          <div>Right offset<span>calc(var(--space-md) * 1.8)</span></div>
+        </div>
+      </div>
+      <p class="variant-notes">Closer columns with a deeper drop on the writing feed, echoing Jamie’s tighter frame. Hero letter-spacing softens for a calmer read while topics tuck far below.</p>
+
+      <div class="prototype" style="--max-width: 64rem; --pad-inline: clamp(1.25rem, 5vw, 4rem); --pad-block: 2.4rem; --stack-gap: clamp(1.75rem, 5vw, 3rem); --grid-columns: minmax(19rem, 1.15fr) minmax(16rem, 0.85fr); --grid-gap: clamp(1.75rem, 4.5vw, 2.6rem); --hero-gap: calc(var(--space-md) * 0.85); --hero-letter: 0.1em; --hero-width: 22ch; --right-offset: calc(var(--space-md) * 1.8); --column-gap: clamp(var(--space-md), 3vw, var(--space-xl)); --writing-gap: var(--space-sm); --writing-offset: var(--space-xs); --topics-offset: calc(var(--space-xl) * 0.9);">
+        <div class="viewport">
+          <div class="viewport-inner">
+            <nav class="nav">
+              <span>Max Milne</span>
+              <span>Projects · About · Now</span>
+            </nav>
+
+            <div class="main-grid">
+              <section class="hero">
+                <p class="hero-roles">
+                  <span>COUNSELLOR . MEDITATOR .</span>
+                  <span>THERAPIST . TECHNOLOGIST .</span>
+                </p>
+                <p class="hero-copy">Designing supportive practices that marry counselling, meditation, therapy, and technology so people can navigate change with clarity and connection.</p>
+              </section>
+
+              <section class="right-column">
+                <div>
+                  <div class="section-label">Writing</div>
+                  <ul class="writing-list">
+                    <li class="writing-item">
+                      <a href="#">
+                        <div class="writing-title">Talk. Art. Therapy. — The approach</div>
+                        <div class="writing-meta"><time>Oct 02—2025</time><span class="arrow">↗</span></div>
+                      </a>
+                    </li>
+                    <li class="writing-item">
+                      <a href="#">
+                        <div class="writing-title">Social Meditation — A personal and professional journey</div>
+                        <div class="writing-meta"><time>Feb 12—2025</time><span class="arrow">↗</span></div>
+                      </a>
+                    </li>
+                    <li class="writing-item">
+                      <a href="#">
+                        <div class="writing-title">Practices for collective presence</div>
+                        <div class="writing-meta"><time>Nov 18—2024</time><span class="arrow">↗</span></div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <div class="section-label">Topics</div>
+                  <ul class="topics-list">
+                    <li><a href="#">counselling</a>,</li>
+                    <li><a href="#">meditation</a>,</li>
+                    <li><a href="#">therapy</a>,</li>
+                    <li><a href="#">technology</a>,</li>
+                    <li><a href="#">research</a></li>
+                  </ul>
+                </div>
+              </section>
+            </div>
+
+            <footer class="footer">Say hello at BlueSky ↗ and YouTube ↗</footer>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+</body>
+</html>

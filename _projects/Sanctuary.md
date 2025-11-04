@@ -15,11 +15,13 @@ A short film about finding home in a new country through a big old elm tree on M
 
 I was invited to come on board to create a film with The Echoes project (Ria Soemardjo, Janette Hoe and Jon (Pongjit Saphakhun) and Ron Reeves.) for Mapping Melbourne 2020. 
 
-The piece was recorded across two hours on a lazy afternoon alongside the Merri Creek in Coburg, Melbourne. ‘Sanctuary’ is about creating a contemporary performance ritual centered around an old tree next to the Merri Creek, that reminds Jon of a tree from where she grew up in Thailand. 
+The piece was recorded across two hours on a lazy afternoon alongside the Merri Creek in Coburg, Melbourne. 'Sanctuary’ is about creating a contemporary performance ritual centered around an old tree next to the Merri Creek, that reminds Jon of a tree from where she grew up in Thailand. 
+
 Exploring our urge to connect more deeply with nature and our local green spaces, by creating contemporary performance work that transforms our relationship to urban sites.
 
-Collaboration with: [Ria Soemardjo](https://www.riavoice.com), [Ron Reeves](https://www.facebook.com/ronreevesmusic/) and [Pongjit Saphakhun.]([https://www.freetheatre.com.au/team]())
-
-
+Collaboration with:
+- [Ria Soemardjo](https://www.riavoice.com), 
+- [Ron Reeves](https://www.facebook.com/ronreevesmusic/)
+- [Pongjit Saphakhun.]([https://www.freetheatre.com.au/team]())
 
 *Commissioned by the 2020 Mapping Melbourne Festival. 7min.*

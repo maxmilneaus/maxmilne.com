@@ -3,18 +3,19 @@
         <a class="internal-link site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
         {% if page.layout == 'note' or page.layout == 'tag' %}
             <span class="nav-breadcrumb-separator">/</span>
-            <a class="internal-link nav-breadcrumb-item" href="{{ site.baseurl }}/#writing">Writing</a>
+            <a class="internal-link nav-breadcrumb-item" href="{{ site.baseurl }}/writing/">Writing</a>
         {% elsif page.id == 'topics' %}
             <span class="nav-breadcrumb-separator">/</span>
-            <a class="internal-link nav-breadcrumb-item" href="{{ site.baseurl }}/">Writing</a>
-        {% elsif page.id == 'writing' %}
+            <a class="internal-link nav-breadcrumb-item" href="{{ site.baseurl }}/writing/">Writing</a>
+        {% elsif page.layout == 'project' %}
             <span class="nav-breadcrumb-separator">/</span>
-            <a class="internal-link nav-breadcrumb-item" href="{{ site.baseurl }}/#writing">Writing</a>
+            <a class="internal-link nav-breadcrumb-item" href="{{ site.baseurl }}/projects">Projects</a>
         {% endif %}
     </div>
     <div class="nav-links">
-        <a class="internal-link" href="{{ site.baseurl }}/projects">Projects</a>
         <a class="internal-link" href="{{ site.baseurl }}/about">About</a>
         <a class="internal-link" href="{{ site.baseurl }}/now">Now</a>
+        <a class="internal-link" href="{{ site.baseurl }}/projects">Projects</a>
+        <a class="internal-link" href="{{ site.baseurl }}/writing/">Writing</a>
     </div>
 </div>

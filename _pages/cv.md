@@ -13,12 +13,14 @@ permalink: /cv
 
 | Period         | Role                      | Organisation                            |
 | -------------- | ------------------------- | --------------------------------------- |
-| 2020 – Current | Arts & Health Facilitator | AUS                                     |
+| 2025 - 2025    | Wellbeing Counsellor      | CamCare, AUS                            |
+| 2023 - 2024    | Student Counsellor        | Doncaster Secondary College, AUS        |
+| 2020 – Current | Arts & Health Facilitator | General                                 |
 | 2008 – 2023    | Photographer              | Max Milne Photography, AUS + USA        |
 | 2015 – 2020    | Founder                   | Studio Brunswick, AUS                   |
 | 2018 – 2019    | Sessional Lecturer        | Photography Studio College, AUS         |
 | 2014 – 2015    | Lecturer, Photo Media     | Holmesglen TAFE, AUS                    |
-| 2008 – 2011    | Photography Assistant     | AUS                                     |
+| 2008 – 2011    | Photography Assistant     | Throughout Australia                    |
 | 2010 – 2011    | Prepress Manager          | The Colour Factory, AUS                 |
 | 2008 – 2010    | Post Production Manager   | G-Media, AUS                            |
 | 2006 – 2008    | Young Ambassador          | National Gallery of Victoria, AUS       |
@@ -26,28 +28,20 @@ permalink: /cv
 
 ### Education Timeline
 
-| Period         | Qualification                                   | Institution                |
-| -------------- | ----------------------------------------------- | -------------------------- |
-| 2022 – Current | Masters Counselling                             | Swinburne University, AUS  |
-| 2023           | Addiction and Mental Health Training            | PACFA, AUS                 |
-| 2023           | Mindfulness Teacher Training                    | Insight Meditation, Europe |
-| 2020 – 2022    | Lam Rim Dharma Study                            | Gelugpa, Drol Kar, AUS     |
-| 2021 – 2022    | First Nations Cultural Literacy & Story Telling | YARN, AUS                  |
-| 2021           | HLTAID 009, 010 & 011 First Aid                 | AUS                        |
-| 2021           | Mindfulness Based Addiction Recovery Training   | Vimilasara, Canada         |
-| 2015           | Adv. Dip, Art Therapy                           | The Phoenix Institute, AUS |
-| 2014           | Cert. IV, Training and Assessment               | HBA Learning, AUS          |
-| 2012           | Cert. IV, Photo Imaging                         | Melbourne Polytechnic, AUS |
+| Period      | Qualification                                   | Institution                |
+| ----------- | ----------------------------------------------- | -------------------------- |
+| 2022 – 2025 | Masters Counselling                             | Swinburne University, AUS  |
+| 2024 - 2025 | Social Meditation Training                      | Inter.being, USA           |
+| 2023        | Addiction and Mental Health Training            | PACFA, AUS                 |
+| 2023        | Mindfulness Teacher Training                    | Insight Meditation, Europe |
+| 2020 – 2022 | Lam Rim Dharma Study                            | Gelugpa, Drol Kar, AUS     |
+| 2021 – 2023 | First Nations Cultural Literacy & Story Telling | YARN, AUS                  |
+| 2021        | HLTAID 009, 010 & 011 First Aid                 | AUS                        |
+| 2021        | Mindfulness Based Addiction Recovery Training   | Vimilasara, Canada         |
+| 2015        | Adv. Dip, Art Therapy                           | The Phoenix Institute, AUS |
+| 2014        | Cert. IV, Training and Assessment               | HBA Learning, AUS          |
+| 2012        | Cert. IV, Photo Imaging                         | Melbourne Polytechnic, AUS |
 
-
-
-## Personal Summary
-
-I am Max Milne, an Arts, Health and User Experience Practitioner with over 15 years of pioneering at the intersection of commercial artistry and mental health advocacy. Beginning my journey as a Young Ambassador at the National Gallery of Victoria, my career has evolved to encompass roles as a celebrated commercial artist, innovative educator, entrepreneur, and counseling specialist.
-
-My work has earned accolades in photography as winner of the **Faces of Sydney Festival Competition** and **Green Room Award** in audience experience and has been recognised through collaborations with high-profile clients such as Vogue, Qantas and Melbourne University.
-
----
 
 ## Career History
 
@@ -63,7 +57,7 @@ Actively managed cases for up to six students per week, overseeing all administr
 
 ### NDIS Support Worker
 
-**Freelance** • March 2019 - Current
+**Freelance** • March 2020 - 2024
 
 Worked both independently and as part of a team to provide comprehensive support for individuals with disabilities. Developed and implemented holistic support plans tailored for individuals with Acquired Brain Injuries, Cerebral Palsy, and Friedreich's Ataxia.
 
@@ -147,21 +141,7 @@ Developed and honed skills in maintaining interview neutrality, focusing on deli
 
 ---
 
-## Education
-
-**Masters of Counselling** • Swinburne University • 2022 - Current
-
-**Mindfulness Teacher Training** • Insight Meditation • Graduated 2023
-
-**Advanced Diploma Art Therapy** • Phoenix Institute • Graduated 2016
-
-**Certificate IV Training & Assessment** • HBA • Graduated 2014
-
----
-
-## Skills & Certifications
-
-**Core Skills:** Empathy • Advocacy • Systems design • Systems development • Change management • Client liaison • Project delivery • Marketing
+## Certifications
 
 **Certifications:** HLTAID009, 010 & 011 First Aid (2023) • Working with Children Check (2021) • Police Check (2021) • Drivers License (Current)
 
@@ -178,20 +158,20 @@ Mindfulness and meditation informed by collective **12 months living in residenc
 - 2010: Six Months, Suan Mokkh Buddhist Monastery, Thailand
 - 2008: Two Months, Suan Mokkh Buddhist Monastery, Thailand
 
-**Teachers Studied With:** Christopher Titmus (Insight) • Venerable Jampa Drolma (Drol Kar) • Venerable Geshe Sonam Thargye (Drol Kar) • Venerable Ajahn Nissarano (Newbury) • Zohar Lavie (Insight & SanghaSeva) • Jess Huon (Insight) • Venerable Ajahn Poh (Suan Mokkh)
+**Teachers Studied With:** Christopher Titmus (Insight, UK), Venerable Jampa Drolma (Drol Kar, AUS), Venerable Ajahn Nissarano (Newbury, AUS), Zohar Lavie (Insight & SanghaSeva, UK), Jess Huon (Insight, AUS) and Venerable Ajahn Poh (Suan Mokkh, Thailand)
 
 ---
 
 ## Workshop Facilitation & Education
 
 **Current Programs:**
+- Facilitator, Social Meditation, Social Meditation Collective (2024 - 2025)
 
-- Co-Host, Monthly Grief Circle, The River House (2023 - Current)
+**Past Programs:**
+
+- Co-Host, Monthly Grief Circle, The River House (2023 - 2024)
 - Co-Host, Frontier Wars Memorial Service, YARN, Armagh (2023)
 - Co-Host, Weekly Dharma Recovery Melbourne (2022 - 2023)
-
-**Historical Programs:**
-
 - Co-Host, Weekly Under 35 Group, MBC, Melbourne (2017 - 2019)
 - Co-Host, Yearly Buddhafield Retreat, MBC (2017 - 2019)
 - Host, Inter-Buddhist Sessions, Studio Brunswick (2016 - 2017)

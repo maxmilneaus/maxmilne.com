@@ -1,0 +1,145 @@
+// Writing2 page - inspired by projects but with its own character
+
+.writing2-page {
+  padding-top: 0;
+}
+
+.writing2-page main {
+  margin-top: calc(var(--section-spacing) * 1.25) !important;
+}
+
+.writing2-intro {
+  margin-bottom: var(--section-spacing);
+
+  p {
+    color: var(--color-meta);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: var(--space-md) 0 0 0;
+    max-width: 42rem;
+  }
+}
+
+.writing2-filter-group {
+  margin-bottom: var(--space-lg);
+
+  .section-label {
+    display: block;
+    margin-bottom: var(--space-md);
+    color: var(--color-meta);
+    font-size: 1rem;
+    font-weight: var(--font-weight-normal);
+    letter-spacing: 0.03em;
+    pointer-events: none;
+
+    &:hover {
+      color: var(--color-meta);
+    }
+  }
+}
+
+.writing2-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin: 0;
+}
+
+.writing2-filter {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-meta);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease;
+
+  &:hover {
+    color: var(--color-accent-hover);
+    border-bottom-color: var(--color-accent-hover);
+  }
+
+  &.is-active {
+    color: var(--color-accent-hover);
+    border-bottom-color: var(--color-accent-hover);
+  }
+}
+
+.writing2-filter:first-child {
+  position: relative;
+  margin-right: calc(var(--space-sm) * 3.5);
+}
+
+.writing2-filter:first-child::after {
+  content: "•";
+  position: absolute;
+  left: calc(100% + var(--space-sm) * 1.6);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-meta);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.writing2-list {
+  margin-top: var(--space-md);
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.writing2-entry {
+  &.is-hidden {
+    display: none;
+  }
+
+  a {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-md);
+    padding: 0.35rem 0;
+    text-decoration: none;
+    transition: opacity 200ms ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .article-date {
+    color: var(--color-meta);
+    font-size: 0.95rem;
+    font-weight: 400;
+    flex-shrink: 0;
+    min-width: 5.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .article-title {
+    color: var(--color-cream);
+    font-size: 1rem;
+    font-weight: 400;
+    flex: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .writing2-entry {
+    a {
+      flex-direction: column;
+      gap: 0.2rem;
+      align-items: flex-start;
+    }
+
+    .article-date {
+      font-size: 0.9rem;
+      min-width: auto;
+    }
+  }
+}

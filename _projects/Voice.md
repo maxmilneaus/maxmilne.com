@@ -7,9 +7,9 @@ tags:
   - performance
   - art
 ---
-# VOICE
 
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE_public_art_advertising_maxmilne_Melbourne01-3_1365-683x1024.jpg)
+
+<div class="two-up equal"> ![[Website/assets/VOICE/Voice_Max_Milne-29.jpg|alt=Left]] ![[Website/assets/VOICE/Voice_Max_Milne-16.jpg|alt=Right]] </div>
 
 VOICE was a public art project co-designed by Adam Hunt and myself as [Transmit Receive](http://transmitreceive.tumblr.com/) in 2012. We took a therapeutic approach to capturing peoples personal stories and turned them into a series of performance art projects in Edinburgh, UK and Melbourne, AUS. Along with a special edition developed for ABC Radio National podcast Long Story Short. Here is a little story of how it all came together. 
 
@@ -45,8 +45,7 @@ Here is the submission in full:
 
 ###### _DEVELOPMENT – LATE 2012_
 
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-1.jpg)
-
+![[Website/assets/VOICE/Voice_Max_Milne-1.jpg|alt=alt text|600x600|centre |title=Adam editing VOICE|loading=eager/lazy]]
 We worked with about 10 individuals ranging from Singers to Doctors of Neuroscience and helped build a journey for them to travel through at Adam’s studio Shotgun Studio. 
 
 CD: Conditions Designer / Facilitator - Max  
@@ -68,7 +67,7 @@ Find extra details on how we worked with people here:
 
 The show went very well Soundscaping Festival that we decided to consider showing the work in Melbourne. 
 
-![](https://maxmilne.com/wp-content/uploads/2025/02/image.png)
+![[Website/assets/VOICE/Sound Scaping Glasglow - Transmit Recieve.jpg|alt=alt text|320x200|right centre left|title=Optional title|loading=eager/lazy]]
 
 ---
 
@@ -76,33 +75,13 @@ The show went very well Soundscaping Festival that we decided to consider showin
 
 ###### _SHOWING – MID 2013_
 
-![](https://maxmilne.com/wp-content/uploads/2025/02/3_v4-1.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/Info_v1.jpg)
+<div class="two-up equal"> ![[Website/assets/VOICE/Voice_Max_Milne-6.jpg|alt=Left]] ![[Website/assets/VOICE/Voice_Max_Milne-9.jpg|alt=Right]] </div>
 
 We decided to show the work in Melbourne for a two week showing in mid 2013. The intention was to be in more fine control of the conditions of the space, and in the same way we worked with the Voice Artists we wanted to design the space for the audience to arrive into. Setting up many stages for thresholds. This involved a team of six performance artists who so delicately held the audience from the entrance to exit. Goodtimes was an arts space underground with a labyrinth of pipes, cement and doors. 
 
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-14-680x1024.jpg)
+![[Website/_site/assets/VOICE/Voice_Max_Milne-8.jpg|alt=alt text|600x600|right centre left|title=Optional title|loading=eager/lazy]]
 
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-13-680x1024.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-16-761x1024.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-15-1024x680.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-17-1024x680.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-18-1024x680.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-19-1024x691.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-21-1024x680.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-22-1024x680.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-23-1024x680.jpg)
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-24-1024x680.jpg)
+<div class="two-up equal"> ![[Website/assets/VOICE/Voice_Max_Milne-11.jpg|alt=Left]] ![[Website/assets/VOICE/Voice_Max_Milne-12.jpg|alt=Right]] </div>
 
 An informed consent model was used with the listening audience and the crew of performance artists were each given specific directives under the flavour of pressure release. For example we had a ‘mandatory’ cloaking experience with directives of:
 
@@ -123,22 +102,6 @@ Over two showings we have 60 audience members come through and we received great
 ![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-9-683x1024.jpg)
 
 ![](https://maxmilne.com/wp-content/uploads/2025/02/VOICE-Doc-10-1024x682.jpg)
-
----
-
-## Long Story Short – Radio National ABC
-
-###### _MEDIA – END 2013_
-
-![](https://maxmilne.com/wp-content/uploads/2025/02/CleanShot-2025-02-12-at-15.15.05@2x-1024x566.png)
-
-Adam and I submitted our work to the nascent ABC podcast – Long Story Short – Australia’s version of “This American Life”. They selected a 5 minute narrative driven component of the work that was performed in one take by the delightful [Penny Harpham.](https://pennyharpham.wordpress.com/) A visceral retelling on a time she found someone in a crashed car alongside a highway road in country Australia. It is incredible piece that Adam so skilfully edited and crafted sound wise.
-
-Have a look here on the ABC website here: [LINK](https://www.abc.net.au/listen/radionational/archived/longstoryshort/breath/4574480)
-
-
-
-We eventually submitted to Arts House – North Melbourne and APAM in Brisbane though didn’t have any takers for the show and that ended the VOICE exploration. 
 
 ---
 

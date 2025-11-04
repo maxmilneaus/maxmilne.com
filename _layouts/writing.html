@@ -1,0 +1,85 @@
+---
+layout: default
+---
+
+<section class="writing2-page">
+  <article class="writing2-intro">
+    <h1>{{ page.title }}</h1>
+    {{ content }}
+  </article>
+
+  {% assign tag_collection = "" | split: "" %}
+  {% for note in site.notes %}
+    {% if note.tags %}
+      {% for tag in note.tags %}
+        {% unless tag_collection contains tag %}
+          {% assign tag_collection = tag_collection | push: tag %}
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  {% assign tag_collection = tag_collection | sort %}
+
+  {% if tag_collection.size > 0 %}
+  <div class="writing2-filter-group">
+    <div class="writing2-filters" data-writing2-filter>
+      <button class="writing2-filter is-active" type="button" data-filter="all">All</button>
+      {% for tag in tag_collection %}
+        {% assign tag_slug = tag | slugify %}
+        <button class="writing2-filter" type="button" data-filter="{{ tag_slug }}">{{ tag }}</button>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="writing2-list">
+    <ul>
+    {% assign sorted_notes = site.notes | sort: "created_at_timestamp" | reverse %}
+    {% for note in sorted_notes %}
+      {% assign tag_slugs_array = "" | split: "" %}
+      {% if note.tags %}
+        {% for tag in note.tags %}
+          {% assign tag_slug = tag | slugify %}
+          {% assign tag_slugs_array = tag_slugs_array | push: tag_slug %}
+        {% endfor %}
+      {% endif %}
+      {% assign tag_slugs_attr = tag_slugs_array | join: ' ' %}
+      {% assign display_date = note.created_at | default: note.date | default: note.last_modified_at %}
+      <li class="writing2-entry" {% if tag_slugs_attr != '' %}data-tag-slugs="{{ tag_slugs_attr }}"{% endif %}>
+        <a class="internal-link" href="{{ note.url | relative_url }}">
+          <span class="article-date">{{ display_date | date: "%Y · %m" }}</span>
+          <span class="article-title">{{ note.title }}</span>
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var filterContainer = document.querySelector('[data-writing2-filter]');
+    if (!filterContainer) return;
+    var buttons = Array.prototype.slice.call(filterContainer.querySelectorAll('.writing2-filter'));
+    var entries = Array.prototype.slice.call(document.querySelectorAll('.writing2-list .writing2-entry'));
+
+    function applyFilter(slug) {
+      entries.forEach(function (entry) {
+        var tags = (entry.dataset.tagSlugs || '').split(' ').filter(Boolean);
+        if (slug === 'all' || tags.indexOf(slug) !== -1) {
+          entry.classList.remove('is-hidden');
+        } else {
+          entry.classList.add('is-hidden');
+        }
+      });
+    }
+
+    filterContainer.addEventListener('click', function (event) {
+      var button = event.target.closest('.writing2-filter');
+      if (!button) return;
+      buttons.forEach(function (btn) { btn.classList.remove('is-active'); });
+      button.classList.add('is-active');
+      applyFilter(button.getAttribute('data-filter'));
+    });
+  })();
+</script>

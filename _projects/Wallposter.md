@@ -1,6 +1,6 @@
 ---
 title: Wallposter
-year: 2011-2012
+year: 2011 - 2012
 description: Large scale public art wheat paste posters.
 order: 6
 tags:
@@ -18,12 +18,12 @@ This was the start of me wanting to make my own prints and photography unique an
 ![[Website/assets/Wallposter/Wallposter Max Milne v4.jpg|left|alt=alt text|title=Optional title|loading=lazy]]
   
 -----
-### Ned, Cockatoo Island, Sydney - 2011:
+# Ned, Cockatoo Island, Sydney - 2011:
 ![[Website/assets/Wallposter/Ned Max Milne V1.jpg|left|alt=alt text|title=Optional title|loading=lazy]]
 ![[Website/assets/Wallposter/Ned Max Milne V2.jpg|left|alt=alt text|title=Optional title|loading=lazy]]
 ![[Website/assets/Wallposter/Ned Max Milne V3.jpg|left|alt=alt text|title=Optional title|loading=lazy]]
 
-### The Chapel, Preston - 2012
+# The Chapel, Preston - 2012
 ![[Website/assets/Wallposter/Parlour Max Milne V1.jpg|left|alt=alt text|title=Optional title|loading=lazy]]
 ![[Website/assets/Wallposter/Parlour Max Milne V2.jpg|left|alt=alt text|title=Optional title|loading=lazy]]
 ![[Website/assets/Wallposter/Parlour Max Milne V5.jpg|left|alt=alt text|title=Optional title|loading=lazy]]
