@@ -1,21 +1,60 @@
 <div class="nav-container">
     <div class="nav-left">
         <a class="internal-link site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
-        {% if page.layout == 'note' or page.layout == 'tag' %}
-            <span class="nav-breadcrumb-separator">/</span>
-            <a class="internal-link nav-breadcrumb-item" href="{{ site.baseurl }}/writing/">Writing</a>
-        {% elsif page.id == 'topics' %}
-            <span class="nav-breadcrumb-separator">/</span>
-            <a class="internal-link nav-breadcrumb-item" href="{{ site.baseurl }}/writing/">Writing</a>
-        {% elsif page.layout == 'project' %}
-            <span class="nav-breadcrumb-separator">/</span>
-            <a class="internal-link nav-breadcrumb-item" href="{{ site.baseurl }}/projects">Projects</a>
-        {% endif %}
     </div>
+    <button class="nav-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
     <div class="nav-links">
-        <a class="internal-link" href="{{ site.baseurl }}/about">About</a>
-        <a class="internal-link" href="{{ site.baseurl }}/now">Now</a>
-        <a class="internal-link" href="{{ site.baseurl }}/projects">Projects</a>
-        <a class="internal-link" href="{{ site.baseurl }}/writing/">Writing</a>
+        <a class="internal-link{% if page.url == '/about' or page.url == '/about/' %} is-active{% endif %}" href="{{ site.baseurl }}/about">About</a>
+        <a class="internal-link{% if page.url == '/now' or page.url == '/now/' %} is-active{% endif %}" href="{{ site.baseurl }}/now">Now</a>
+        <a class="internal-link{% if page.layout == 'project' or page.layout == 'projects' or page.url contains '/projects' %} is-active{% endif %}" href="{{ site.baseurl }}/projects">Projects</a>
+        <a class="internal-link{% if page.layout == 'note' or page.layout == 'writing' or page.layout == 'tag' or page.url contains '/writing' or page.url contains '/tags' %} is-active{% endif %}" href="{{ site.baseurl }}/writing/">Writing</a>
     </div>
 </div>
+
+<script>
+(function() {
+    const toggle = document.querySelector('.nav-menu-toggle');
+    const menu = document.querySelector('.nav-links');
+    const menuLinks = menu.querySelectorAll('a');
+
+    function toggleMenu() {
+        const isActive = menu.classList.contains('is-active');
+        toggle.classList.toggle('is-active');
+        menu.classList.toggle('is-active');
+        toggle.setAttribute('aria-expanded', !isActive);
+    }
+
+    function closeMenu() {
+        toggle.classList.remove('is-active');
+        menu.classList.remove('is-active');
+        toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking a link
+    menuLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (menu.classList.contains('is-active') &&
+            !menu.contains(e.target) &&
+            !toggle.contains(e.target)) {
+            closeMenu();
+        }
+    });
+
+    // Close menu when pressing escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menu.classList.contains('is-active')) {
+            closeMenu();
+        }
+    });
+})();
+</script>

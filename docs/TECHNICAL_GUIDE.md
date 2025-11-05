@@ -1034,3 +1034,115 @@ Performed comprehensive cleanup of unused files and temporary artifacts:
 - Verify sync agents before retaining configuration files
 - Always regenerate `_site/` - never commit build output
 - Keep `.gitignore` updated with common temp file patterns
+
+---
+
+## November 5, 2025
+
+### Attention Economy Implementation - Phase 1
+
+Implemented core recommendations from Attention Economy Audit V2, establishing clear information architecture across key pages.
+
+**Site Architecture Established:**
+- **Homepage:** Action gateway (what's available now)
+- **About:** Credibility & philosophy (why trust me, what I believe)
+- **Now:** Current explorations (what I'm thinking about, hybrid status/action)
+- **Projects:** Portfolio (what I've made)
+- **Writing:** Ideas (what I'm exploring in depth)
+
+**About Page Restructure** (`_pages/about.md`):
+- Implemented Option A: Credentials & Philosophy First
+- Structure: Opening statement → Credentials (bullet list) → My Approach (philosophy) → Background (chronological)
+- Updated language to use consistent "Therapist, Artist, Contemplative" tagline
+- Leads with trust-building credentials before journey narrative
+
+**Now Page Restructure** (`_pages/now.md`):
+- Implemented Option A: Primary Work + Current Explorations
+- Primary Work items displayed in styled blue-tinted boxes with CTA buttons:
+  - Talk. Art. Therapy. → Links to `/booking` page
+  - Social Meditation → Links to `wepracticetogether.net`
+- Current Explorations as plain paragraphs (informational only):
+  - AI & Privacy in Therapeutic Work
+  - Grief Resources
+  - Personal Practice
+- Clear visual distinction: boxed items = actionable, plain text = informational
+
+**Visual Hierarchy Refinements:**
+- Separated work titles from descriptions onto separate lines for improved scannability
+- Title bold on line 1, description on line 2 with 0.5rem spacing
+- Current Explorations titles made into links (removed "More →" clutter)
+- Cleaner pattern: clickable titles more intuitive than trailing link text
+
+**New Pages Created:**
+
+1. **`_pages/booking.md`** - Mock booking page for Talk. Art. Therapy.
+   - Structured booking information with What to Expect, Approach, Practical Details
+   - Email-based initial consultation flow
+   - Credentials and supervision disclosure
+
+2. **`_notes/Social Meditation Practice.md`** - Overview note
+   - What social meditation is and how it works
+   - Schedule and platform details
+   - Clear CTA to wepracticetogether.net
+
+3. **`_notes/AI and Privacy in Therapeutic Work.md`** - Draft exploration
+   - Local LLMs and on-device processing
+   - Privacy-first design thinking
+   - Current tools and learning resources
+
+4. **`_notes/Making Resources for Grief.md`** - Draft resource documentation
+   - Grief zine project overview
+   - Writing prompts and ritual actions
+   - Tangible tools philosophy
+
+5. **`_notes/On Intentional Consumption.md`** - Personal practice note
+   - Movement practice (Contact Improvisation, 5Rhythms)
+   - Intentional listening (album-by-album approach)
+   - Working within constraints philosophy
+
+**Typography Refinement** (`_sass/_style.scss`):
+- Simplified H2 top margin from `calc(var(--space-xl) * 1.25)` (3.75rem) to `var(--space-xl)` (3rem)
+- Now matches H3 spacing for consistent section breaks
+- Reduces excessive whitespace while maintaining systematic spacing
+
+**Design Rationale:**
+- Clear separation of actionable vs. informational content
+- Consistent language ("Therapist, Artist, Contemplative") across all pages
+- Trust-building front-loaded (credentials visible immediately on About)
+- Now page serves hybrid purpose: conversion paths + personal updates
+- All new content includes live, clickable links for user feedback
+
+**Technical Notes:**
+- All CTAs use consistent button styling (charcoal background, blue text/border)
+- Blue-tinted boxes use `rgba(147, 197, 253, 0.05)` with 3px left border
+- Inline styles used in Now page for rapid prototyping (can be extracted to classes later)
+- All permalinks follow systematic slugification
+
+**Audit Documentation** (`docs/attention-economy-audit-v2.html`):
+- Created comprehensive interactive HTML audit with visual mockups
+- Includes 4 About page options, 4 Now page options, 3 TAT integration levels
+- Side-by-side comparisons with toggle functionality
+- Projects and Writing section mockups with visual examples
+- Recommendations section with systematic analysis
+
+**Note Layout Refinements** (`_layouts/note.html`):
+- Removed "Linked mentions" section (backlinks)
+- Kept "You might also enjoy" recommendations using tag-based similarity
+- Updated recommendation link color to `--color-meta` for optimal visibility
+
+**Design Rationale - Recommendations Over Full Lists:**
+- Tag-based recommendations reduce decision fatigue by surfacing related content
+- Makes the site feel intelligent and curated vs. dumping full writing list
+- Better user experience: "related reading" > "all writing"
+- Maintains visitor engagement by suggesting relevant next steps
+- Algorithmic curation provides value without overwhelming choice
+
+**Color Refinement Process:**
+- Initial: `--color-stone` (#4a453f) - too dark, poor visibility
+- Adjusted: `--color-warm-gray` (#c7beb5) - too bright, lacked hierarchy
+- Final: `--color-meta` (#9c958c) - optimal balance of visibility and systematic hierarchy
+
+**Next Steps:**
+- Projects page highlighting (TAT only with CURRENT badge)
+- Writing section excerpts
+- TAT integration level decision (Minimal/Subtle/Prominent)

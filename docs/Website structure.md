@@ -1,0 +1,5 @@
+- **Homepage:** Action gateway (what's available now)
+- **About:** Credibility & philosophy (why trust me, what I believe)
+- **Now:** Current explorations (what I'm thinking about, hybrid status/action)
+- **Projects:** Portfolio (what I've made)
+- **Writing:** Ideas (what I'm exploring in depth)

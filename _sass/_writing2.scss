@@ -40,9 +40,10 @@
 
 .writing2-filters {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
+  flex-wrap: nowrap;
+  gap: var(--space-xs);
   margin: 0;
+  align-items: center;
 }
 
 .writing2-filter {
@@ -50,10 +51,9 @@
   border: none;
   border-bottom: 2px solid transparent;
   color: var(--color-meta);
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0;
   font-size: 0.95rem;
   letter-spacing: 0.02em;
-  text-transform: capitalize;
   cursor: pointer;
   transition: color 200ms ease, border-color 200ms ease;
 
@@ -66,22 +66,56 @@
     color: var(--color-accent-hover);
     border-bottom-color: var(--color-accent-hover);
   }
+
+  &:not(:last-child):not(.is-active)::after {
+    content: ",";
+    margin-right: 0.25rem;
+    color: var(--color-meta);
+  }
 }
 
 .writing2-filter:first-child {
   position: relative;
-  margin-right: calc(var(--space-sm) * 3.5);
+  margin-right: 0;
 }
 
 .writing2-filter:first-child::after {
-  content: "•";
-  position: absolute;
-  left: calc(100% + var(--space-sm) * 1.6);
-  top: 50%;
-  transform: translateY(-50%);
+  content: " • ";
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   color: var(--color-meta);
   font-size: 0.9rem;
   pointer-events: none;
+}
+
+.more-topics-toggle {
+  background: transparent;
+  border: none;
+  color: var(--color-meta);
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 200ms ease;
+
+  &::before {
+    content: ", ";
+    margin-right: 0.25rem;
+  }
+
+  &:hover {
+    color: var(--color-accent-hover);
+  }
+}
+
+.hidden-topics {
+  display: none;
+  gap: var(--space-xs);
+
+  &.is-expanded {
+    display: flex;
+  }
 }
 
 .writing2-list {

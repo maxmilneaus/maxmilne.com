@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attention Economy Audit - Max Milne Website</title>
+    <style>
+        :root {
+            --color-deep: #141210;
+            --color-charcoal: #201d1a;
+            --color-graphite: #2d2926;
+            --color-stone: #4a453f;
+            --color-cream: #e8ddd4;
+            --color-warm-gray: #c7beb5;
+            --color-meta: #9c958c;
+            --color-accent-hover: #93c5fd;
+            --color-accent-subtle: #3b82f6;
+            --color-red: #fca5a5;
+            --color-green: #86efac;
+            --color-yellow: #fcd34d;
+
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.75rem;
+            --space-xl: 3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--color-deep);
+            color: var(--color-cream);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: var(--space-xl) var(--space-lg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-cream);
+            margin-bottom: var(--space-md);
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+        }
+
+        h2 {
+            font-size: 1.85rem;
+            font-weight: 500;
+            color: var(--color-accent-hover);
+            margin: var(--space-xl) 0 var(--space-lg) 0;
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--color-graphite);
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            font-weight: 500;
+            color: var(--color-warm-gray);
+            margin: var(--space-lg) 0 var(--space-md) 0;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--color-cream);
+            margin: var(--space-md) 0 var(--space-sm) 0;
+        }
+
+        p {
+            margin: var(--space-md) 0;
+            color: var(--color-warm-gray);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-xl);
+            border-bottom: 2px solid var(--color-graphite);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-meta);
+            margin-top: var(--space-sm);
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 3px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-left: var(--space-sm);
+        }
+
+        .priority-high {
+            background: rgba(252, 165, 165, 0.2);
+            color: var(--color-red);
+            border: 1px solid var(--color-red);
+        }
+
+        .priority-medium {
+            background: rgba(252, 211, 77, 0.2);
+            color: var(--color-yellow);
+            border: 1px solid var(--color-yellow);
+        }
+
+        .priority-low {
+            background: rgba(134, 239, 172, 0.2);
+            color: var(--color-green);
+            border: 1px solid var(--color-green);
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-panel {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            border-radius: 3px;
+            padding: var(--space-lg);
+        }
+
+        .comparison-panel.current {
+            border-left: 3px solid var(--color-red);
+        }
+
+        .comparison-panel.proposed {
+            border-left: 3px solid var(--color-green);
+        }
+
+        .panel-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-md);
+        }
+
+        .current .panel-label {
+            color: var(--color-red);
+        }
+
+        .proposed .panel-label {
+            color: var(--color-green);
+        }
+
+        .mockup {
+            background: var(--color-deep);
+            border: 1px solid var(--color-stone);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+            border-radius: 3px;
+            font-size: 0.95rem;
+        }
+
+        .mockup-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--color-cream);
+            margin-bottom: var(--space-md);
+        }
+
+        .mockup-text {
+            color: var(--color-warm-gray);
+            line-height: 1.65;
+        }
+
+        .mockup-cta {
+            display: inline-block;
+            margin-top: var(--space-md);
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--color-charcoal);
+            color: var(--color-accent-hover);
+            text-decoration: none;
+            border: 1px solid var(--color-accent-subtle);
+            border-radius: 3px;
+            font-weight: 500;
+            transition: all 200ms ease;
+        }
+
+        .mockup-cta:hover {
+            background: var(--color-graphite);
+            transform: translateY(-1px);
+        }
+
+        .issue-box {
+            background: rgba(252, 165, 165, 0.1);
+            border-left: 3px solid var(--color-red);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .strength-box {
+            background: rgba(134, 239, 172, 0.1);
+            border-left: 3px solid var(--color-green);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .suggestion-box {
+            background: rgba(147, 197, 253, 0.1);
+            border-left: 3px solid var(--color-accent-hover);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .visual-flow {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+            padding: var(--space-md);
+            background: var(--color-charcoal);
+            border-radius: 3px;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--color-graphite);
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        .flow-arrow {
+            color: var(--color-accent-hover);
+            font-size: 1.5rem;
+        }
+
+        .attention-bar {
+            height: 20px;
+            background: var(--color-accent-hover);
+            margin: var(--space-xs) 0;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .attention-label {
+            font-size: 0.85rem;
+            color: var(--color-meta);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-xs);
+        }
+
+        ul, ol {
+            margin: var(--space-md) 0;
+            padding-left: var(--space-lg);
+        }
+
+        li {
+            margin: var(--space-sm) 0;
+            color: var(--color-warm-gray);
+        }
+
+        code {
+            background: var(--color-charcoal);
+            color: var(--color-accent-hover);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .toc {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            padding: var(--space-lg);
+            margin: var(--space-xl) 0;
+            border-radius: 3px;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc a {
+            color: var(--color-accent-hover);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .summary-box {
+            background: var(--color-charcoal);
+            border: 2px solid var(--color-accent-subtle);
+            padding: var(--space-lg);
+            margin: var(--space-xl) 0;
+            border-radius: 3px;
+        }
+
+        .copy-option {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 3px;
+        }
+
+        .copy-option-label {
+            font-weight: 600;
+            color: var(--color-accent-hover);
+            margin-bottom: var(--space-sm);
+        }
+
+        .highlight-change {
+            background: rgba(147, 197, 253, 0.2);
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Attention Economy Audit</h1>
+        <p class="subtitle">Max Milne Website - Communication Effectiveness Review</p>
+        <p style="color: var(--color-meta); margin-top: var(--space-sm);">Last Updated: November 5, 2025</p>
+    </div>
+
+    <div class="summary-box">
+        <h3>Executive Summary</h3>
+        <p><strong>Overall Assessment:</strong> Your site has a beautiful, coherent aesthetic and excellent readability, but it's structured for <strong>documentation rather than engagement</strong>.</p>
+
+        <p><strong>Key Finding:</strong> Visitors can learn about your journey but struggle to act on their interest in working with you.</p>
+
+        <p><strong>Priority:</strong> High-impact changes to copy (Home/About/Now) and adding clear conversion paths.</p>
+    </div>
+
+    <div class="toc">
+        <h3>📋 Table of Contents</h3>
+        <ul>
+            <li><a href="#home">1. Home Page Analysis</a></li>
+            <li><a href="#about">2. About Page Analysis</a></li>
+            <li><a href="#now">3. Now Page Analysis</a></li>
+            <li><a href="#projects">4. Projects Section</a></li>
+            <li><a href="#writing">5. Writing Section</a></li>
+            <li><a href="#navigation">6. Navigation & Information Architecture</a></li>
+            <li><a href="#recommendations">7. Priority Recommendations</a></li>
+        </ul>
+    </div>
+
+    <section id="home">
+        <h2>🏠 Home Page Analysis <span class="priority-badge priority-high">HIGH PRIORITY</span></h2>
+
+        <h3>Current State</h3>
+        <div class="mockup">
+            <div class="mockup-title">Max Milne</div>
+            <p class="mockup-text">I support people and organisations at the intersection of counselling, meditation, therapy, and technology. This space will soon share more about my current collaborations, how I work, and ways to connect.</p>
+        </div>
+
+        <div class="issue-box">
+            <h4>❌ Key Issues:</h4>
+            <ul>
+                <li><strong>"This space will soon..."</strong> - Signals "not ready yet", reduces immediate relevance</li>
+                <li><strong>Vague positioning</strong> - "Intersection of..." is too broad; doesn't answer "Is this for me?"</li>
+                <li><strong>No clear CTA</strong> - Only action available is reading blog posts</li>
+                <li><strong>Missing specificity</strong> - Who is this for? What do you offer? What's the outcome?</li>
+            </ul>
+        </div>
+
+        <h3>Visual Attention Flow</h3>
+        <p>Where visitor attention goes with current copy:</p>
+        <div>
+            <div class="attention-label">
+                <span>Paragraph 1: "I support people..."</span>
+                <span>100% attention</span>
+            </div>
+            <div class="attention-bar" style="width: 100%;"></div>
+
+            <div class="attention-label">
+                <span>"This space will soon..."</span>
+                <span>60% attention (loses interest)</span>
+            </div>
+            <div class="attention-bar" style="width: 60%; opacity: 0.6;"></div>
+
+            <div class="attention-label">
+                <span>Latest blog post</span>
+                <span>30% attention (bounce risk)</span>
+            </div>
+            <div class="attention-bar" style="width: 30%; opacity: 0.4;"></div>
+        </div>
+
+        <h3>Proposed Copy Options</h3>
+
+        <div class="comparison">
+            <div class="comparison-panel current">
+                <div class="panel-label">❌ Current</div>
+                <p>I support people and organisations at the intersection of counselling, meditation, therapy, and technology. <strong>This space will soon share more about</strong> my current collaborations, how I work, and ways to connect.</p>
+            </div>
+
+            <div class="comparison-panel proposed">
+                <div class="panel-label">✅ Option 1: Direct & Action-Oriented</div>
+                <p>I offer <span class="highlight-change">counselling through conversation, art, and mindfulness practice</span>—helping people navigate <span class="highlight-change">grief, change, and self-discovery</span>.</p>
+                <a href="#" class="mockup-cta">Book a Session →</a>
+            </div>
+        </div>
+
+        <div class="copy-option">
+            <div class="copy-option-label">✅ Option 2: Warm & Specific</div>
+            <p>Through Talk. Art. Therapy., I support people moving through <span class="highlight-change">life transitions, grief, and creative blocks</span> using conversation, art-making, and contemplative practice.</p>
+            <a href="#" class="mockup-cta">Learn More →</a>
+        </div>
+
+        <div class="copy-option">
+            <div class="copy-option-label">✅ Option 3: Service-First</div>
+            <p>I'm a counsellor and meditation teacher offering:</p>
+            <ul>
+                <li><strong>Talk. Art. Therapy.</strong> - Individual counselling sessions</li>
+                <li><strong>Social Meditation</strong> - Online group practice (4x/week)</li>
+                <li><strong>Workshops & Training</strong> - For organizations and groups</li>
+            </ul>
+            <a href="#" class="mockup-cta">Explore Services →</a>
+        </div>
+
+        <div class="suggestion-box">
+            <h4>💡 Why These Work Better:</h4>
+            <ul>
+                <li><strong>Specific problems addressed</strong> - "grief, change, transitions" help visitors self-identify</li>
+                <li><strong>Clear offerings</strong> - "Talk. Art. Therapy" and "Social Meditation" are concrete</li>
+                <li><strong>Present tense</strong> - "I offer" not "will soon"</li>
+                <li><strong>Immediate CTA</strong> - Clear next step for interested visitors</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>👤 About Page Analysis <span class="priority-badge priority-high">HIGH PRIORITY</span></h2>
+
+        <h3>The "Buried Lead" Problem</h3>
+        <p>Your current work appears in paragraph 6 of 7. Here's where visitor attention is by then:</p>
+
+        <div style="margin: var(--space-lg) 0;">
+            <div class="attention-label">
+                <span>Paragraph 1: Philosophy (stone stairs)</span>
+                <span>100% attention</span>
+            </div>
+            <div class="attention-bar" style="width: 100%;"></div>
+
+            <div class="attention-label">
+                <span>Paragraph 2: NGV background</span>
+                <span>80% attention</span>
+            </div>
+            <div class="attention-bar" style="width: 80%;"></div>
+
+            <div class="attention-label">
+                <span>Paragraph 3-4: Photography (15 years)</span>
+                <span>60% attention</span>
+            </div>
+            <div class="attention-bar" style="width: 60%;"></div>
+
+            <div class="attention-label">
+                <span>Paragraph 5: Buddhist practice</span>
+                <span>45% attention</span>
+            </div>
+            <div class="attention-bar" style="width: 45%;"></div>
+
+            <div class="attention-label">
+                <span>Paragraph 6: Talk. Art. Therapy. ← YOUR CURRENT WORK</span>
+                <span>20% attention (most visitors gone)</span>
+            </div>
+            <div class="attention-bar" style="width: 20%;"></div>
+        </div>
+
+        <div class="issue-box">
+            <h4>❌ Current Structure Issues:</h4>
+            <ul>
+                <li><strong>Chronological not priority-based</strong> - Past given equal weight to present</li>
+                <li><strong>Beautiful but abstract opening</strong> - Doesn't help visitor assess relevance quickly</li>
+                <li><strong>Delayed clarity</strong> - Takes 4+ paragraphs to understand what you do now</li>
+                <li><strong>Story about you, not for visitor</strong> - Focus on journey, not on value offered</li>
+            </ul>
+        </div>
+
+        <h3>Proposed Structure Comparison</h3>
+
+        <div class="comparison">
+            <div class="comparison-panel current">
+                <div class="panel-label">❌ Current Flow</div>
+                <div class="visual-flow" style="flex-direction: column; align-items: flex-start;">
+                    <div class="flow-box">Philosophy & Values</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">NGV (past)</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">Photography Career (15 years past)</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">Buddhist Practice</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">Counselling Training</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box" style="background: rgba(252, 165, 165, 0.3);">Talk. Art. Therapy. (present) ← 20% attention left</div>
+                </div>
+            </div>
+
+            <div class="comparison-panel proposed">
+                <div class="panel-label">✅ Proposed "Inverted Pyramid"</div>
+                <div class="visual-flow" style="flex-direction: column; align-items: flex-start;">
+                    <div class="flow-box" style="background: rgba(134, 239, 172, 0.3);">Talk. Art. Therapy. (what I do) ← 100% attention</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">My Approach & Philosophy</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">Relevant Training (counselling, meditation)</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">Additional Context (photography, art)</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">Full Background (if they want more)</div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Proposed Copy Options for Opening</h3>
+
+        <div class="copy-option">
+            <div class="copy-option-label">✅ Option 1: Service-First</div>
+            <div class="mockup-text">
+                <p><strong>I'm a counsellor and meditation teacher working at the intersection of creativity, contemplation, and care.</strong></p>
+
+                <p>Through <strong>Talk. Art. Therapy.</strong>, I offer individual counselling sessions that weave together conversation, art-making, and mindfulness practice. I support people navigating grief, life transitions, creative blocks, and questions of meaning.</p>
+
+                <p>I also host <strong>Social Meditation</strong>—free online group meditation sessions four times a week, creating space for collective practice and connection.</p>
+
+                <p style="color: var(--color-meta); font-style: italic; margin-top: var(--space-lg);">My background includes...</p>
+            </div>
+        </div>
+
+        <div class="copy-option">
+            <div class="copy-option-label">✅ Option 2: Approach-First</div>
+            <div class="mockup-text">
+                <p><strong>I believe in the healing power of creative expression, contemplative practice, and genuine conversation.</strong></p>
+
+                <p>Through Talk. Art. Therapy., I work with people one-on-one, exploring what arises through art-making, dialogue, and mindful awareness. This might look like working through grief after a loss, navigating a major life transition, or finding your way through a creative block.</p>
+
+                <p>My practice draws on 15 years working as a photographer and studio director, formal training in counseling and Buddhist meditation, and a deep commitment to making therapeutic support accessible and human.</p>
+            </div>
+        </div>
+
+        <div class="suggestion-box">
+            <h4>💡 Key Principle: "Present → Past"</h4>
+            <p>Start with what matters now, then provide context. This respects visitor attention while still telling your story.</p>
+        </div>
+    </section>
+
+    <section id="now">
+        <h2>📅 Now Page Analysis <span class="priority-badge priority-medium">MEDIUM PRIORITY</span></h2>
+
+        <div class="issue-box">
+            <h4>❌ Current Issues:</h4>
+            <ul>
+                <li><strong>Equal visual weight</strong> - All activities appear equally important</li>
+                <li><strong>Status language</strong> - "Building phase" suggests "not ready"</li>
+                <li><strong>No CTAs</strong> - Social Meditation (4x/week) but no link to join</li>
+                <li><strong>Process over outcome</strong> - Describes what you're doing, not what people can access</li>
+            </ul>
+        </div>
+
+        <h3>Transformation: "What I'm Doing" → "Ways to Connect"</h3>
+
+        <div class="comparison">
+            <div class="comparison-panel current">
+                <div class="panel-label">❌ Current Approach</div>
+                <ul>
+                    <li>Starting Talk. Art. Therapy. (building phase)</li>
+                    <li>Hosting Social Meditation (4x/week online)</li>
+                    <li>Exploring AI and Privacy</li>
+                    <li>Making Resources (grief zine)</li>
+                    <li>Other Threads (dancing, music)</li>
+                </ul>
+                <p style="color: var(--color-meta); font-style: italic; margin-top: var(--space-md);">No links, no CTAs, no way to engage</p>
+            </div>
+
+            <div class="comparison-panel proposed">
+                <div class="panel-label">✅ Proposed: Action-Oriented</div>
+
+                <h4 style="margin-top: 0;">Work With Me</h4>
+                <div style="margin-bottom: var(--space-lg);">
+                    <strong>Talk. Art. Therapy.</strong><br>
+                    Individual counselling sessions combining conversation, art, and contemplation.
+                    <a href="#" class="mockup-cta" style="margin-top: var(--space-sm);">Book a Session →</a>
+                </div>
+
+                <div style="margin-bottom: var(--space-lg);">
+                    <strong>Social Meditation</strong><br>
+                    Free online group meditation, Monday–Thursday 6:30am AEST.
+                    <a href="#" class="mockup-cta" style="margin-top: var(--space-sm);">Join Next Session →</a>
+                </div>
+
+                <h4>Current Projects</h4>
+                <div>
+                    <strong>Grief Zine</strong> - Creating accessible resources for navigating loss.
+                    <a href="#" class="mockup-cta" style="margin-top: var(--space-sm);">Download →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="suggestion-box">
+            <h4>💡 Key Change:</h4>
+            <p>Transform from a status update into a menu of ways visitors can engage with your work. Every item should have a next step.</p>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>📁 Projects Section <span class="priority-badge priority-medium">MEDIUM PRIORITY</span></h2>
+
+        <div class="strength-box">
+            <h4>✅ What's Working:</h4>
+            <ul>
+                <li>Clean, scannable layout</li>
+                <li>Clear visual hierarchy (year → title → description)</li>
+                <li>Good spacing and readability</li>
+                <li>Functional filtering system</li>
+            </ul>
+        </div>
+
+        <h3>Issue: All Projects Have Equal Visual Weight</h3>
+
+        <div class="comparison">
+            <div class="comparison-panel current">
+                <div class="panel-label">❌ Current: No Differentiation</div>
+                <div class="mockup" style="font-size: 0.9rem; padding: var(--space-md);">
+                    <div style="margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid var(--color-graphite);">
+                        <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--space-md);">
+                            <div style="color: var(--color-meta);">2025 -</div>
+                            <div>
+                                <div style="color: var(--color-cream); font-weight: 500;">Talk. Art. Therapy.</div>
+                                <div style="color: var(--color-meta); font-size: 0.95rem;">Counselling through conversation...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid var(--color-graphite);">
+                        <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--space-md);">
+                            <div style="color: var(--color-meta);">2021</div>
+                            <div>
+                                <div style="color: var(--color-cream); font-weight: 500;">Sanctuary</div>
+                                <div style="color: var(--color-meta); font-size: 0.95rem;">Short film - part of...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--space-md);">
+                            <div style="color: var(--color-meta);">2015 - 2020</div>
+                            <div>
+                                <div style="color: var(--color-cream); font-weight: 500;">Studio Brunswick</div>
+                                <div style="color: var(--color-meta); font-size: 0.95rem;">Three photographic studios...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: var(--color-meta); font-style: italic; margin-top: var(--space-md); font-size: 0.85rem;">↑ All look equally important</p>
+                </div>
+            </div>
+
+            <div class="comparison-panel proposed">
+                <div class="panel-label">✅ Proposed: Current Work Highlighted</div>
+                <div class="mockup" style="font-size: 0.9rem; padding: var(--space-md);">
+                    <div style="margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid var(--color-graphite); background: rgba(147, 197, 253, 0.05); padding: var(--space-md); margin-left: calc(-1 * var(--space-md)); margin-right: calc(-1 * var(--space-md)); border-left: 3px solid var(--color-accent-hover);">
+                        <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--space-md);">
+                            <div style="color: var(--color-accent-hover); font-weight: 600;">
+                                2025 -<br>
+                                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">CURRENT</span>
+                            </div>
+                            <div>
+                                <div style="color: var(--color-cream); font-weight: 500;">Talk. Art. Therapy.</div>
+                                <div style="color: var(--color-warm-gray); font-size: 0.95rem; margin: var(--space-xs) 0;">Counselling through conversation...</div>
+                                <a href="#" style="color: var(--color-accent-hover); text-decoration: none; font-size: 0.9rem;">→ Book a session</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid var(--color-graphite);">
+                        <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--space-md);">
+                            <div style="color: var(--color-meta);">2021</div>
+                            <div>
+                                <div style="color: var(--color-cream); font-weight: 500;">Sanctuary</div>
+                                <div style="color: var(--color-meta); font-size: 0.95rem;">Short film - part of...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: grid; grid-template-columns: 100px 1fr; gap: var(--space-md);">
+                            <div style="color: var(--color-meta);">2015 - 2020</div>
+                            <div>
+                                <div style="color: var(--color-cream); font-weight: 500;">Studio Brunswick</div>
+                                <div style="color: var(--color-meta); font-size: 0.95rem;">Three photographic studios...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: var(--color-accent-hover); font-style: italic; margin-top: var(--space-md); font-size: 0.85rem;">↑ Current work stands out + has CTA</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="suggestion-box">
+            <h4>💡 Simple CSS Addition:</h4>
+            <p>Add a <code>.project-entry.current</code> class with subtle highlighting:</p>
+            <ul>
+                <li>Light blue background tint</li>
+                <li>Blue accent border on left</li>
+                <li>"CURRENT" label</li>
+                <li>Optional: Add CTA button</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="writing">
+        <h2>✍️ Writing Section <span class="priority-badge priority-low">LOWER PRIORITY</span></h2>
+
+        <div class="strength-box">
+            <h4>✅ What's Working:</h4>
+            <ul>
+                <li>Ultra-scannable layout</li>
+                <li>Low visual noise</li>
+                <li>Clean date format</li>
+                <li>Fast to browse</li>
+            </ul>
+        </div>
+
+        <h3>Issue: No Preview = Must Click to Assess Relevance</h3>
+
+        <div class="comparison">
+            <div class="comparison-panel current">
+                <div class="panel-label">❌ Current: Date + Title Only</div>
+                <div class="mockup" style="font-size: 0.9rem; padding: var(--space-md);">
+                    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-sm);">
+                        <div style="color: var(--color-meta); font-family: monospace; min-width: 80px;">2025 · 01</div>
+                        <div style="color: var(--color-cream);">Social Meditation as Gentle Activism</div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-sm);">
+                        <div style="color: var(--color-meta); font-family: monospace; min-width: 80px;">2024 · 12</div>
+                        <div style="color: var(--color-cream);">Grief and the Creative Practice</div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-md);">
+                        <div style="color: var(--color-meta); font-family: monospace; min-width: 80px;">2024 · 11</div>
+                        <div style="color: var(--color-cream);">On Presence and Photography</div>
+                    </div>
+                    <p style="color: var(--color-meta); font-style: italic; margin-top: var(--space-md); font-size: 0.85rem;">↑ Must click each to know if relevant</p>
+                </div>
+            </div>
+
+            <div class="comparison-panel proposed">
+                <div class="panel-label">✅ Proposed: Brief Excerpts</div>
+                <div class="mockup" style="font-size: 0.9rem; padding: var(--space-md);">
+                    <div style="margin-bottom: var(--space-md);">
+                        <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xs);">
+                            <div style="color: var(--color-meta); font-family: monospace; min-width: 80px;">2025 · 01</div>
+                            <div style="color: var(--color-cream); font-weight: 500;">Social Meditation as Gentle Activism</div>
+                        </div>
+                        <div style="color: var(--color-meta); font-size: 0.9rem; padding-left: 92px;">
+                            How showing up for collective practice becomes a quiet form of resistance...
+                        </div>
+                    </div>
+                    <div style="margin-bottom: var(--space-md);">
+                        <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xs);">
+                            <div style="color: var(--color-meta); font-family: monospace; min-width: 80px;">2024 · 12</div>
+                            <div style="color: var(--color-cream); font-weight: 500;">Grief and the Creative Practice</div>
+                        </div>
+                        <div style="color: var(--color-meta); font-size: 0.9rem; padding-left: 92px;">
+                            Making art with loss, not despite it. Working with what arises...
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-xs);">
+                            <div style="color: var(--color-meta); font-family: monospace; min-width: 80px;">2024 · 11</div>
+                            <div style="color: var(--color-cream); font-weight: 500;">On Presence and Photography</div>
+                        </div>
+                        <div style="color: var(--color-meta); font-size: 0.9rem; padding-left: 92px;">
+                            Fifteen years behind the camera taught me more about attention than...
+                        </div>
+                    </div>
+                    <p style="color: var(--color-accent-hover); font-style: italic; margin-top: var(--space-md); font-size: 0.85rem;">↑ Can assess relevance without clicking</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="suggestion-box">
+            <h4>💡 Implementation Note:</h4>
+            <p>This is a <strong>lower priority</strong> change. The current ultra-minimal style works well. Only add excerpts if you find visitors struggling to find relevant articles.</p>
+        </div>
+    </section>
+
+    <section id="navigation">
+        <h2>🧭 Navigation & Information Architecture <span class="priority-badge priority-high">HIGH PRIORITY</span></h2>
+
+        <h3>Current Structure vs. Visitor Needs</h3>
+
+        <div class="comparison">
+            <div class="comparison-panel current">
+                <div class="panel-label">❌ Current Navigation</div>
+                <div class="visual-flow" style="flex-direction: column; align-items: flex-start;">
+                    <div class="flow-box">Home (transitional statement)</div>
+                    <div class="flow-box">About (life story, past-focused)</div>
+                    <div class="flow-box">Now (activities, no CTAs)</div>
+                    <div class="flow-box">Projects (archive + current mixed)</div>
+                    <div class="flow-box">Writing (blog)</div>
+                </div>
+                <p style="color: var(--color-meta); margin-top: var(--space-md);">Missing: Services, Contact, "Work With Me"</p>
+            </div>
+
+            <div class="comparison-panel proposed">
+                <div class="panel-label">✅ Proposed Navigation</div>
+                <div class="visual-flow" style="flex-direction: column; align-items: flex-start;">
+                    <div class="flow-box">Home (clear value prop + CTA)</div>
+                    <div class="flow-box" style="background: rgba(134, 239, 172, 0.2);">Services (NEW) - What I Offer</div>
+                    <div class="flow-box">About (credentials & approach)</div>
+                    <div class="flow-box">Projects (portfolio)</div>
+                    <div class="flow-box">Writing (resources)</div>
+                </div>
+                <p style="color: var(--color-accent-hover); margin-top: var(--space-md);">Clear conversion path added</p>
+            </div>
+        </div>
+
+        <h3>Missing Visitor Journeys</h3>
+
+        <div class="issue-box">
+            <h4>❌ Currently Unsupported:</h4>
+            <ul>
+                <li><strong>Potential client seeking counseling</strong> → No clear path from interest to booking</li>
+                <li><strong>Someone researching your approach</strong> → Must read blog posts to understand methodology</li>
+                <li><strong>Organization seeking collaboration</strong> → No clear organizational work description</li>
+                <li><strong>Student/peer wanting to connect</strong> → No educational resources or professional profile</li>
+            </ul>
+        </div>
+
+        <h3>Proposed "Services" Page Structure</h3>
+
+        <div class="mockup" style="background: var(--color-charcoal); padding: var(--space-xl);">
+            <h3 style="margin-top: 0; color: var(--color-cream);">Work With Me</h3>
+
+            <div style="margin: var(--space-xl) 0; padding: var(--space-lg); background: var(--color-deep); border-left: 3px solid var(--color-accent-hover);">
+                <h4 style="color: var(--color-cream); margin-top: 0;">Talk. Art. Therapy.</h4>
+                <p style="color: var(--color-warm-gray);">Individual counselling sessions combining conversation, art-making, and contemplative practice. I work with people navigating grief, life transitions, creative blocks, and questions of meaning.</p>
+                <p style="color: var(--color-meta); font-size: 0.9rem;">Sessions: 60 minutes | Format: In-person (Brunswick) or online</p>
+                <a href="#" class="mockup-cta">Book a Session →</a>
+            </div>
+
+            <div style="margin: var(--space-xl) 0; padding: var(--space-lg); background: var(--color-deep);">
+                <h4 style="color: var(--color-cream); margin-top: 0;">Social Meditation</h4>
+                <p style="color: var(--color-warm-gray);">Free online group meditation practice, Monday–Thursday 6:30am AEST. No experience necessary—just show up and practice together.</p>
+                <p style="color: var(--color-meta); font-size: 0.9rem;">Drop-in sessions | Online via Zoom | Donation-based</p>
+                <a href="#" class="mockup-cta">Join Next Session →</a>
+            </div>
+
+            <div style="margin: var(--space-xl) 0; padding: var(--space-lg); background: var(--color-deep);">
+                <h4 style="color: var(--color-cream); margin-top: 0;">Workshops & Training</h4>
+                <p style="color: var(--color-warm-gray);">Custom workshops and training for organizations on contemplative practice, creative expression, and wellbeing in the workplace.</p>
+                <a href="#" class="mockup-cta">Get in Touch →</a>
+            </div>
+        </div>
+
+        <div class="suggestion-box">
+            <h4>💡 Why This Works:</h4>
+            <ul>
+                <li>Clear path from interest → action</li>
+                <li>Specific offerings with details</li>
+                <li>Multiple CTAs for different needs</li>
+                <li>Addresses organizational work separately</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="recommendations">
+        <h2>📈 Priority Recommendations</h2>
+
+        <div style="background: rgba(252, 165, 165, 0.1); padding: var(--space-lg); margin: var(--space-xl) 0; border-radius: 3px; border: 2px solid var(--color-red);">
+            <h3 style="margin-top: 0;">🔴 HIGH IMPACT (Do First)</h3>
+            <ol>
+                <li><strong>Rewrite Home Page</strong> - Clear value proposition + CTA (Options provided above)</li>
+                <li><strong>Create "Services" Page</strong> - Clear menu of offerings with CTAs</li>
+                <li><strong>Add CTAs Throughout</strong> - Every page needs "Interested? [Contact]"</li>
+                <li><strong>Restructure About Page</strong> - Lead with present work, not past</li>
+                <li><strong>Visual Differentiation</strong> - Highlight current vs. archive projects</li>
+            </ol>
+        </div>
+
+        <div style="background: rgba(252, 211, 77, 0.1); padding: var(--space-lg); margin: var(--space-xl) 0; border-radius: 3px; border: 2px solid var(--color-yellow);">
+            <h3 style="margin-top: 0;">🟡 MEDIUM IMPACT (Do Next)</h3>
+            <ol start="6">
+                <li><strong>Convert Now → "Ways to Connect"</strong> - Make all items actionable</li>
+                <li><strong>Add Visual Hierarchy Tools</strong> - Featured styling, archive de-emphasis</li>
+                <li><strong>Social Proof</strong> - Consider testimonials if appropriate</li>
+            </ol>
+        </div>
+
+        <div style="background: rgba(134, 239, 172, 0.1); padding: var(--space-lg); margin: var(--space-xl) 0; border-radius: 3px; border: 2px solid var(--color-green);">
+            <h3 style="margin-top: 0;">🟢 LOWER IMPACT (Nice to Have)</h3>
+            <ol start="9">
+                <li><strong>Add Brief Excerpts to Writing</strong> - Help visitors assess relevance</li>
+                <li><strong>Refine Filter Labels</strong> - Add context or guidance</li>
+                <li><strong>Add "Updated" Indicators</strong> - Show recency for content</li>
+            </ol>
+        </div>
+    </section>
+
+    <section style="margin-top: var(--space-xl); padding: var(--space-xl); background: var(--color-charcoal); border-radius: 3px;">
+        <h2 style="margin-top: 0; border-top: none; padding-top: 0;">🎯 The Core Shift</h2>
+
+        <div class="visual-flow" style="justify-content: space-between; font-size: 1.1rem;">
+            <div class="flow-box" style="background: rgba(252, 165, 165, 0.2);">
+                Documentation
+            </div>
+            <div class="flow-arrow">━━━▶</div>
+            <div class="flow-box" style="background: rgba(134, 239, 172, 0.2);">
+                Engagement
+            </div>
+        </div>
+
+        <div class="visual-flow" style="justify-content: space-between; font-size: 1.1rem;">
+            <div class="flow-box" style="background: rgba(252, 165, 165, 0.2);">
+                Past Journey
+            </div>
+            <div class="flow-arrow">━━━▶</div>
+            <div class="flow-box" style="background: rgba(134, 239, 172, 0.2);">
+                Present Offering
+            </div>
+        </div>
+
+        <div class="visual-flow" style="justify-content: space-between; font-size: 1.1rem;">
+            <div class="flow-box" style="background: rgba(252, 165, 165, 0.2);">
+                Library Model
+            </div>
+            <div class="flow-arrow">━━━▶</div>
+            <div class="flow-box" style="background: rgba(134, 239, 172, 0.2);">
+                Practice Model
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: var(--space-xl); font-size: 1.1rem; color: var(--color-accent-hover);">
+            <strong>Your site has a beautiful foundation. Now let's make it work harder for your practice.</strong>
+        </p>
+    </section>
+
+    <section style="margin-top: var(--space-xl); padding: var(--space-xl); background: var(--color-charcoal); border: 2px solid var(--color-accent-subtle); border-radius: 3px; text-align: center;">
+        <h2 style="margin-top: 0; border: none; padding: 0;">✨ Next Step: Let's Talk</h2>
+        <p style="font-size: 1.1rem; color: var(--color-warm-gray);">Review this audit, then let's discuss:</p>
+        <ul style="text-align: left; max-width: 600px; margin: var(--space-lg) auto; color: var(--color-warm-gray);">
+            <li>Which copy suggestions resonate with you?</li>
+            <li>Which changes feel most important?</li>
+            <li>What concerns do you have?</li>
+            <li>What feels off-brand?</li>
+            <li>What timeline works for implementation?</li>
+        </ul>
+        <p style="font-size: 1.1rem; color: var(--color-accent-hover); margin-top: var(--space-xl);">
+            <strong>Ready to make these changes together.</strong>
+        </p>
+    </section>
+
+    <footer style="margin-top: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--color-graphite); text-align: center; color: var(--color-meta); font-size: 0.9rem;">
+        <p>Attention Economy Audit - November 5, 2025</p>
+        <p>Created for Max Milne by Claude Code</p>
+    </footer>
+</body>
+</html>

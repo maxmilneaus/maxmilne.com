@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Design Audit - maxmilne.com</title>
+    <style>
+        :root {
+            --color-deep: #141210;
+            --color-charcoal: #201d1a;
+            --color-graphite: #2d2926;
+            --color-stone: #4a453f;
+            --color-cream: #e8ddd4;
+            --color-warm-gray: #c7beb5;
+            --color-meta: #9c958c;
+            --color-accent-hover: #93c5fd;
+            --color-accent-subtle: #3b82f6;
+
+            --color-green: #10b981;
+            --color-yellow: #f59e0b;
+            --color-red: #ef4444;
+
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.75rem;
+            --space-xl: 3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--color-deep);
+            color: var(--color-cream);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: var(--space-xl) var(--space-lg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-cream);
+            margin-bottom: var(--space-md);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--color-accent-hover);
+            margin: var(--space-xl) 0 var(--space-lg) 0;
+            padding-bottom: var(--space-sm);
+            border-bottom: 2px solid var(--color-graphite);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--color-meta);
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .fix-card {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            border-radius: 3px;
+            padding: var(--space-xl);
+            margin: var(--space-xl) 0;
+        }
+
+        .fix-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .fix-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-cream);
+        }
+
+        .fix-badge {
+            display: inline-block;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: 3px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .badge-quick { background: rgba(16, 185, 129, 0.1); color: var(--color-green); }
+        .badge-medium { background: rgba(245, 158, 11, 0.1); color: var(--color-yellow); }
+
+        .fix-description {
+            color: var(--color-warm-gray);
+            margin-bottom: var(--space-lg);
+            line-height: 1.8;
+        }
+
+        .interactive-demo {
+            background: var(--color-deep);
+            border: 2px solid var(--color-graphite);
+            border-radius: 3px;
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            justify-content: center;
+        }
+
+        .demo-toggle {
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--color-charcoal);
+            border: 2px solid var(--color-graphite);
+            color: var(--color-meta);
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 200ms ease;
+        }
+
+        .demo-toggle:hover {
+            border-color: var(--color-accent-hover);
+            color: var(--color-accent-hover);
+        }
+
+        .demo-toggle.active {
+            background: var(--color-accent-hover);
+            border-color: var(--color-accent-hover);
+            color: var(--color-deep);
+        }
+
+        .demo-content {
+            min-height: 300px;
+            background: var(--color-deep);
+            padding: var(--space-lg);
+            border-radius: 3px;
+            border: 1px solid var(--color-stone);
+        }
+
+        /* Mock site chrome */
+        .mock-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--color-graphite);
+            margin-bottom: var(--space-lg);
+        }
+
+        .mock-logo {
+            font-size: 1.1rem;
+            color: var(--color-cream);
+        }
+
+        .mock-nav-links {
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .mock-nav-link {
+            color: var(--color-warm-gray);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 200ms ease;
+        }
+
+        .mock-nav-link:hover {
+            color: var(--color-accent-hover);
+        }
+
+        .mock-nav-link.active {
+            color: var(--color-accent-hover);
+        }
+
+        /* Mock breadcrumb */
+        .mock-breadcrumb {
+            color: var(--color-meta);
+            font-size: 0.95rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        /* Mock content sections */
+        .mock-section {
+            margin: var(--space-lg) 0;
+        }
+
+        .mock-h4 {
+            font-size: 1.1rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .mock-h4.weak {
+            font-weight: 400;
+        }
+
+        .mock-h4.strong {
+            font-weight: 600;
+        }
+
+        .mock-body {
+            color: var(--color-warm-gray);
+            line-height: 1.7;
+        }
+
+        /* Mock linked mentions */
+        .mock-linked-mentions {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--color-graphite);
+        }
+
+        .mock-linked-mentions h3 {
+            font-size: 1.2rem;
+            color: var(--color-warm-gray);
+            margin-bottom: var(--space-md);
+        }
+
+        .mock-linked-mentions.hidden {
+            display: none;
+        }
+
+        /* Mock external links */
+        .mock-external-link {
+            color: var(--color-accent-hover);
+            text-decoration: underline;
+            position: relative;
+        }
+
+        .mock-external-link::after {
+            content: "↗";
+            font-size: 0.8em;
+            margin-left: 0.2em;
+            transition: opacity 200ms ease;
+        }
+
+        .mock-external-link.subtle::after {
+            opacity: 0;
+        }
+
+        .mock-external-link.subtle:hover::after {
+            opacity: 1;
+        }
+
+        /* Mock filter animation */
+        .mock-list {
+            list-style: none;
+        }
+
+        .mock-list li {
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--color-graphite);
+            opacity: 1;
+            transition: opacity 300ms ease;
+        }
+
+        .mock-list li.fading {
+            opacity: 0;
+        }
+
+        .mock-list li:nth-child(1) { transition-delay: 0ms; }
+        .mock-list li:nth-child(2) { transition-delay: 50ms; }
+        .mock-list li:nth-child(3) { transition-delay: 100ms; }
+        .mock-list li:nth-child(4) { transition-delay: 150ms; }
+        .mock-list li:nth-child(5) { transition-delay: 200ms; }
+
+        /* Mock horizontal rule vs space */
+        .mock-hr-section {
+            margin: var(--space-md) 0;
+        }
+
+        .mock-hr {
+            border: none;
+            border-top: 1px solid var(--color-graphite);
+            margin: var(--space-lg) 0;
+        }
+
+        .mock-space {
+            height: calc(var(--space-xl) * 1.5);
+        }
+
+        /* Impact list */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+
+        .impact-card {
+            background: rgba(147, 197, 253, 0.05);
+            border: 1px solid var(--color-accent-subtle);
+            border-radius: 3px;
+            padding: var(--space-lg);
+        }
+
+        .impact-number {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            background: var(--color-accent-hover);
+            color: var(--color-deep);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+        }
+
+        .impact-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-cream);
+            margin-bottom: var(--space-sm);
+        }
+
+        .impact-desc {
+            color: var(--color-meta);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .impact-time {
+            display: block;
+            margin-top: var(--space-sm);
+            color: var(--color-green);
+            font-weight: 600;
+        }
+
+        /* Reading progress bar */
+        .reading-progress {
+            position: sticky;
+            top: 0;
+            height: 2px;
+            background: var(--color-graphite);
+            z-index: 100;
+            margin-bottom: var(--space-lg);
+        }
+
+        .reading-progress-bar {
+            height: 100%;
+            background: var(--color-accent-hover);
+            width: 0%;
+            transition: width 100ms ease;
+        }
+
+        @media (max-width: 768px) {
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Design Audit</h1>
+    <p class="subtitle">maxmilne.com - Toggle to see before/after for each fix</p>
+
+    <!-- Fix 1: Breadcrumb Style -->
+    <div class="fix-card">
+        <div class="fix-header">
+            <div class="fix-title">1. Unify Breadcrumb Style</div>
+            <div class="fix-badge badge-quick">1 minute fix</div>
+        </div>
+
+        <div class="fix-description">
+            <strong>Issue:</strong> Topics page uses "/" separator while rest of site uses "•" bullet<br>
+            <strong>Impact:</strong> Visual consistency across entire site<br>
+            <strong>Principle:</strong> Dieter Rams #3 (Aesthetic) & #8 (Thorough)
+        </div>
+
+        <div class="interactive-demo">
+            <div class="demo-controls">
+                <button class="demo-toggle active" onclick="toggleBreadcrumb('before')">Current</button>
+                <button class="demo-toggle" onclick="toggleBreadcrumb('after')">Proposed</button>
+            </div>
+
+            <div class="demo-content">
+                <div id="breadcrumb-demo">
+                    <div class="mock-breadcrumb">
+                        <span id="breadcrumb-text">Max Milne / Writing</span>
+                    </div>
+                    <h1 style="font-size: 2rem; color: var(--color-cream); margin-bottom: var(--space-md);">Topics</h1>
+                    <p style="color: var(--color-meta);">counselling, groups, meditation, technology, therapy</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix 2: H4 Styling -->
+    <div class="fix-card">
+        <div class="fix-header">
+            <div class="fix-title">2. Strengthen H4 Headings & Remove Colons</div>
+            <div class="fix-badge badge-quick">5 minute fix</div>
+        </div>
+
+        <div class="fix-description">
+            <strong>Issue:</strong> H4 headings compete visually with body text, colons add clutter<br>
+            <strong>Impact:</strong> Much clearer section hierarchy on Now page<br>
+            <strong>Principle:</strong> Dieter Rams #4 (Understandable)
+        </div>
+
+        <div class="interactive-demo">
+            <div class="demo-controls">
+                <button class="demo-toggle active" onclick="toggleH4('before')">Current</button>
+                <button class="demo-toggle" onclick="toggleH4('after')">Proposed</button>
+            </div>
+
+            <div class="demo-content">
+                <div id="h4-demo">
+                    <h1 style="font-size: 2rem; color: var(--color-cream); margin-bottom: var(--space-xl);">What I'm doing now</h1>
+
+                    <div class="mock-section">
+                        <h4 class="mock-h4 weak" id="h4-heading">Starting <a href="#" style="color: var(--color-accent-hover); text-decoration: underline;">Talk. Art. Therapy.</a>:</h4>
+                        <p class="mock-body">I've just finished my Masters in Counselling and now I'm in the building phase of establishing a private practice — setting up workflows, designing this website, organising practice spaces.</p>
+                    </div>
+
+                    <div class="mock-section">
+                        <h4 class="mock-h4 weak">Hosting Social Meditation:</h4>
+                        <p class="mock-body">Four mornings a week, I host online meditation sessions through Social Meditation Collective (evolved from what was Interbe.ing).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix 3: Hide Empty Linked Mentions -->
+    <div class="fix-card">
+        <div class="fix-header">
+            <div class="fix-title">3. Hide Empty "Linked Mentions" Section</div>
+            <div class="fix-badge badge-quick">2 minute fix</div>
+        </div>
+
+        <div class="fix-description">
+            <strong>Issue:</strong> Shows "There are no notes linking to this note" - negative affordance<br>
+            <strong>Impact:</strong> Cleaner page endings, removes unhelpful information<br>
+            <strong>Principle:</strong> Dieter Rams #8 (Thorough) & #10 (Less Design)
+        </div>
+
+        <div class="interactive-demo">
+            <div class="demo-controls">
+                <button class="demo-toggle active" onclick="toggleLinkedMentions('before')">Current</button>
+                <button class="demo-toggle" onclick="toggleLinkedMentions('after')">Proposed</button>
+            </div>
+
+            <div class="demo-content">
+                <div id="linked-mentions-demo">
+                    <h2 style="font-size: 1.3rem; color: var(--color-cream); margin-bottom: var(--space-md);">You might also enjoy</h2>
+                    <ul style="list-style: none; color: var(--color-meta);">
+                        <li style="margin: var(--space-sm) 0;"><a href="#" style="color: var(--color-meta); text-decoration: underline;">The approach - Talk. Art. Therapy.</a></li>
+                    </ul>
+
+                    <div class="mock-linked-mentions" id="linked-mentions-section">
+                        <h3>Linked mentions</h3>
+                        <p style="color: var(--color-meta);">There are no notes linking to this note.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix 4: Active Navigation State -->
+    <div class="fix-card">
+        <div class="fix-header">
+            <div class="fix-title">4. Add Active Navigation State</div>
+            <div class="fix-badge badge-quick">10 minute fix</div>
+        </div>
+
+        <div class="fix-description">
+            <strong>Issue:</strong> No visual indicator of current page in navigation<br>
+            <strong>Impact:</strong> Users always know where they are<br>
+            <strong>Principle:</strong> Dieter Rams #4 (Understandable) & Calm Technology (Orientation)
+        </div>
+
+        <div class="interactive-demo">
+            <div class="demo-controls">
+                <button class="demo-toggle active" onclick="toggleActiveNav('before')">Current</button>
+                <button class="demo-toggle" onclick="toggleActiveNav('after')">Proposed</button>
+            </div>
+
+            <div class="demo-content">
+                <div id="active-nav-demo">
+                    <div class="mock-nav">
+                        <div class="mock-logo">Max Milne</div>
+                        <div class="mock-nav-links" id="nav-links">
+                            <a href="#" class="mock-nav-link">About</a>
+                            <a href="#" class="mock-nav-link">Now</a>
+                            <a href="#" class="mock-nav-link">Projects</a>
+                            <a href="#" class="mock-nav-link">Writing</a>
+                        </div>
+                    </div>
+                    <h1 style="font-size: 2rem; color: var(--color-cream);">Projects</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix 5: External Link Subtlety -->
+    <div class="fix-card">
+        <div class="fix-header">
+            <div class="fix-title">5. Subtle External Link Indicators</div>
+            <div class="fix-badge badge-quick">3 minute fix</div>
+        </div>
+
+        <div class="fix-description">
+            <strong>Issue:</strong> "↗" symbol always visible on external links, slightly obtrusive<br>
+            <strong>Impact:</strong> Cleaner reading experience, indicator appears on hover<br>
+            <strong>Principle:</strong> Dieter Rams #5 (Unobtrusive) & Calm Technology (Least Attention)
+        </div>
+
+        <div class="interactive-demo">
+            <div class="demo-controls">
+                <button class="demo-toggle active" onclick="toggleExternalLinks('before')">Current</button>
+                <button class="demo-toggle" onclick="toggleExternalLinks('after')">Proposed</button>
+            </div>
+
+            <div class="demo-content">
+                <div id="external-links-demo">
+                    <p style="color: var(--color-warm-gray); line-height: 1.8;">
+                        My beginnings were with the <a href="#" class="mock-external-link" id="external-link-1">National Gallery of Victoria</a> as a Young Ambassador, learning to make art accessible to young people. Later I worked with <a href="#" class="mock-external-link" id="external-link-2">Interview Magazine</a> and other clients.
+                    </p>
+                    <p style="color: var(--color-meta); margin-top: var(--space-md); font-size: 0.9rem; font-style: italic;">
+                        Hover over the links to see the difference
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix 6: HR vs Space -->
+    <div class="fix-card">
+        <div class="fix-header">
+            <div class="fix-title">6. Replace Horizontal Rules with Space</div>
+            <div class="fix-badge badge-medium">10 minute fix</div>
+        </div>
+
+        <div class="fix-description">
+            <strong>Issue:</strong> Horizontal rules add visual weight unnecessarily<br>
+            <strong>Impact:</strong> Content breathes more naturally<br>
+            <strong>Principle:</strong> Dieter Rams #10 (Less Design) & Calm Technology (Subtle)
+        </div>
+
+        <div class="interactive-demo">
+            <div class="demo-controls">
+                <button class="demo-toggle active" onclick="toggleHR('before')">Current (with HR)</button>
+                <button class="demo-toggle" onclick="toggleHR('after')">Proposed (with Space)</button>
+            </div>
+
+            <div class="demo-content">
+                <div id="hr-demo">
+                    <p style="color: var(--color-warm-gray); margin-bottom: var(--space-md);">
+                        Now I work at Talk. Art. Therapy., helping people build capacity for awareness — to notice patterns, to hold what's difficult, to choose what matters.
+                    </p>
+
+                    <div id="separator-element">
+                        <hr class="mock-hr">
+                    </div>
+
+                    <h3 style="font-size: 1.3rem; color: var(--color-warm-gray); margin-bottom: var(--space-sm);">Awards:</h3>
+                    <p style="color: var(--color-meta);">
+                        <strong style="color: var(--color-warm-gray);">Photography</strong><br>
+                        Co-winner, Faces of Sydney Festival Competition (2017)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix 7: Staggered Filter Animation -->
+    <div class="fix-card">
+        <div class="fix-header">
+            <div class="fix-title">7. Staggered Filter Animations</div>
+            <div class="fix-badge badge-medium">20 minute fix</div>
+        </div>
+
+        <div class="fix-description">
+            <strong>Issue:</strong> Filter transitions are instant and mechanical<br>
+            <strong>Impact:</strong> Adds sense of curated intelligence without being flashy<br>
+            <strong>Principle:</strong> CSSDA Innovation - Progressive disclosure
+        </div>
+
+        <div class="interactive-demo">
+            <div class="demo-controls">
+                <button class="demo-toggle active" onclick="resetFilter()">All Items</button>
+                <button class="demo-toggle" onclick="filterItems()">Filter (Watch Animation)</button>
+            </div>
+
+            <div class="demo-content">
+                <div id="filter-demo">
+                    <p style="color: var(--color-meta); margin-bottom: var(--space-lg);">Click "Filter" to see items fade out with staggered timing:</p>
+
+                    <ul class="mock-list" id="filter-list">
+                        <li style="color: var(--color-warm-gray);">2025 · 11 — Social Meditation Practice</li>
+                        <li style="color: var(--color-warm-gray);">2025 · 11 — On Intentional Consumption</li>
+                        <li style="color: var(--color-warm-gray);">2025 · 11 — Making Resources for Grief</li>
+                        <li style="color: var(--color-warm-gray);">2025 · 11 — Creative Approach</li>
+                        <li style="color: var(--color-warm-gray);">2025 · 10 — The approach - Talk. Art. Therapy.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix 8: Reading Progress Indicator -->
+    <div class="fix-card">
+        <div class="fix-header">
+            <div class="fix-title">8. Reading Progress Indicator</div>
+            <div class="fix-badge badge-medium">15 minute fix</div>
+        </div>
+
+        <div class="fix-description">
+            <strong>Issue:</strong> No way to track progress on long articles<br>
+            <strong>Impact:</strong> Subtle orientation without disrupting reading flow<br>
+            <strong>Principle:</strong> CSSDA Innovation - Contextual feedback
+        </div>
+
+        <div class="interactive-demo">
+            <div class="demo-controls">
+                <button class="demo-toggle active" onclick="toggleProgress('off')">Without Progress</button>
+                <button class="demo-toggle" onclick="toggleProgress('on')">With Progress</button>
+            </div>
+
+            <div class="demo-content">
+                <div id="progress-demo">
+                    <div class="reading-progress" id="progress-bar" style="display: none;">
+                        <div class="reading-progress-bar" style="width: 45%;"></div>
+                    </div>
+
+                    <h1 style="font-size: 2rem; color: var(--color-cream); margin-bottom: var(--space-md);">Social Meditation - A personal journey</h1>
+                    <p style="color: var(--color-warm-gray); line-height: 1.8; margin-bottom: var(--space-md);">
+                        Recently, I've been deep diving into a relational meditation practice system called Interbe.ing, which represents an innovative intersection between traditional mindfulness and collective expression.
+                    </p>
+                    <p style="color: var(--color-meta); font-size: 0.9rem; font-style: italic;">
+                        Scroll this box to see the progress bar grow (when enabled)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary: Top 5 Quick Wins -->
+    <h2 style="margin-top: calc(var(--space-xl) * 2);">Top 5 Quick Wins (~20 minutes total)</h2>
+
+    <div class="impact-grid">
+        <div class="impact-card">
+            <div class="impact-number">1</div>
+            <div class="impact-title">Unify Breadcrumb Style</div>
+            <div class="impact-desc">
+                Change "/" to "•" on Topics page for visual consistency.
+                <span class="impact-time">⏱ 1 minute</span>
+            </div>
+        </div>
+
+        <div class="impact-card">
+            <div class="impact-number">2</div>
+            <div class="impact-title">Hide Empty Linked Mentions</div>
+            <div class="impact-desc">
+                Remove negative affordance, cleaner page endings.
+                <span class="impact-time">⏱ 2 minutes</span>
+            </div>
+        </div>
+
+        <div class="impact-card">
+            <div class="impact-number">3</div>
+            <div class="impact-title">Subtle External Links</div>
+            <div class="impact-desc">
+                Show "↗" only on hover for less visual clutter.
+                <span class="impact-time">⏱ 3 minutes</span>
+            </div>
+        </div>
+
+        <div class="impact-card">
+            <div class="impact-number">4</div>
+            <div class="impact-title">Strengthen H4 Headings</div>
+            <div class="impact-desc">
+                Increase weight and remove colons for clearer hierarchy.
+                <span class="impact-time">⏱ 5 minutes</span>
+            </div>
+        </div>
+
+        <div class="impact-card">
+            <div class="impact-number">5</div>
+            <div class="impact-title">Active Navigation State</div>
+            <div class="impact-desc">
+                Show users which page they're currently on.
+                <span class="impact-time">⏱ 10 minutes</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Breadcrumb toggle
+        function toggleBreadcrumb(state) {
+            const text = document.getElementById('breadcrumb-text');
+            const buttons = document.querySelectorAll('#breadcrumb-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+
+            if (state === 'before') {
+                text.textContent = 'Max Milne / Writing';
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            } else {
+                text.textContent = 'Max Milne • Writing';
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+            }
+        }
+
+        // H4 toggle
+        function toggleH4(state) {
+            const heading = document.getElementById('h4-heading');
+            const allH4s = document.querySelectorAll('#h4-demo .mock-h4');
+            const buttons = document.querySelectorAll('#h4-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+
+            if (state === 'before') {
+                allH4s.forEach(h => {
+                    h.className = 'mock-h4 weak';
+                });
+                heading.innerHTML = 'Starting <a href="#" style="color: var(--color-accent-hover); text-decoration: underline;">Talk. Art. Therapy.</a>:';
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            } else {
+                allH4s.forEach(h => {
+                    h.className = 'mock-h4 strong';
+                    h.innerHTML = h.innerHTML.replace(':', '');
+                });
+                heading.innerHTML = 'Starting <a href="#" style="color: var(--color-accent-hover); text-decoration: underline;">Talk. Art. Therapy.</a>';
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+            }
+        }
+
+        // Linked mentions toggle
+        function toggleLinkedMentions(state) {
+            const section = document.getElementById('linked-mentions-section');
+            const buttons = document.querySelectorAll('#linked-mentions-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+
+            if (state === 'before') {
+                section.classList.remove('hidden');
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            } else {
+                section.classList.add('hidden');
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+            }
+        }
+
+        // Active nav toggle
+        function toggleActiveNav(state) {
+            const links = document.querySelectorAll('#nav-links .mock-nav-link');
+            const buttons = document.querySelectorAll('#active-nav-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+
+            links.forEach(link => link.classList.remove('active'));
+
+            if (state === 'after') {
+                links[2].classList.add('active'); // Projects
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+            } else {
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            }
+        }
+
+        // External links toggle
+        function toggleExternalLinks(state) {
+            const links = document.querySelectorAll('#external-links-demo .mock-external-link');
+            const buttons = document.querySelectorAll('#external-links-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+
+            if (state === 'before') {
+                links.forEach(link => link.classList.remove('subtle'));
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            } else {
+                links.forEach(link => link.classList.add('subtle'));
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+            }
+        }
+
+        // HR vs Space toggle
+        function toggleHR(state) {
+            const separator = document.getElementById('separator-element');
+            const buttons = document.querySelectorAll('#hr-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+
+            if (state === 'before') {
+                separator.innerHTML = '<hr class="mock-hr">';
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            } else {
+                separator.innerHTML = '<div class="mock-space"></div>';
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+            }
+        }
+
+        // Filter animation
+        function filterItems() {
+            const items = document.querySelectorAll('#filter-list li');
+            const buttons = document.querySelectorAll('#filter-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+
+            buttons[0].classList.remove('active');
+            buttons[1].classList.add('active');
+
+            // Fade out items 2 and 4
+            items[1].classList.add('fading');
+            items[3].classList.add('fading');
+        }
+
+        function resetFilter() {
+            const items = document.querySelectorAll('#filter-list li');
+            const buttons = document.querySelectorAll('#filter-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+
+            buttons[0].classList.add('active');
+            buttons[1].classList.remove('active');
+
+            items.forEach(item => item.classList.remove('fading'));
+        }
+
+        // Progress bar toggle
+        function toggleProgress(state) {
+            const bar = document.getElementById('progress-bar');
+            const buttons = document.querySelectorAll('#progress-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+
+            if (state === 'on') {
+                bar.style.display = 'block';
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+            } else {
+                bar.style.display = 'none';
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

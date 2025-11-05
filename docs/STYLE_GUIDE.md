@@ -24,6 +24,18 @@ layout: note
 
 **Systems Thinking:** Every design decision creates relationships. Changes should be universal, factor-based, and mathematically consistent.
 
+### Language Consistency
+
+**Identity Tagline:** "Therapist, Artist, Contemplative"
+- Use this exact language consistently across all pages
+- Not "counsellor, meditation teacher, artist" or other variations
+- Appears on: Homepage, About page, and should be referenced consistently throughout
+
+**Rationale:**
+- Creates memorable, consistent brand language
+- Three parallel roles of equal weight
+- Alliterative and rhythmic
+
 ### Aesthetic: "Viola/Rams + Systems"
 
 **Viola (The Mood):** Atmospheric and contemplative, achieved through warm, dark backgrounds and clean blue accents.
@@ -181,7 +193,7 @@ h2-h6 { line-height: 1.25; }      /* Balanced for hierarchy */
 
 ```scss
 /* Factor-based margins */
-h2 { margin-top: calc(var(--space-xl) * 1.25); }  /* 3.75rem section breaks */
+h2 { margin-top: var(--space-xl); }               /* 3rem - simplified to match h3 */
 h3 { margin-top: var(--space-xl); }               /* 3rem subsection breaks */
 p { margin: var(--space-md) 0 var(--space-lg) 0; } /* 1rem - 1.75rem rhythm */
 ```
@@ -244,6 +256,37 @@ p { margin: var(--space-md) 0 var(--space-lg) 0; } /* 1rem - 1.75rem rhythm */
 - Changes to base classes affect all components systematically
 - Reduces CSS duplication and maintenance overhead
 - Maintains visual consistency automatically
+
+### Actionable Content Boxes (Now Page Pattern)
+
+**Purpose:** Visual distinction between actionable work (with CTAs) and informational content.
+
+**Structure:**
+```html
+<div style="background: rgba(147, 197, 253, 0.05); padding: 1rem; border-left: 3px solid var(--color-accent-hover); margin: 1rem 0;">
+  <p style="margin: 0;"><strong>Work Title</strong> — Brief description</p>
+  <a href="/path" style="display: inline-block; margin-top: 1rem; padding: 0.5rem 1.75rem; background: var(--color-charcoal); color: var(--color-accent-hover); text-decoration: none; border: 1px solid var(--color-accent-subtle); border-radius: 3px; font-weight: 500; transition: all 200ms ease;">Call to Action →</a>
+</div>
+```
+
+**Design Tokens:**
+- **Box background:** `rgba(147, 197, 253, 0.05)` - Subtle blue tint
+- **Left border:** `3px solid var(--color-accent-hover)` - Blue accent
+- **Button background:** `var(--color-charcoal)`
+- **Button text:** `var(--color-accent-hover)`
+- **Button border:** `1px solid var(--color-accent-subtle)`
+- **Padding:** Systematic `1rem` (var(--space-md))
+- **Button padding:** `0.5rem 1.75rem` (var(--space-sm) and var(--space-lg))
+
+**Usage:**
+- Use for Primary Work items that require user action
+- Do NOT use for informational content (Current Explorations)
+- Creates clear visual hierarchy: boxed = actionable, plain = informational
+
+**Technical Notes:**
+- Currently implemented with inline styles for rapid prototyping
+- Can be extracted to reusable `.actionable-box` and `.cta-button` classes
+- Maintains systematic spacing and color tokens
 
 ### Section Headers - Universal Pattern
 
@@ -501,6 +544,50 @@ style="margin-top: 2.3rem;"
 **4. Dividers:** Always use `var(--color-divider)` for consistency
 **5. Navigation:** Use color hierarchy patterns (meta gray for secondary, cream for primary)
 **6. Interactive Elements:** Follow hover state patterns with `var(--color-accent-hover)`
+
+### Recommendations Component ("You might also enjoy")
+
+**Purpose:** Intelligent content curation that reduces decision fatigue and maintains engagement.
+
+**Implementation:**
+```scss
+.you-might-enjoy {
+  margin: var(--space-xl) 0;
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--color-divider);
+
+  .recommendations-list {
+    a {
+      color: var(--color-meta);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--color-accent-hover);
+      }
+    }
+  }
+}
+```
+
+**Design Philosophy:**
+- **Tag-based similarity:** Uses shared tags to surface related content algorithmically
+- **Reduces decision fatigue:** 3-5 curated suggestions > full writing list
+- **Intelligent feel:** Site appears curated and thoughtful rather than dumping all content
+- **Maintains engagement:** Provides clear "next reading" path without overwhelming
+- **Better UX:** "Related reading" is more valuable than "see everything"
+
+**Color Choice Rationale:**
+- Uses `--color-meta` (#9c958c) for optimal visibility
+- Tested progression: `--color-stone` (too dark) → `--color-warm-gray` (too bright) → `--color-meta` (balanced)
+- Maintains systematic hierarchy while ensuring readability
+- Hovers to `--color-accent-hover` (blue) for clear interactive state
+
+**Technical Notes:**
+- Powered by `tag_based_recommendations.rb` plugin
+- Uses Jaccard similarity on shared tags
+- Configurable in `_config.yml` with `max_recommendations` and `similarity_threshold`
+- Replaces previous approach of showing full writing list (removed "More Writing" footer)
+- Backlinks/"Linked mentions" section removed to focus on algorithmic curation
 
 ### Scaling the System
 

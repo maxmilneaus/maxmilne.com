@@ -23,11 +23,23 @@ layout: default
   {% if tag_collection.size > 0 %}
   <div class="writing2-filter-group">
     <div class="writing2-filters" data-writing2-filter>
-      <button class="writing2-filter is-active" type="button" data-filter="all">All</button>
-      {% for tag in tag_collection %}
+      <button class="writing2-filter is-active" type="button" data-filter="all">all</button>
+      {% assign visible_tag_limit = 5 %}
+      {% for tag in tag_collection limit: visible_tag_limit %}
         {% assign tag_slug = tag | slugify %}
-        <button class="writing2-filter" type="button" data-filter="{{ tag_slug }}">{{ tag }}</button>
+        {% assign tag_lower = tag | downcase %}
+        <button class="writing2-filter" type="button" data-filter="{{ tag_slug }}">{{ tag_lower }}</button>
       {% endfor %}
+      <button class="more-topics-toggle" type="button" data-toggle-topics>
+        <span class="toggle-text">more →</span>
+      </button>
+      <div class="hidden-topics" data-hidden-topics>
+        {% for tag in tag_collection offset: visible_tag_limit %}
+          {% assign tag_slug = tag | slugify %}
+          {% assign tag_lower = tag | downcase %}
+          <button class="writing2-filter" type="button" data-filter="{{ tag_slug }}">{{ tag_lower }}</button>
+        {% endfor %}
+      </div>
     </div>
   </div>
   {% endif %}
@@ -81,5 +93,26 @@ layout: default
       button.classList.add('is-active');
       applyFilter(button.getAttribute('data-filter'));
     });
+
+    // Toggle topics expansion
+    var toggleButton = document.querySelector('[data-toggle-topics]');
+    var hiddenTopics = document.querySelector('[data-hidden-topics]');
+    var toggleText = toggleButton ? toggleButton.querySelector('.toggle-text') : null;
+
+    if (toggleButton && hiddenTopics) {
+      toggleButton.addEventListener('click', function () {
+        var isExpanded = hiddenTopics.classList.contains('is-expanded');
+
+        if (isExpanded) {
+          hiddenTopics.classList.remove('is-expanded');
+          if (toggleText) toggleText.textContent = 'more →';
+        } else {
+          hiddenTopics.classList.add('is-expanded');
+          if (toggleText) toggleText.textContent = 'less ←';
+          // Update buttons list to include newly visible buttons
+          buttons = Array.prototype.slice.call(filterContainer.querySelectorAll('.writing2-filter'));
+        }
+      });
+    }
   })();
 </script>

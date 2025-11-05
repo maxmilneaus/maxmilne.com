@@ -303,12 +303,6 @@
   width: 80px;
   height: 80px;
   position: relative;
-  cursor: pointer;
-  transition: transform 0.5s ease;
-}
-
-.icon-base.the-leap:hover {
-  transform: scale(1.15);
 }
 
 .icon-base.the-leap:hover * {

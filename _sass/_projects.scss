@@ -11,16 +11,17 @@
   border-bottom: 1px solid var(--color-divider);
   transition: background-color 200ms ease;
   border-radius: var(--border-radius);
-  
+  position: relative;             /* Allow absolute positioning of clickable area */
+
   &:first-child {
     padding-top: 0;
   }
-  
+
   &:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
-  
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.02);
   }
@@ -54,7 +55,7 @@
   display: flex;            /* keep year + title on the same line */
   align-items: baseline;    /* align text baselines */
   gap: 0.5rem;
-  
+
   a {
     color: var(--color-cream);
     text-decoration: underline;          /* replicate Steph-style underlines */
@@ -64,7 +65,18 @@
     text-decoration-skip-ink: auto;      /* natural breaks around descenders */
     transition: color 200ms ease, text-decoration-color 200ms ease;
     line-height: 1; /* ensure same line box as the year */
-    
+
+    /* Stretch link to cover entire project card */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+    }
+
     &:hover {
       color: var(--color-accent-hover);
       text-decoration-color: var(--color-accent-hover);

@@ -6,6 +6,7 @@ tags:
   - groups
   - technology
 date: 2025-02-15
+excerpt: "Exploring relational meditation practices that bridge solo mindfulness and group therapeutic work, combining traditional Buddhist noting with interpersonal neurobiology."
 ---
 **Interbe.ing ended up folding and now the key practioners of that and I are running building on these practices together via the Social Meditation Collective**
 

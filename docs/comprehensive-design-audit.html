@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Design Audit - maxmilne.com</title>
+    <style>
+        :root {
+            --color-deep: #141210;
+            --color-charcoal: #201d1a;
+            --color-graphite: #2d2926;
+            --color-stone: #4a453f;
+            --color-cream: #e8ddd4;
+            --color-warm-gray: #c7beb5;
+            --color-meta: #9c958c;
+            --color-accent-hover: #93c5fd;
+            --color-accent-subtle: #3b82f6;
+
+            --color-green: #10b981;
+            --color-yellow: #f59e0b;
+            --color-red: #ef4444;
+
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.75rem;
+            --space-xl: 3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--color-deep);
+            color: var(--color-cream);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: var(--space-xl) var(--space-lg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-cream);
+            margin-bottom: var(--space-md);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--color-accent-hover);
+            margin: var(--space-xl) 0 var(--space-lg) 0;
+            padding-bottom: var(--space-sm);
+            border-bottom: 2px solid var(--color-graphite);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-warm-gray);
+            margin: var(--space-lg) 0 var(--space-md) 0;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--color-meta);
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .audit-nav {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            border-radius: 3px;
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .audit-nav a {
+            color: var(--color-meta);
+            text-decoration: none;
+            padding: var(--space-sm) var(--space-lg);
+            border: 1px solid var(--color-graphite);
+            border-radius: 3px;
+            transition: all 200ms ease;
+        }
+
+        .audit-nav a:hover {
+            background: var(--color-graphite);
+            color: var(--color-accent-hover);
+            border-color: var(--color-accent-hover);
+        }
+
+        .principle-card {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            border-radius: 3px;
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+
+        .principle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-md);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--color-graphite);
+        }
+
+        .principle-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--color-cream);
+        }
+
+        .score-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .score-high {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--color-green);
+            border: 1px solid var(--color-green);
+        }
+
+        .score-med {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--color-yellow);
+            border: 1px solid var(--color-yellow);
+        }
+
+        .score-low {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--color-red);
+            border: 1px solid var(--color-red);
+        }
+
+        .evidence {
+            background: var(--color-deep);
+            padding: var(--space-md);
+            border-left: 3px solid var(--color-accent-subtle);
+            margin: var(--space-md) 0;
+            font-style: italic;
+            color: var(--color-warm-gray);
+        }
+
+        .fix {
+            background: rgba(147, 197, 253, 0.05);
+            border-left: 3px solid var(--color-accent-hover);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .fix-title {
+            font-weight: 600;
+            color: var(--color-accent-hover);
+            margin-bottom: var(--space-sm);
+        }
+
+        .visual-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+
+        .comparison-box {
+            background: var(--color-deep);
+            padding: var(--space-md);
+            border-radius: 3px;
+            border: 1px solid var(--color-graphite);
+        }
+
+        .comparison-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-sm);
+            color: var(--color-meta);
+        }
+
+        .comparison-label.before {
+            color: var(--color-red);
+        }
+
+        .comparison-label.after {
+            color: var(--color-green);
+        }
+
+        .summary-section {
+            background: rgba(147, 197, 253, 0.05);
+            border: 2px solid var(--color-accent-hover);
+            border-radius: 3px;
+            padding: var(--space-xl);
+            margin: var(--space-xl) 0;
+        }
+
+        .summary-title {
+            font-size: 1.8rem;
+            color: var(--color-accent-hover);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+
+        .impact-list {
+            list-style: none;
+            counter-reset: impact-counter;
+        }
+
+        .impact-list li {
+            counter-increment: impact-counter;
+            margin: var(--space-md) 0;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .impact-list li::before {
+            content: counter(impact-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--color-accent-hover);
+            color: var(--color-deep);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .impact-item-title {
+            font-weight: 600;
+            color: var(--color-cream);
+            margin-bottom: var(--space-xs);
+        }
+
+        .impact-item-desc {
+            color: var(--color-meta);
+            font-size: 0.95rem;
+        }
+
+        code {
+            background: var(--color-deep);
+            padding: 0.125rem 0.375rem;
+            border-radius: 2px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--color-accent-hover);
+        }
+
+        .calm-tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+
+        .calm-card {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            border-radius: 3px;
+            padding: var(--space-md);
+        }
+
+        .calm-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-cream);
+            margin-bottom: var(--space-sm);
+        }
+
+        .calm-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .status-good {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--color-green);
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--color-yellow);
+        }
+
+        .status-issue {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--color-red);
+        }
+
+        .cssda-score-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin: var(--space-xl) 0;
+        }
+
+        .cssda-score-card {
+            background: var(--color-charcoal);
+            border: 2px solid var(--color-graphite);
+            border-radius: 3px;
+            padding: var(--space-lg);
+            text-align: center;
+        }
+
+        .cssda-category {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-meta);
+            margin-bottom: var(--space-sm);
+        }
+
+        .cssda-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-accent-hover);
+            margin: var(--space-md) 0;
+        }
+
+        .cssda-rating {
+            font-size: 1.1rem;
+            color: var(--color-warm-gray);
+        }
+
+        @media (max-width: 768px) {
+            .visual-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .cssda-score-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Comprehensive Design Audit</h1>
+    <p class="subtitle">maxmilne.com - Dieter Rams • Calm Technology • CSSDA Evaluation</p>
+
+    <nav class="audit-nav">
+        <a href="#dieter-rams">Dieter Rams Principles</a>
+        <a href="#calm-technology">Calm Technology</a>
+        <a href="#cssda">CSSDA Evaluation</a>
+        <a href="#quick-wins">Top 5 Quick Wins</a>
+    </nav>
+
+    <!-- DIETER RAMS SECTION -->
+    <section id="dieter-rams">
+        <h2>Dieter Rams' 10 Principles Audit</h2>
+
+        <!-- Principle 1 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">1. Good Design is Innovative</div>
+                <div class="score-badge score-med">7/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Subtle innovations like the footer easter egg animation, tag-based recommendation algorithm, and blue-tinted actionable content boxes. However, the overall experience follows conventional patterns.
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>Add micro-interactions to filter tags:</strong> When clicking a tag, animate the list items fading in/out with staggered timing (50ms delay between each). This creates a sense of curated intelligence without being flashy.</p>
+                <code>transition: opacity 300ms ease; transition-delay: calc(var(--item-index) * 50ms);</code>
+            </div>
+        </div>
+
+        <!-- Principle 2 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">2. Good Design Makes a Product Useful</div>
+                <div class="score-badge score-high">9/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Excellent information architecture - "About" (credibility), "Now" (current work), "Projects" (portfolio), "Writing" (ideas). Clear navigation, scannable lists, actionable CTAs on Now page.
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>Add keyboard navigation:</strong> Let users press numbers 1-4 to navigate to main sections, "/" to focus search (if added later). Shows thoughtfulness for power users.</p>
+                <code>document.addEventListener('keydown', (e) => { if (e.key === '1') window.location = '/about'; });</code>
+            </div>
+        </div>
+
+        <!-- Principle 3 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">3. Good Design is Aesthetic</div>
+                <div class="score-badge score-high">8/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Beautiful dark minimalist aesthetic with cream text on deep charcoal. However, some inconsistencies exist - H4 headings on Now page use colons, breadcrumb on Topics page uses "/" separator inconsistently.
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>Unify breadcrumb style:</strong> Topics page shows "Max Milne / Writing" - change to use bullet separator like filters: "Max Milne • Writing" for visual consistency with the rest of the site.</p>
+
+                <div class="visual-comparison">
+                    <div class="comparison-box">
+                        <div class="comparison-label before">Current</div>
+                        <code>Max Milne / Writing</code>
+                    </div>
+                    <div class="comparison-box">
+                        <div class="comparison-label after">Proposed</div>
+                        <code>Max Milne • Writing</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Principle 4 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">4. Good Design Makes a Product Understandable</div>
+                <div class="score-badge score-med">7/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Generally clear, but some areas lack hierarchy. On Now page, H4 headings like "Starting Talk. Art. Therapy.:" compete visually with body text. The site navigation shows all items at same weight.</p>
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>Remove colons from H4 headings and increase weight:</strong> Change "Starting Talk. Art. Therapy.:" to "Starting Talk. Art. Therapy." and bump font-weight from 400 to 600. Makes section breaks clearer.</p>
+
+                <div class="visual-comparison">
+                    <div class="comparison-box">
+                        <div class="comparison-label before">Current (unclear)</div>
+                        <p style="font-size: 1.1rem; font-weight: 400;">Starting Talk. Art. Therapy.:</p>
+                        <p style="font-size: 1rem; color: var(--color-warm-gray); margin-top: 0.5rem;">I've just finished my Masters...</p>
+                    </div>
+                    <div class="comparison-box">
+                        <div class="comparison-label after">Proposed (clearer)</div>
+                        <p style="font-size: 1.1rem; font-weight: 600;">Starting Talk. Art. Therapy.</p>
+                        <p style="font-size: 1rem; color: var(--color-warm-gray); margin-top: 0.5rem;">I've just finished my Masters...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Principle 5 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">5. Good Design is Unobtrusive</div>
+                <div class="score-badge score-high">9/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Excellent restraint - no popups, no cookie banners, no tracking notices, no newsletter prompts. The footer animation is subtle and doesn't demand attention. Content is the hero.
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>Reduce external link indicators:</strong> The "↗" symbol on external links is slightly obtrusive. Consider making it appear only on hover, or use a more subtle indicator like slight underline color change.</p>
+                <code>.external-link::after { opacity: 0; transition: opacity 200ms; } .external-link:hover::after { opacity: 1; }</code>
+            </div>
+        </div>
+
+        <!-- Principle 6 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">6. Good Design is Honest</div>
+                <div class="score-badge score-high">10/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Perfect authenticity - the voice is genuine ("I enjoy function and public utility"), no inflated claims, "Coming soon" states clearly when content isn't ready. The tagline "Therapist, Artist, Contemplative" is direct and true.
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>None needed.</strong> This is the site's strongest principle. The honesty in copy and design creates trust immediately.</p>
+            </div>
+        </div>
+
+        <!-- Principle 7 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">7. Good Design is Long-lasting</div>
+                <div class="score-badge score-high">9/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Timeless aesthetic choices - dark minimalism, systematic spacing, classic typography. No trendy gradients, glassmorphism, or effects that will date quickly. The design will age well.
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>Document the design system:</strong> Create a simple style guide showing the spacing scale, color palette, and typography choices. This ensures future additions maintain the timeless quality.</p>
+                <p><em>Note: This has already been partially done in STYLE_GUIDE.md - continue to maintain it.</em></p>
+            </div>
+        </div>
+
+        <!-- Principle 8 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">8. Good Design is Thorough Down to the Last Detail</div>
+                <div class="score-badge score-med">6/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Some details need attention - breadcrumb inconsistency on Topics page, H4 colons on Now page, "Linked mentions" section shows "There are no notes linking to this note" (negative affordance), filter capitalization inconsistent between pages.
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>Hide empty "Linked mentions" section:</strong> Instead of showing "There are no notes linking to this note," simply don't render the section if there are no backlinks. Negative space is better than negative information.</p>
+                <code>{% if backlinks.size > 0 %} [show section] {% endif %}</code>
+            </div>
+        </div>
+
+        <!-- Principle 9 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">9. Good Design is Environmentally Friendly</div>
+                <div class="score-badge score-high">8/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Dark theme reduces energy consumption on OLED screens. Static site generation = minimal server resources. No tracking scripts or heavy JavaScript frameworks. Could optimize image assets further.
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>Add WebP image format with fallbacks:</strong> Convert images to WebP format (typically 30% smaller than PNG/JPEG) with fallback to original format for older browsers.</p>
+                <code>&lt;picture>&lt;source srcset="image.webp" type="image/webp">&lt;img src="image.png">&lt;/picture></code>
+            </div>
+        </div>
+
+        <!-- Principle 10 -->
+        <div class="principle-card">
+            <div class="principle-header">
+                <div class="principle-title">10. Good Design is as Little Design as Possible</div>
+                <div class="score-badge score-high">9/10</div>
+            </div>
+
+            <div class="evidence">
+                <strong>Evidence:</strong> Excellent minimalism - no unnecessary decorations, clear typography, generous whitespace. Every element serves a purpose. The only slight excess is the separation lines on some pages.
+            </div>
+
+            <div class="fix">
+                <div class="fix-title">Concrete Fix:</div>
+                <p><strong>Consider removing horizontal rules:</strong> The `<hr>` elements on About page could be replaced with simply more vertical space. Let the content breathe without visual dividers.</p>
+
+                <div class="visual-comparison">
+                    <div class="comparison-box">
+                        <div class="comparison-label before">With HR</div>
+                        <p style="margin-bottom: 0.5rem;">Previous content</p>
+                        <hr style="border: none; border-top: 1px solid var(--color-graphite); margin: 1rem 0;">
+                        <p style="margin-top: 0.5rem;">Next section</p>
+                    </div>
+                    <div class="comparison-box">
+                        <div class="comparison-label after">With Space</div>
+                        <p style="margin-bottom: 0.5rem;">Previous content</p>
+                        <div style="height: 3rem;"></div>
+                        <p style="margin-top: 0.5rem;">Next section</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weighted Summary -->
+        <div class="summary-section">
+            <div class="summary-title">Dieter Rams Weighted Summary</div>
+
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: var(--space-lg); color: var(--color-warm-gray);">
+                Overall Score: <strong style="color: var(--color-accent-hover); font-size: 2rem;">8.2/10</strong>
+            </p>
+
+            <p style="color: var(--color-warm-gray); line-height: 1.8;">
+                The site demonstrates strong adherence to Rams' principles, particularly excelling in <strong style="color: var(--color-cream);">honesty (10/10)</strong>, <strong style="color: var(--color-cream);">usefulness (9/10)</strong>, and <strong style="color: var(--color-cream);">restraint (9/10)</strong>.
+                <br><br>
+                The main opportunities lie in <strong style="color: var(--color-yellow);">thoroughness</strong> (small inconsistencies in details) and <strong style="color: var(--color-yellow);">understandability</strong> (some hierarchy improvements needed).
+                <br><br>
+                This is fundamentally <strong style="color: var(--color-cream);">excellent work</strong> that respects the user's attention and intelligence. The suggested fixes are refinements, not major corrections.
+            </p>
+        </div>
+    </section>
+
+    <!-- CALM TECHNOLOGY SECTION -->
+    <section id="calm-technology">
+        <h2>Calm Technology Cross-Check</h2>
+        <p style="color: var(--color-meta); margin-bottom: var(--space-lg);">
+            Evaluating elements that demand unnecessary attention (motion, contrast, density). Goal: maintain personality while lowering cognitive load.
+        </p>
+
+        <div class="calm-tech-grid">
+            <div class="calm-card">
+                <div class="calm-title">Motion</div>
+                <span class="calm-status status-good">Excellent</span>
+                <p style="color: var(--color-meta); margin-top: var(--space-sm);">
+                    <strong>Finding:</strong> Only one animated element - the footer dash animation. It's subtle, pauseable on hover, and doesn't distract.
+                    <br><br>
+                    <strong>Recommendation:</strong> Perfect as is. Consider adding `prefers-reduced-motion` support to disable it entirely for users who request it.
+                </p>
+            </div>
+
+            <div class="calm-card">
+                <div class="calm-title">Contrast</div>
+                <span class="calm-status status-warning">Needs Attention</span>
+                <p style="color: var(--color-meta); margin-top: var(--space-sm);">
+                    <strong>Finding:</strong> The blue accent color (#93c5fd) on dark background is high contrast. While accessible, it demands attention even when not interactive.
+                    <br><br>
+                    <strong>Recommendation:</strong> Reserve the bright blue only for active states and primary CTAs. Use --color-warm-gray for secondary elements like "You might also enjoy."
+                </p>
+            </div>
+
+            <div class="calm-card">
+                <div class="calm-title">Density</div>
+                <span class="calm-status status-good">Excellent</span>
+                <p style="color: var(--color-meta); margin-top: var(--space-sm);">
+                    <strong>Finding:</strong> Great use of whitespace throughout. Lists are scannable, text blocks are comfortably wide (max 42rem), generous margins.
+                    <br><br>
+                    <strong>Recommendation:</strong> No changes needed. This is exemplary calm density.
+                </p>
+            </div>
+
+            <div class="calm-card">
+                <div class="calm-title">Notifications</div>
+                <span class="calm-status status-good">Excellent</span>
+                <p style="color: var(--color-meta); margin-top: var(--space-sm);">
+                    <strong>Finding:</strong> Zero notifications, popups, or interruptions. No cookie banners, newsletter prompts, or chat widgets.
+                    <br><br>
+                    <strong>Recommendation:</strong> Perfect. Never add these.
+                </p>
+            </div>
+
+            <div class="calm-card">
+                <div class="calm-title">Navigation Permanence</div>
+                <span class="calm-status status-good">Excellent</span>
+                <p style="color: var(--color-meta); margin-top: var(--space-sm);">
+                    <strong>Finding:</strong> Navigation stays in place, no sticky headers, no disappearing menus. Users always know where they are.
+                    <br><br>
+                    <strong>Recommendation:</strong> Consider adding subtle active state to current nav item (slightly brighter or underlined).
+                </p>
+            </div>
+
+            <div class="calm-card">
+                <div class="calm-title">Cognitive Load</div>
+                <span class="calm-status status-good">Excellent</span>
+                <p style="color: var(--color-meta); margin-top: var(--space-sm);">
+                    <strong>Finding:</strong> Each page has one clear purpose. Information hierarchy is clean. Tag-based recommendations reduce decision fatigue.
+                    <br><br>
+                    <strong>Recommendation:</strong> Consider adding page descriptions under H1 titles to set context immediately (like Homepage does).
+                </p>
+            </div>
+        </div>
+
+        <div class="summary-section">
+            <div class="summary-title">Calm Technology Summary</div>
+            <p style="color: var(--color-warm-gray); line-height: 1.8;">
+                The site scores <strong style="color: var(--color-green);">exceptionally well</strong> on Calm Technology principles. It respects the visitor's attention and never demands unnecessary focus.
+                <br><br>
+                <strong style="color: var(--color-cream);">Key Strength:</strong> Complete absence of dark patterns - no popups, tracking notices, or interruptions.
+                <br><br>
+                <strong style="color: var(--color-yellow);">One Refinement:</strong> The bright blue accent color could be reserved for truly actionable elements only, using softer grays for passive content like recommendations.
+            </p>
+        </div>
+    </section>
+
+    <!-- CSSDA SECTION -->
+    <section id="cssda">
+        <h2>CSSDA Evaluation</h2>
+        <p style="color: var(--color-meta); margin-bottom: var(--space-lg);">
+            Evaluated for UI Design, UX Design, and Innovation quality.
+        </p>
+
+        <div class="cssda-score-grid">
+            <div class="cssda-score-card">
+                <div class="cssda-category">UI Design</div>
+                <div class="cssda-score">8.5</div>
+                <div class="cssda-rating">Excellent</div>
+            </div>
+            <div class="cssda-score-card">
+                <div class="cssda-category">UX Design</div>
+                <div class="cssda-score">9.0</div>
+                <div class="cssda-rating">Outstanding</div>
+            </div>
+            <div class="cssda-score-card">
+                <div class="cssda-category">Innovation</div>
+                <div class="cssda-score">7.0</div>
+                <div class="cssda-rating">Good</div>
+            </div>
+        </div>
+
+        <h3>UI Design (8.5/10)</h3>
+        <div class="principle-card">
+            <h4 style="color: var(--color-cream); margin-bottom: var(--space-sm);">Strengths</h4>
+            <ul style="color: var(--color-meta); padding-left: var(--space-lg); margin-bottom: var(--space-md);">
+                <li>Beautiful dark minimalist aesthetic with excellent color palette</li>
+                <li>Systematic spacing scale creates visual rhythm</li>
+                <li>Typography choices are timeless and readable</li>
+                <li>Consistent design language across pages</li>
+            </ul>
+
+            <h4 style="color: var(--color-cream); margin-bottom: var(--space-sm);">Gaps with Concrete Examples</h4>
+            <ul style="color: var(--color-meta); padding-left: var(--space-lg);">
+                <li><strong>Inconsistent breadcrumbs:</strong> Topics page uses "/" while rest of site uses "•"</li>
+                <li><strong>H4 styling:</strong> Colons on Now page ("Starting Talk. Art. Therapy.:") add visual clutter</li>
+                <li><strong>Filter capitalization:</strong> Projects page uses "All •" but Writing uses "all •"</li>
+            </ul>
+        </div>
+
+        <h3>UX Design (9.0/10)</h3>
+        <div class="principle-card">
+            <h4 style="color: var(--color-cream); margin-bottom: var(--space-sm);">Strengths</h4>
+            <ul style="color: var(--color-meta); padding-left: var(--space-lg); margin-bottom: var(--space-md);">
+                <li>Excellent information architecture - each page has clear purpose</li>
+                <li>Tag-based recommendations reduce decision fatigue</li>
+                <li>Scannable lists with date + title pattern</li>
+                <li>Clear CTAs on Now page with blue-tinted boxes</li>
+                <li>No dark patterns or interruptions</li>
+            </ul>
+
+            <h4 style="color: var(--color-cream); margin-bottom: var(--space-sm);">Gaps with Concrete Examples</h4>
+            <ul style="color: var(--color-meta); padding-left: var(--space-lg);">
+                <li><strong>Missing keyboard navigation:</strong> No shortcuts for power users</li>
+                <li><strong>Empty states:</strong> "Linked mentions" shows "There are no notes" instead of hiding</li>
+                <li><strong>No active nav indicator:</strong> Hard to know which page you're on in navigation</li>
+            </ul>
+        </div>
+
+        <h3>Innovation (7.0/10)</h3>
+        <div class="principle-card">
+            <h4 style="color: var(--color-cream); margin-bottom: var(--space-sm);">5 Micro-Interactions / Details for Innovation</h4>
+            <p style="color: var(--color-meta); margin-bottom: var(--space-md);">
+                These additions would register as "innovation" without breaking minimalism:
+            </p>
+
+            <ol style="color: var(--color-meta); padding-left: var(--space-lg); line-height: 2;">
+                <li><strong>Staggered filter animations:</strong> When clicking a tag filter, fade out non-matching items with 50ms delay between each, creating a "dealt cards" effect</li>
+
+                <li><strong>Reading progress indicator:</strong> On long note pages, show a subtle progress line at top (1px height, blue accent color) that grows as you scroll</li>
+
+                <li><strong>Hover-reveal publication dates:</strong> On Projects list, show year by default, but reveal full date on hover of the year column (smooth opacity transition)</li>
+
+                <li><strong>Contextual navigation hints:</strong> When hovering over a writing title, show the tags associated with it as a subtle fade-in beneath</li>
+
+                <li><strong>Smart link previews:</strong> Internal links could show a 2-line excerpt preview on hover after 500ms delay (like Wikipedia), helping users decide if they want to navigate</li>
+            </ol>
+        </div>
+
+        <div class="summary-section">
+            <div class="summary-title">CSSDA Summary</div>
+            <p style="color: var(--color-warm-gray); line-height: 1.8;">
+                <strong style="color: var(--color-cream);">Overall Assessment:</strong> This site would be a <strong style="color: var(--color-accent-hover);">strong candidate for CSSDA recognition</strong>, particularly in the UX category.
+                <br><br>
+                <strong style="color: var(--color-green);">Standout Qualities:</strong>
+                <ul style="margin-top: var(--space-md); padding-left: var(--space-xl);">
+                    <li>Exceptional restraint and calm design</li>
+                    <li>Thoughtful attention economy principles</li>
+                    <li>Clear information architecture</li>
+                </ul>
+                <br>
+                <strong style="color: var(--color-yellow);">To Push Into "Innovation" Territory:</strong> Add subtle micro-interactions that reveal depth on engagement, without demanding attention upfront. Think progressive disclosure rather than flashy effects.
+            </p>
+        </div>
+    </section>
+
+    <!-- QUICK WINS SECTION -->
+    <section id="quick-wins">
+        <h2>Top 5 Quick Wins (Least Effort / Largest Impact)</h2>
+        <p style="color: var(--color-meta); margin-bottom: var(--space-xl);">
+            Prioritized by implementation time vs. visible improvement. Each takes &lt;15 minutes but meaningfully improves the experience.
+        </p>
+
+        <div class="summary-section">
+            <ol class="impact-list">
+                <li>
+                    <div class="impact-item-title">Hide Empty "Linked Mentions" Section</div>
+                    <div class="impact-item-desc">
+                        <strong>Effort:</strong> 2 minutes (add conditional to template)
+                        <br>
+                        <strong>Impact:</strong> Removes negative affordance, cleaner page endings
+                        <br>
+                        <strong>Code:</strong> <code>{% if backlinks.size > 0 %} [section] {% endif %}</code>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="impact-item-title">Unify Breadcrumb Style (• instead of /)</div>
+                    <div class="impact-item-desc">
+                        <strong>Effort:</strong> 1 minute (change one character)
+                        <br>
+                        <strong>Impact:</strong> Visual consistency across entire site
+                        <br>
+                        <strong>Code:</strong> Change <code>Max Milne / Writing</code> to <code>Max Milne • Writing</code>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="impact-item-title">Increase H4 Font-Weight & Remove Colons</div>
+                    <div class="impact-item-desc">
+                        <strong>Effort:</strong> 5 minutes (CSS + content update)
+                        <br>
+                        <strong>Impact:</strong> Much clearer section hierarchy on Now page
+                        <br>
+                        <strong>Code:</strong> <code>h4 { font-weight: 600; }</code> and remove ":" from headings
+                    </div>
+                </li>
+
+                <li>
+                    <div class="impact-item-title">Add Active State to Navigation</div>
+                    <div class="impact-item-desc">
+                        <strong>Effort:</strong> 10 minutes (Liquid logic + CSS)
+                        <br>
+                        <strong>Impact:</strong> Users always know where they are
+                        <br>
+                        <strong>Code:</strong> <code>{% if page.url contains '/about' %}class="active"{% endif %}</code>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="impact-item-title">Add prefers-reduced-motion Support</div>
+                    <div class="impact-item-desc">
+                        <strong>Effort:</strong> 3 minutes (one media query)
+                        <br>
+                        <strong>Impact:</strong> Respects user preferences, demonstrates care
+                        <br>
+                        <strong>Code:</strong> <code>@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }</code>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div style="background: var(--color-charcoal); padding: var(--space-xl); border-radius: 3px; border-left: 4px solid var(--color-accent-hover); margin-top: var(--space-xl);">
+            <h3 style="color: var(--color-accent-hover); margin-bottom: var(--space-md);">Implementation Priority</h3>
+            <p style="color: var(--color-warm-gray); line-height: 1.8;">
+                These five changes would take approximately <strong style="color: var(--color-cream);">20 minutes total</strong> but would polish the site significantly. They address the most visible inconsistencies and add thoughtful touches that separate good work from great work.
+                <br><br>
+                After these quick wins, consider the micro-interactions from the Innovation section for a second phase of refinement.
+            </p>
+        </div>
+    </section>
+
+    <footer style="margin-top: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--color-graphite); text-align: center; color: var(--color-meta);">
+        <p>Comprehensive Design Audit • maxmilne.com</p>
+        <p style="margin-top: var(--space-sm); font-size: 0.9rem;">Created with attention to detail and respect for your work</p>
+    </footer>
+</body>
+</html>

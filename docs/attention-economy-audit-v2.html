@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attention Economy Audit V2 - Max Milne Website</title>
+    <style>
+        :root {
+            --color-deep: #141210;
+            --color-charcoal: #201d1a;
+            --color-graphite: #2d2926;
+            --color-stone: #4a453f;
+            --color-cream: #e8ddd4;
+            --color-warm-gray: #c7beb5;
+            --color-meta: #9c958c;
+            --color-accent-hover: #93c5fd;
+            --color-accent-subtle: #3b82f6;
+            --color-red: #fca5a5;
+            --color-green: #86efac;
+            --color-yellow: #fcd34d;
+
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.75rem;
+            --space-xl: 3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--color-deep);
+            color: var(--color-cream);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: var(--space-xl) var(--space-lg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-cream);
+            margin-bottom: var(--space-md);
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+        }
+
+        h2 {
+            font-size: 1.85rem;
+            font-weight: 500;
+            color: var(--color-accent-hover);
+            margin: var(--space-xl) 0 var(--space-lg) 0;
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--color-graphite);
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            font-weight: 500;
+            color: var(--color-warm-gray);
+            margin: var(--space-lg) 0 var(--space-md) 0;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--color-cream);
+            margin: var(--space-md) 0 var(--space-sm) 0;
+        }
+
+        p {
+            margin: var(--space-md) 0;
+            color: var(--color-warm-gray);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-xl);
+            border-bottom: 2px solid var(--color-graphite);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-meta);
+            margin-top: var(--space-sm);
+        }
+
+        .summary-box {
+            background: var(--color-charcoal);
+            border: 2px solid var(--color-accent-subtle);
+            padding: var(--space-lg);
+            margin: var(--space-xl) 0;
+            border-radius: 3px;
+        }
+
+        .insight-box {
+            background: rgba(147, 197, 253, 0.1);
+            border-left: 3px solid var(--color-accent-hover);
+            padding: var(--space-md) var(--space-lg);
+            margin: var(--space-md) 0;
+        }
+
+        .question-box {
+            background: rgba(252, 211, 77, 0.1);
+            border-left: 3px solid var(--color-yellow);
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+
+        .mockup-section {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            border-radius: 3px;
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+
+        .mockup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--color-graphite);
+        }
+
+        .mockup-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-cream);
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: var(--space-xs);
+            background: var(--color-deep);
+            padding: var(--space-xs);
+            border-radius: 3px;
+        }
+
+        .toggle-btn {
+            padding: var(--space-xs) var(--space-md);
+            background: transparent;
+            border: 1px solid var(--color-graphite);
+            color: var(--color-meta);
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            transition: all 200ms ease;
+        }
+
+        .toggle-btn:hover {
+            background: var(--color-graphite);
+            color: var(--color-cream);
+        }
+
+        .toggle-btn.active {
+            background: var(--color-accent-subtle);
+            color: var(--color-cream);
+            border-color: var(--color-accent-hover);
+        }
+
+        .mockup-content {
+            display: none;
+            background: var(--color-deep);
+            padding: var(--space-lg);
+            border-radius: 3px;
+            border: 1px solid var(--color-stone);
+        }
+
+        .mockup-content.active {
+            display: block;
+        }
+
+        .mockup-text {
+            color: var(--color-warm-gray);
+            line-height: 1.65;
+        }
+
+        .mockup-cta {
+            display: inline-block;
+            margin-top: var(--space-md);
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--color-charcoal);
+            color: var(--color-accent-hover);
+            text-decoration: none;
+            border: 1px solid var(--color-accent-subtle);
+            border-radius: 3px;
+            font-weight: 500;
+            transition: all 200ms ease;
+        }
+
+        .mockup-cta:hover {
+            background: var(--color-graphite);
+            transform: translateY(-1px);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-panel {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            border-radius: 3px;
+            padding: var(--space-lg);
+        }
+
+        .panel-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-md);
+        }
+
+        .current-badge {
+            display: inline-block;
+            background: rgba(147, 197, 253, 0.2);
+            color: var(--color-accent-hover);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: var(--space-sm);
+        }
+
+        .project-entry {
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-bottom: 1px solid var(--color-graphite);
+        }
+
+        .project-entry.highlighted {
+            background: rgba(147, 197, 253, 0.05);
+            border-left: 3px solid var(--color-accent-hover);
+            padding-left: calc(var(--space-md) - 3px);
+        }
+
+        .project-meta {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: var(--space-md);
+            align-items: start;
+        }
+
+        .project-year {
+            color: var(--color-meta);
+            font-family: monospace;
+        }
+
+        .project-year.current {
+            color: var(--color-accent-hover);
+            font-weight: 600;
+        }
+
+        .project-title {
+            font-weight: 500;
+            color: var(--color-cream);
+            margin-bottom: var(--space-xs);
+        }
+
+        .project-desc {
+            color: var(--color-meta);
+            font-size: 0.95rem;
+        }
+
+        .writing-entry {
+            margin: var(--space-md) 0;
+        }
+
+        .writing-meta {
+            display: flex;
+            gap: var(--space-md);
+            align-items: baseline;
+        }
+
+        .writing-date {
+            color: var(--color-meta);
+            font-family: monospace;
+            min-width: 80px;
+            font-size: 0.9rem;
+        }
+
+        .writing-title {
+            color: var(--color-cream);
+            font-weight: 500;
+        }
+
+        .writing-excerpt {
+            color: var(--color-meta);
+            font-size: 0.9rem;
+            margin-top: var(--space-xs);
+            padding-left: 92px;
+            line-height: 1.5;
+        }
+
+        ul, ol {
+            margin: var(--space-md) 0;
+            padding-left: var(--space-lg);
+        }
+
+        li {
+            margin: var(--space-sm) 0;
+            color: var(--color-warm-gray);
+        }
+
+        .toc {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            padding: var(--space-lg);
+            margin: var(--space-xl) 0;
+            border-radius: 3px;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc a {
+            color: var(--color-accent-hover);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .strength-tag {
+            background: rgba(134, 239, 172, 0.2);
+            color: var(--color-green);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .issue-tag {
+            background: rgba(252, 165, 165, 0.2);
+            color: var(--color-red);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .page-purpose {
+            background: var(--color-deep);
+            padding: var(--space-md);
+            border-radius: 3px;
+            margin: var(--space-sm) 0;
+        }
+
+        .purpose-label {
+            font-size: 0.85rem;
+            color: var(--color-meta);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-xs);
+        }
+
+        .purpose-text {
+            color: var(--color-cream);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Attention Economy Audit V2</h1>
+        <p class="subtitle">Comprehensive Site Structure Analysis & Options</p>
+        <p style="color: var(--color-meta); margin-top: var(--space-sm);">Created: November 2025</p>
+    </div>
+
+    <div class="summary-box">
+        <h3>Key Insight from Your Feedback</h3>
+        <p><strong>Homepage now does the heavy lifting</strong> — it's action-oriented with clear CTAs for immediate engagement.</p>
+
+        <p style="margin-top: var(--space-md);"><strong>This raises an important question:</strong> What unique job should the About and Now pages do that the homepage doesn't already do?</p>
+
+        <p style="margin-top: var(--space-md); color: var(--color-accent-hover);"><strong>Your framing:</strong> "This is an extended CV / artist profile where I can talk about things important to me. Talk Art Therapy will be the business site."</p>
+    </div>
+
+    <div class="toc">
+        <h3>📋 Table of Contents</h3>
+        <ul>
+            <li><a href="#current-state">1. Current State Analysis</a></li>
+            <li><a href="#redundancy">2. The Redundancy Question</a></li>
+            <li><a href="#about-options">3. About Page Options (4 Approaches)</a></li>
+            <li><a href="#now-options">4. Now Page Options (Hybrid Approaches)</a></li>
+            <li><a href="#tat-integration">5. TAT Integration Levels</a></li>
+            <li><a href="#projects">6. Projects Section (TAT Highlighted)</a></li>
+            <li><a href="#writing">7. Writing Section (With Excerpts)</a></li>
+            <li><a href="#recommendations">8. Recommendations</a></li>
+        </ul>
+    </div>
+
+    <section id="current-state">
+        <h2>📊 Current State Analysis</h2>
+
+        <h3>How Your Pages Currently Function</h3>
+
+        <div class="comparison-grid">
+            <div class="comparison-panel">
+                <div class="panel-label" style="color: var(--color-accent-hover);">Homepage</div>
+                <div class="page-purpose">
+                    <div class="purpose-label">Current Purpose</div>
+                    <div class="purpose-text">Action Gateway</div>
+                </div>
+                <ul style="margin-top: var(--space-md);">
+                    <li><span class="strength-tag">✓</span> Profile image + tagline</li>
+                    <li><span class="strength-tag">✓</span> 3 clear identity statements</li>
+                    <li><span class="strength-tag">✓</span> 3 CTAs (therapy, creative approach, YouTube)</li>
+                    <li><span class="strength-tag">✓</span> Immediate engagement possible</li>
+                </ul>
+            </div>
+
+            <div class="comparison-panel">
+                <div class="panel-label" style="color: var(--color-warm-gray);">About Page</div>
+                <div class="page-purpose">
+                    <div class="purpose-label">Current Purpose</div>
+                    <div class="purpose-text">Chronological Journey</div>
+                </div>
+                <ul style="margin-top: var(--space-md);">
+                    <li><span class="strength-tag">✓</span> Beautiful stone stairs philosophy</li>
+                    <li><span class="strength-tag">✓</span> Complete career narrative</li>
+                    <li><span class="issue-tag">?</span> Current work buried at end</li>
+                    <li><span class="issue-tag">?</span> Some overlap with homepage</li>
+                </ul>
+            </div>
+
+            <div class="comparison-panel">
+                <div class="panel-label" style="color: var(--color-warm-gray);">Now Page</div>
+                <div class="page-purpose">
+                    <div class="purpose-label">Current Purpose</div>
+                    <div class="purpose-text">Status Update</div>
+                </div>
+                <ul style="margin-top: var(--space-md);">
+                    <li><span class="strength-tag">✓</span> Shows breadth of interests</li>
+                    <li><span class="strength-tag">✓</span> Personal and authentic</li>
+                    <li><span class="issue-tag">?</span> No CTAs or actions</li>
+                    <li><span class="issue-tag">?</span> Some overlap with homepage</li>
+                </ul>
+            </div>
+
+            <div class="comparison-panel">
+                <div class="panel-label" style="color: var(--color-warm-gray);">Projects</div>
+                <div class="page-purpose">
+                    <div class="purpose-label">Current Purpose</div>
+                    <div class="purpose-text">Portfolio Archive</div>
+                </div>
+                <ul style="margin-top: var(--space-md);">
+                    <li><span class="strength-tag">✓</span> Clean, scannable layout</li>
+                    <li><span class="strength-tag">✓</span> Good year-based organization</li>
+                    <li><span class="issue-tag">?</span> TAT same weight as old work</li>
+                    <li><span class="issue-tag">?</span> No visual differentiation</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="redundancy">
+        <h2>🤔 The Redundancy Question</h2>
+
+        <div class="question-box">
+            <h3 style="margin-top: 0;">Central Question</h3>
+            <p style="font-size: 1.1rem;"><strong>Now that Homepage does the "What I Do + CTAs" job, what unique value should About and Now provide?</strong></p>
+        </div>
+
+        <h3>Information Architecture Options</h3>
+
+        <div class="insight-box">
+            <h4>Option A: Distinct Purposes Model</h4>
+            <ul>
+                <li><strong>Homepage:</strong> Action gateway (what's available now)</li>
+                <li><strong>About:</strong> Credibility & philosophy (why trust me, what I believe)</li>
+                <li><strong>Now:</strong> Current explorations (what I'm thinking about, hybrid status/action)</li>
+                <li><strong>Projects:</strong> Portfolio (what I've made)</li>
+                <li><strong>Writing:</strong> Ideas (what I'm exploring in depth)</li>
+            </ul>
+        </div>
+
+        <div class="insight-box">
+            <h4>Option B: Consolidation Model</h4>
+            <ul>
+                <li><strong>Homepage:</strong> Action gateway + brief bio</li>
+                <li><strong>About:</strong> Deep dive (full story, philosophy, credentials in one place)</li>
+                <li><strong>Remove Now page?</strong> Fold into About or Homepage</li>
+                <li><strong>Projects:</strong> Portfolio with current work highlighted</li>
+                <li><strong>Writing:</strong> Ideas & resources</li>
+            </ul>
+        </div>
+
+        <div class="insight-box">
+            <h4>Option C: Audience-Based Model</h4>
+            <ul>
+                <li><strong>Homepage:</strong> Action gateway for all visitors</li>
+                <li><strong>About:</strong> For clients/collaborators (credentials, approach, trust-building)</li>
+                <li><strong>Now:</strong> For peers/friends (what you're exploring, personal interests)</li>
+                <li><strong>Projects:</strong> For portfolio browsers (extended CV)</li>
+                <li><strong>Writing:</strong> For idea-seekers (depth on topics you care about)</li>
+            </ul>
+        </div>
+
+        <p style="margin-top: var(--space-lg); font-style: italic; color: var(--color-meta);">The mockups below explore these different models. Click through the options to see what resonates.</p>
+    </section>
+
+    <section id="about-options">
+        <h2>📄 About Page Options</h2>
+
+        <div class="mockup-section">
+            <div class="mockup-header">
+                <div class="mockup-title">About Page Structures</div>
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" onclick="showMockup('about', 1)">Current</button>
+                    <button class="toggle-btn" onclick="showMockup('about', 2)">Option A</button>
+                    <button class="toggle-btn" onclick="showMockup('about', 3)">Option B</button>
+                    <button class="toggle-btn" onclick="showMockup('about', 4)">Option C</button>
+                    <button class="toggle-btn" onclick="showMockup('about', 5)">Option D</button>
+                </div>
+            </div>
+
+            <!-- Current -->
+            <div id="about-1" class="mockup-content active">
+                <div class="panel-label" style="color: var(--color-meta);">CURRENT: Chronological Journey</div>
+                <div class="mockup-text">
+                    <h3 style="margin-top: 0;">About me</h3>
+                    <p>I enjoy function and public utility. The weave between practical and beauty. A stone staircase with slowly rounded edges, curved by generations of feet stepping into a library...</p>
+                    <p style="color: var(--color-meta); margin-top: var(--space-md);">→ NGV beginnings</p>
+                    <p style="color: var(--color-meta);">→ Photography (15 years)</p>
+                    <p style="color: var(--color-meta);">→ Studio Brunswick</p>
+                    <p style="color: var(--color-meta);">→ Buddhist monasteries</p>
+                    <p style="color: var(--color-meta);">→ Counselling training</p>
+                    <p style="color: var(--color-meta);">→ Talk. Art. Therapy. (finally appears)</p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Strengths:</strong> Beautiful philosophy, complete story, authentic narrative<br>
+                    <strong>Questions:</strong> Does current work appear too late? Does it overlap with homepage?
+                </div>
+            </div>
+
+            <!-- Option A: Credentials First -->
+            <div id="about-2" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-green);">OPTION A: Credentials & Philosophy First</div>
+                <div class="mockup-text">
+                    <h3 style="margin-top: 0;">About me</h3>
+
+                    <p><strong>I'm a counsellor, meditation teacher, and artist working at the intersection of contemplation, creativity, and care.</strong></p>
+
+                    <h4>Credentials</h4>
+                    <ul style="margin-left: var(--space-lg);">
+                        <li>Master of Counselling, Swinburne University</li>
+                        <li>Art therapy training</li>
+                        <li>Mindfulness teaching certification</li>
+                        <li>12 months residential meditation training (Thailand, India, Australia)</li>
+                        <li>15 years professional photography practice</li>
+                    </ul>
+
+                    <h4>My Approach</h4>
+                    <p>I enjoy function and public utility. The weave between practical and beauty. A stone staircase with slowly rounded edges, curved by generations of feet stepping into a library. This benefit for the public good and effort across time encapsulates my driving force.</p>
+
+                    <p>The work happens through sustained attention, not sudden transformation. Like stone stairs worn smooth, like meditation practice built over years. Something grows through the continuity of showing up.</p>
+
+                    <h4>Background</h4>
+                    <p style="color: var(--color-meta);">[Condensed chronological narrative for those who want more detail...]</p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Purpose:</strong> Trust-building & philosophy for potential clients/collaborators<br>
+                    <strong>Best for:</strong> When About = "Why should I work with you?"
+                </div>
+            </div>
+
+            <!-- Option B: Philosophy Deep Dive -->
+            <div id="about-3" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-green);">OPTION B: Philosophy & Approach (No Career Timeline)</div>
+                <div class="mockup-text">
+                    <h3 style="margin-top: 0;">About me</h3>
+
+                    <h4>The Stone Stairs</h4>
+                    <p>I enjoy function and public utility. The weave between practical and beauty. A stone staircase with slowly rounded edges, curved by generations of feet stepping into a library. This benefit for the public good and effort across time encapsulates my driving force.</p>
+
+                    <h4>How This Shows Up in Practice</h4>
+                    <p><strong>In therapeutic work:</strong> Sustained attention to patterns. Helping people notice what lives in the frame and what breathes just outside it. Not rushing transformation, but trusting what emerges through continuity.</p>
+
+                    <p><strong>In creative work:</strong> Working emergently within constraints. The frame isn't a limitation but a focusing device. What wants to emerge within these specific boundaries, at this specific time?</p>
+
+                    <p><strong>In contemplative practice:</strong> Showing up daily to group meditation. Building capacity through relational practice. The skill develops not through intensity but through consistency.</p>
+
+                    <h4>Background</h4>
+                    <p>My practice draws on 15 years as a photographer, formal training in counselling and Buddhist meditation, and deep engagement with collaborative creative work. For full career history, see <a href="/projects" style="color: var(--color-accent-hover);">Projects</a>.</p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Purpose:</strong> Deep dive into how you think & work (not what you've done)<br>
+                    <strong>Best for:</strong> When About = "How do you approach your work?"
+                </div>
+            </div>
+
+            <!-- Option C: Three Identities Structure -->
+            <div id="about-4" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-green);">OPTION C: Three Identities (Mirror Homepage)</div>
+                <div class="mockup-text">
+                    <h3 style="margin-top: 0;">About me</h3>
+
+                    <p style="font-style: italic; color: var(--color-meta);">Therapist, Artist, Contemplative</p>
+
+                    <h4>As a Therapist</h4>
+                    <p>I work with people navigating grief, life transitions, and questions of meaning through conversation, art-making, and mindfulness practice. My approach draws on formal training in counselling (Masters, Swinburne), art therapy, and mindfulness teaching, combined with 15 years of visual work that taught me to notice what lives in the frame and what breathes just outside it.</p>
+                    <p style="color: var(--color-meta); font-size: 0.9rem;">Student counsellor at Doncaster Secondary College | Wellbeing Counsellor at CamCare | Private practice through Talk. Art. Therapy.</p>
+
+                    <h4>As an Artist</h4>
+                    <p>Fifteen years as a photographer, studio director, and performance artist working at the intersection of contemplation and creativity. Built and ran Studio Brunswick (2015-2020). Toured with performance works including The SBSB and VOICE. Work exhibited nationally and recognized with multiple awards.</p>
+                    <p style="color: var(--color-meta); font-size: 0.9rem;">Clients: Interview Magazine, Qantas, National Gallery of Victoria | Awards: Head On Portrait Prize Finalist, BSG National Prize Winner</p>
+
+                    <h4>As a Contemplative</h4>
+                    <p>Twelve months residential meditation training across Buddhist monasteries in Thailand, India, and Australia. Facilitated groups at Melbourne Buddhist Centre. Currently host Social Meditation four mornings per week—free online practice sessions exploring relational meditation.</p>
+                    <p style="color: var(--color-meta); font-size: 0.9rem;">Practice lineage: Burmese Theravada, Mental Noting tradition</p>
+
+                    <h4>The Thread</h4>
+                    <p>I enjoy function and public utility. The weave between practical and beauty. Like stone stairs worn smooth by generations of feet—benefit for the public good, effort across time. The work happens through sustained attention, not sudden transformation.</p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Purpose:</strong> Expanded CV/artist profile organized by identity (not chronology)<br>
+                    <strong>Best for:</strong> When About = "Full professional picture of who you are"
+                </div>
+            </div>
+
+            <!-- Option D: Keep Current, Just Reorder -->
+            <div id="about-5" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-green);">OPTION D: Keep Current Story, Lead with Present</div>
+                <div class="mockup-text">
+                    <h3 style="margin-top: 0;">About me</h3>
+
+                    <p>Now I work at Talk. Art. Therapy., helping people build capacity for awareness—to notice patterns, to hold what's difficult, to choose what matters. The work happens through sustained attention, not sudden transformation.</p>
+
+                    <p>This approach comes from different threads woven together over time.</p>
+
+                    <p>I enjoy function and public utility. The weave between practical and beauty. A stone staircase with slowly rounded edges, curved by generations of feet stepping into a library. This benefit for the public good and effort across time encapsulates my driving force.</p>
+
+                    <p style="color: var(--color-meta); margin-top: var(--space-md);">→ My beginnings were with the National Gallery of Victoria...</p>
+                    <p style="color: var(--color-meta);">→ Then photography — fifteen years helping people tell visual stories...</p>
+                    <p style="color: var(--color-meta);">→ From 2015 to 2020, I built Studio Brunswick...</p>
+                    <p style="color: var(--color-meta);">→ Throughout, I spent time in Buddhist monasteries...</p>
+                    <p style="color: var(--color-meta);">→ Then my attention turned to counselling...</p>
+
+                    <p style="margin-top: var(--space-lg);">Like the stone stairs worn smooth, like the meditation practice built over years. Something grows through the continuity of showing up.</p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Purpose:</strong> Keep the beautiful journey narrative, just anchor it in present first<br>
+                    <strong>Best for:</strong> When you love the current writing but want to solve the "buried lead" problem
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="now-options">
+        <h2>📅 Now Page Options</h2>
+
+        <div class="mockup-section">
+            <div class="mockup-header">
+                <div class="mockup-title">Now Page Structures (Hybrid Status + Action)</div>
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" onclick="showMockup('now', 1)">Current</button>
+                    <button class="toggle-btn" onclick="showMockup('now', 2)">Option A</button>
+                    <button class="toggle-btn" onclick="showMockup('now', 3)">Option B</button>
+                    <button class="toggle-btn" onclick="showMockup('now', 4)">Option C</button>
+                </div>
+            </div>
+
+            <!-- Current -->
+            <div id="now-1" class="mockup-content active">
+                <div class="panel-label" style="color: var(--color-meta);">CURRENT: Status Update Only</div>
+                <div class="mockup-text">
+                    <h3 style="margin-top: 0;">What I'm doing now</h3>
+                    <h4>Starting Talk. Art. Therapy.</h4>
+                    <p>I've just finished my Masters in Counselling and now I'm in the building phase...</p>
+
+                    <h4>Hosting Social Meditation</h4>
+                    <p>Four mornings a week, I host online meditation sessions...</p>
+
+                    <h4>Exploring AI and Privacy</h4>
+                    <p>I'm deep in the technical weeds of large language models...</p>
+
+                    <h4>Making Resources</h4>
+                    <p>Building a grief zine for clients...</p>
+
+                    <h4>Other Threads</h4>
+                    <p>Dancing regularly (Contact Improvisation, 5Rhythms)... Rediscovered my old MP3 library...</p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Strengths:</strong> Authentic, personal, shows breadth of interests<br>
+                    <strong>Questions:</strong> No CTAs, some overlap with homepage, purely informational
+                </div>
+            </div>
+
+            <!-- Option A: Primary + Explorations -->
+            <div id="now-2" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-green);">OPTION A: Primary Work + Current Explorations</div>
+                <div class="mockup-text">
+                    <h3 style="margin-top: 0;">What I'm doing now</h3>
+
+                    <h4>Primary Work</h4>
+
+                    <div style="background: rgba(147, 197, 253, 0.05); padding: var(--space-md); border-left: 3px solid var(--color-accent-hover); margin: var(--space-md) 0;">
+                        <p style="margin: 0;"><strong>Talk. Art. Therapy.</strong> — Individual counselling sessions combining conversation, art, and contemplation.</p>
+                        <a href="https://talkarttherapy.com" class="mockup-cta">Book a Session →</a>
+                    </div>
+
+                    <div style="background: rgba(147, 197, 253, 0.05); padding: var(--space-md); border-left: 3px solid var(--color-accent-hover); margin: var(--space-md) 0;">
+                        <p style="margin: 0;"><strong>Social Meditation</strong> — Free online group meditation, Monday–Thursday 6:30am AEST.</p>
+                        <a href="#" class="mockup-cta">Join Next Session →</a>
+                    </div>
+
+                    <h4 style="margin-top: var(--space-xl);">Current Explorations</h4>
+
+                    <p><strong>AI & Privacy in Therapeutic Work</strong> — Deep in the technical weeds of large language models, thinking about how to build secure, on-device AI systems for psychologists. Learning to code as I go, experimenting with Claude Code and local LLMs.</p>
+
+                    <p><strong>Grief Resources</strong> — Building a grief zine with prompts for writing to the lost one, planting seeds in their memory. Tangible tools people can hold and work with.</p>
+
+                    <p><strong>Personal Practice</strong> — Dancing regularly (Contact Improvisation, 5Rhythms). Listening to my old MP3 library album by album—more intentional than streaming's endless scroll.</p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Purpose:</strong> Clear separation between "work with me" (actionable) and "what I'm exploring" (informational)<br>
+                    <strong>Best for:</strong> When you want both conversion paths and personal updates
+                </div>
+            </div>
+
+            <!-- Option B: All Actionable -->
+            <div id="now-3" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-green);">OPTION B: Everything Made Actionable</div>
+                <div class="mockup-text">
+                    <h3 style="margin-top: 0;">Ways to connect with my work</h3>
+
+                    <h4>Work With Me</h4>
+
+                    <p><strong>Talk. Art. Therapy.</strong><br>
+                    Individual counselling sessions combining conversation, art, and contemplation.</p>
+                    <a href="https://talkarttherapy.com" class="mockup-cta">Book a Session →</a>
+
+                    <p style="margin-top: var(--space-lg);"><strong>Social Meditation</strong><br>
+                    Free online group meditation, Monday–Thursday 6:30am AEST.</p>
+                    <a href="#" class="mockup-cta">Join Next Session →</a>
+
+                    <h4 style="margin-top: var(--space-xl);">Current Projects</h4>
+
+                    <p><strong>Grief Zine</strong><br>
+                    Creating accessible resources for navigating loss—prompts, practices, tangible tools.</p>
+                    <a href="#" class="mockup-cta">Download →</a>
+
+                    <p style="margin-top: var(--space-lg);"><strong>AI & Privacy Research</strong><br>
+                    Building secure, on-device AI tools for psychologists. Exploring local LLMs and privacy-first systems.</p>
+                    <a href="#" class="mockup-cta">Read My Notes →</a>
+
+                    <h4 style="margin-top: var(--space-xl);">Connect</h4>
+
+                    <p>Following my explorations with AI, meditation practice, and contemplative technology on <a href="#" style="color: var(--color-accent-hover);">BlueSky</a> and through <a href="#" style="color: var(--color-accent-hover);">Writing</a>.</p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Purpose:</strong> Transform Now into "menu of ways to engage" — everything has a next step<br>
+                    <strong>Best for:</strong> When you want maximum conversion paths (might lose personal/exploratory feel)
+                </div>
+            </div>
+
+            <!-- Option C: Thematic Sections -->
+            <div id="now-4" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-green);">OPTION C: Organized by Theme (Hybrid)</div>
+                <div class="mockup-text">
+                    <h3 style="margin-top: 0;">What I'm doing now</h3>
+
+                    <h4>Therapeutic Work</h4>
+                    <p>Running Talk. Art. Therapy. — helping people navigate grief, life transitions, and questions of meaning through conversation, art-making, and mindfulness practice. Recently finished my Masters in Counselling; now in the beautiful building phase of establishing workflows, designing systems, organizing practice spaces.</p>
+                    <a href="https://talkarttherapy.com" class="mockup-cta" style="font-size: 0.9rem;">Book a Session →</a>
+
+                    <h4 style="margin-top: var(--space-xl);">Contemplative Practice</h4>
+                    <p>Hosting Social Meditation four mornings a week through Social Meditation Collective (evolved from Interbe.ing). We've been meeting for about ten months. The format is simple: people practice together, speaking their experience aloud. It builds awareness through the social engagement system—something between solo meditation and group therapy.</p>
+                    <p>Planning to bring these practices in-person soon, with a focus on building skills through relational practice.</p>
+                    <a href="#" class="mockup-cta" style="font-size: 0.9rem;">Join a Session →</a>
+
+                    <h4 style="margin-top: var(--space-xl);">Technical Explorations</h4>
+                    <p>Deep in the technical weeds of large language models, thinking about how to build secure, on-device AI systems for psychologists. Privacy matters in therapeutic work, and current cloud-based tools don't cut it. Learning to code as I go—making small, malleable apps. Reading Ethan Mollick and Simon Willison. Experimenting with Claude Code and local LLMs.</p>
+
+                    <h4 style="margin-top: var(--space-xl);">Making Things</h4>
+                    <p>Building a grief zine for clients—prompts for writing to the lost one, planting seeds in their memory, that kind of thing. Tangible tools people can hold and work with.</p>
+
+                    <h4 style="margin-top: var(--space-xl);">Other Threads</h4>
+                    <p>Dancing regularly (Contact Improvisation, 5Rhythms) as my integrative practice. Rediscovered my old MP3 library and I'm listening album by album—more intentional than streaming's endless random scroll.</p>
+
+                    <p style="margin-top: var(--space-lg); font-style: italic; color: var(--color-meta); font-size: 0.9rem;">Last updated: Spring 2025</p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Purpose:</strong> Keep personal/exploratory feel but add CTAs to primary work, organize by theme not chronology<br>
+                    <strong>Best for:</strong> True hybrid—actionable where appropriate, informational where not
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tat-integration">
+        <h2>🎯 TAT Integration Levels</h2>
+
+        <div class="mockup-section">
+            <div class="mockup-header">
+                <div class="mockup-title">How Prominent Should Talk. Art. Therapy. Be?</div>
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" onclick="showMockup('tat', 1)">Minimal</button>
+                    <button class="toggle-btn" onclick="showMockup('tat', 2)">Subtle</button>
+                    <button class="toggle-btn" onclick="showMockup('tat', 3)">Prominent</button>
+                </div>
+            </div>
+
+            <!-- Minimal -->
+            <div id="tat-1" class="mockup-content active">
+                <div class="panel-label" style="color: var(--color-meta);">MINIMAL: Mentioned, Points to TAT Website</div>
+                <div class="mockup-text">
+                    <h4>On Homepage:</h4>
+                    <p style="background: var(--color-deep); padding: var(--space-md); border-radius: 3px;">
+                        I offer therapy through conversation, art, and mindfulness practice—helping people navigate life transitions, grief, and self-discovery. <a href="https://talkarttherapy.com" style="color: var(--color-accent-hover);">Learn more at Talk. Art. Therapy. →</a>
+                    </p>
+
+                    <h4 style="margin-top: var(--space-lg);">On Projects:</h4>
+                    <p style="background: var(--color-deep); padding: var(--space-md); border-radius: 3px; color: var(--color-meta);">
+                        <strong style="color: var(--color-cream);">Talk. Art. Therapy.</strong> (2025 - )<br>
+                        Counselling through conversation, creation, and care.<br>
+                        <a href="https://talkarttherapy.com" style="color: var(--color-accent-hover); font-size: 0.9rem;">Visit site →</a>
+                    </p>
+
+                    <h4 style="margin-top: var(--space-lg);">On About/Now:</h4>
+                    <p style="background: var(--color-deep); padding: var(--space-md); border-radius: 3px; color: var(--color-meta);">
+                        Brief mention in context, link to talkarttherapy.com for details
+                    </p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Philosophy:</strong> This site is about you holistically; TAT has its own dedicated space<br>
+                    <strong>Best for:</strong> Keeping strong separation between personal site and business site
+                </div>
+            </div>
+
+            <!-- Subtle -->
+            <div id="tat-2" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-yellow);">SUBTLE: Present but One of Many Things</div>
+                <div class="mockup-text">
+                    <h4>On Homepage:</h4>
+                    <p style="background: var(--color-deep); padding: var(--space-md); border-radius: 3px;">
+                        I offer therapy through conversation, art, and mindfulness practice—helping people navigate life transitions, grief, and self-discovery. <a href="https://talkarttherapy.com" style="color: var(--color-accent-hover);">Book a session →</a>
+                    </p>
+
+                    <h4 style="margin-top: var(--space-lg);">On Projects:</h4>
+                    <div style="background: var(--color-deep); padding: var(--space-md); border-radius: 3px;">
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: var(--space-md);">
+                            <div style="color: var(--color-accent-hover); font-family: monospace; font-weight: 600;">
+                                2025 -<br>
+                                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">CURRENT</span>
+                            </div>
+                            <div>
+                                <div style="color: var(--color-cream); font-weight: 500;">Talk. Art. Therapy.</div>
+                                <div style="color: var(--color-meta); font-size: 0.95rem; margin: var(--space-xs) 0;">Counselling through conversation, creation, and care.</div>
+                                <a href="https://talkarttherapy.com" style="color: var(--color-accent-hover); text-decoration: none; font-size: 0.9rem;">→ Book a session</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: var(--space-lg);">On About:</h4>
+                    <p style="background: var(--color-deep); padding: var(--space-md); border-radius: 3px; color: var(--color-meta);">
+                        Integrated into narrative, no special emphasis beyond current work mention
+                    </p>
+
+                    <h4 style="margin-top: var(--space-lg);">On Now:</h4>
+                    <p style="background: var(--color-deep); padding: var(--space-md); border-radius: 3px; color: var(--color-meta);">
+                        Listed under "Primary Work" with other offerings (Social Meditation, etc.)
+                    </p>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Philosophy:</strong> TAT is current work but site shows full range of identities equally<br>
+                    <strong>Best for:</strong> Balanced presentation—therapy is important but so is art, contemplation, etc.
+                </div>
+            </div>
+
+            <!-- Prominent -->
+            <div id="tat-3" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-green);">PROMINENT: Clear Primary Offering</div>
+                <div class="mockup-text">
+                    <h4>On Homepage:</h4>
+                    <div style="background: rgba(147, 197, 253, 0.05); padding: var(--space-lg); border-radius: 3px; border: 1px solid var(--color-accent-subtle);">
+                        <p style="margin: 0;"><strong>Talk. Art. Therapy.</strong></p>
+                        <p>I offer therapy through conversation, art, and mindfulness practice—helping people navigate life transitions, grief, and self-discovery.</p>
+                        <a href="https://talkarttherapy.com" class="mockup-cta">Book a Session →</a>
+                    </div>
+
+                    <h4 style="margin-top: var(--space-lg);">On Projects:</h4>
+                    <div style="background: rgba(147, 197, 253, 0.05); padding: var(--space-lg); border-left: 3px solid var(--color-accent-hover);">
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: var(--space-md);">
+                            <div style="color: var(--color-accent-hover); font-family: monospace; font-weight: 600;">
+                                2025 -<br>
+                                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">CURRENT</span>
+                            </div>
+                            <div>
+                                <div style="color: var(--color-cream); font-weight: 500; font-size: 1.1rem;">Talk. Art. Therapy.</div>
+                                <div style="color: var(--color-warm-gray); font-size: 0.95rem; margin: var(--space-sm) 0; line-height: 1.6;">Counselling through conversation, art-making, and mindfulness practice. Supporting people through grief, life transitions, creative blocks, and questions of meaning.</div>
+                                <a href="https://talkarttherapy.com" class="mockup-cta">Book a Session →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: var(--space-lg);">On About:</h4>
+                    <p style="background: var(--color-deep); padding: var(--space-md); border-radius: 3px; color: var(--color-meta);">
+                        Lead with current therapeutic work, then expand into full background
+                    </p>
+
+                    <h4 style="margin-top: var(--space-lg);">On Now:</h4>
+                    <div style="background: rgba(147, 197, 253, 0.05); padding: var(--space-md); border-radius: 3px;">
+                        <p style="margin: 0;"><strong>Primary Work: Talk. Art. Therapy.</strong></p>
+                        <p>Recently finished my Masters in Counselling; now building my practice...</p>
+                        <a href="https://talkarttherapy.com" class="mockup-cta">Book a Session →</a>
+                    </div>
+                </div>
+                <div class="insight-box" style="margin-top: var(--space-lg);">
+                    <strong>Philosophy:</strong> This site supports your therapy practice—clear CTAs throughout<br>
+                    <strong>Best for:</strong> When this site should drive clients to TAT until that site is fully built
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>📁 Projects Section (TAT Highlighted)</h2>
+
+        <p>You requested only Talk. Art. Therapy. be highlighted as current work, not all current projects. Here's what that looks like:</p>
+
+        <div class="mockup-section">
+            <div class="mockup-content active" style="display: block;">
+                <h3 style="margin-top: 0;">Projects</h3>
+
+                <!-- TAT - Highlighted -->
+                <div class="project-entry highlighted">
+                    <div class="project-meta">
+                        <div class="project-year current">
+                            2025 -<br>
+                            <span class="current-badge">CURRENT</span>
+                        </div>
+                        <div>
+                            <div class="project-title">Talk. Art. Therapy.</div>
+                            <div class="project-desc">Counselling through conversation, creation, and care.</div>
+                            <a href="https://talkarttherapy.com" style="color: var(--color-accent-hover); text-decoration: none; font-size: 0.9rem; margin-top: var(--space-xs); display: inline-block;">→ Book a session</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other projects - Normal styling -->
+                <div class="project-entry">
+                    <div class="project-meta">
+                        <div class="project-year">2021</div>
+                        <div>
+                            <div class="project-title">Sanctuary</div>
+                            <div class="project-desc">Short film - part of Melbourne Fringe Festival</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-entry">
+                    <div class="project-meta">
+                        <div class="project-year">2015 - 2020</div>
+                        <div>
+                            <div class="project-title">Studio Brunswick</div>
+                            <div class="project-desc">Three photographic studios designed for hire</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-entry">
+                    <div class="project-meta">
+                        <div class="project-year">2015 - 2017</div>
+                        <div>
+                            <div class="project-title">VOICE</div>
+                            <div class="project-desc">Performance art exploring voice and presence</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-entry" style="border-bottom: none;">
+                    <div class="project-meta">
+                        <div class="project-year">2010 - 2025</div>
+                        <div>
+                            <div class="project-title">Max Milne Photography</div>
+                            <div class="project-desc">Fifteen years of visual storytelling and portraiture</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <strong>What's Different:</strong>
+            <ul>
+                <li>Only TAT gets "CURRENT" badge + visual highlighting</li>
+                <li>Only TAT gets CTA button</li>
+                <li>All other projects remain equal weight (even if still active)</li>
+                <li>Simple, clean implementation—just CSS classes</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="writing">
+        <h2>✍️ Writing Section (With Excerpts)</h2>
+
+        <p>Adding brief excerpts helps visitors assess relevance without clicking into each post. Here's the comparison:</p>
+
+        <div class="mockup-section">
+            <div class="mockup-header">
+                <div class="mockup-title">Writing Section</div>
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" onclick="showMockup('writing', 1)">Current</button>
+                    <button class="toggle-btn" onclick="showMockup('writing', 2)">With Excerpts</button>
+                </div>
+            </div>
+
+            <!-- Current -->
+            <div id="writing-1" class="mockup-content active">
+                <div class="panel-label" style="color: var(--color-meta);">CURRENT: Title + Date Only</div>
+
+                <div class="writing-entry">
+                    <div class="writing-meta">
+                        <div class="writing-date">2025 · 02</div>
+                        <div class="writing-title">Social Meditation - A personal and professional journey</div>
+                    </div>
+                </div>
+
+                <div class="writing-entry">
+                    <div class="writing-meta">
+                        <div class="writing-date">2025 · 01</div>
+                        <div class="writing-title">Creative Approach</div>
+                    </div>
+                </div>
+
+                <div class="writing-entry">
+                    <div class="writing-meta">
+                        <div class="writing-date">2024 · 10</div>
+                        <div class="writing-title">The approach - Talk. Art. Therapy.</div>
+                    </div>
+                </div>
+
+                <p style="margin-top: var(--space-lg); font-style: italic; color: var(--color-meta); font-size: 0.9rem;">Must click each post to know if it's relevant to you</p>
+            </div>
+
+            <!-- With Excerpts -->
+            <div id="writing-2" class="mockup-content">
+                <div class="panel-label" style="color: var(--color-green);">PROPOSED: With Brief Excerpts</div>
+
+                <div class="writing-entry">
+                    <div class="writing-meta">
+                        <div class="writing-date">2025 · 02</div>
+                        <div>
+                            <div class="writing-title">Social Meditation - A personal and professional journey</div>
+                        </div>
+                    </div>
+                    <div class="writing-excerpt">Recently, I've been deep diving into a relational meditation practice system that represents an innovative intersection between traditional mindfulness and collective expression. As both a practitioner and psychologist, I'm particularly intrigued by how this practice bridges...</div>
+                </div>
+
+                <div class="writing-entry">
+                    <div class="writing-meta">
+                        <div class="writing-date">2025 · 01</div>
+                        <div>
+                            <div class="writing-title">Creative Approach</div>
+                        </div>
+                    </div>
+                    <div class="writing-excerpt">My creative practice centers on working emergently within constraints—whether chosen or determined by circumstance. Rather than starting with a fixed plan, I trust what wants to emerge when I show up consistently to the work...</div>
+                </div>
+
+                <div class="writing-entry">
+                    <div class="writing-meta">
+                        <div class="writing-date">2024 · 10</div>
+                        <div>
+                            <div class="writing-title">The approach - Talk. Art. Therapy.</div>
+                        </div>
+                    </div>
+                    <div class="writing-excerpt">Fifteen years of helping people tell visual stories taught me to notice what lives in the frame and what breathes just outside it. Now I help people tell a different kind of story—the ones they carry inside about who they are...</div>
+                </div>
+
+                <p style="margin-top: var(--space-lg); font-style: italic; color: var(--color-accent-hover); font-size: 0.9rem;">Can assess relevance and choose what to read based on topic/approach</p>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <strong>Implementation Notes:</strong>
+            <ul>
+                <li>Excerpts are first ~150 characters of post content (or custom excerpt in frontmatter)</li>
+                <li>Maintains clean, scannable layout</li>
+                <li>Helps visitors find relevant posts faster</li>
+                <li>Can still be skimmed quickly if you just want to browse titles</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="recommendations">
+        <h2>📈 Recommendations</h2>
+
+        <div class="summary-box">
+            <h3>My Suggestions Based on Your Goals</h3>
+
+            <p><strong>1. Projects: Highlight TAT Only</strong></p>
+            <p style="color: var(--color-meta); margin-left: var(--space-lg);">✓ Simple, clean implementation<br>✓ Makes booking path clear without overwhelming the portfolio feel</p>
+
+            <p style="margin-top: var(--space-lg);"><strong>2. Writing: Add Brief Excerpts</strong></p>
+            <p style="color: var(--color-meta); margin-left: var(--space-lg);">✓ Helps visitors find relevant content<br>✓ Maintains scannable layout</p>
+
+            <p style="margin-top: var(--space-lg);"><strong>3. About Page: Option D (Keep Current Story, Lead with Present)</strong></p>
+            <p style="color: var(--color-meta); margin-left: var(--space-lg);">✓ Minimal disruption to your beautiful writing<br>✓ Solves "buried lead" problem<br>✓ Maintains authentic narrative flow</p>
+
+            <p style="margin-top: var(--space-lg);"><strong>4. Now Page: Option C (Organized by Theme - Hybrid)</strong></p>
+            <p style="color: var(--color-meta); margin-left: var(--space-lg);">✓ Keeps personal/exploratory authenticity<br>✓ Adds CTAs to primary work only<br>✓ Shows breadth of interests organized coherently<br>✓ True hybrid: actionable where appropriate, informational where not</p>
+
+            <p style="margin-top: var(--space-lg);"><strong>5. TAT Integration: Subtle (Option 2)</strong></p>
+            <p style="color: var(--color-meta); margin-left: var(--space-lg);">✓ Present and bookable but doesn't dominate<br>✓ Balanced with other identities (artist, contemplative)<br>✓ Lets TAT website be the primary business presence</p>
+        </div>
+
+        <div class="question-box" style="margin-top: var(--space-xl);">
+            <h3 style="margin-top: 0;">Questions for You</h3>
+            <ol>
+                <li><strong>About Page:</strong> Which option resonates? Keep the journey narrative or restructure?</li>
+                <li><strong>Now Page:</strong> Pure hybrid or more action-oriented?</li>
+                <li><strong>TAT Integration:</strong> Minimal, Subtle, or Prominent across the site?</li>
+                <li><strong>Do you even need both About and Now?</strong> Could they be consolidated into one deeper "About" page?</li>
+            </ol>
+        </div>
+
+        <div class="insight-box" style="margin-top: var(--space-lg);">
+            <h4>The Core Tension to Resolve</h4>
+            <p>Your site serves two somewhat different purposes:</p>
+            <ul>
+                <li><strong>Extended CV / Artist Profile:</strong> Showcase full range of work, interests, thinking</li>
+                <li><strong>Professional Presence:</strong> Support current work (TAT, Social Meditation) with conversion paths</li>
+            </ul>
+            <p style="margin-top: var(--space-md);">The mockups above show different points on this spectrum. Which balance feels right?</p>
+        </div>
+    </section>
+
+    <footer style="margin-top: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--color-graphite); text-align: center; color: var(--color-meta); font-size: 0.9rem;">
+        <p>Attention Economy Audit V2 - November 2025</p>
+        <p>Created for Max Milne by Claude Code</p>
+    </footer>
+
+    <script>
+        function showMockup(section, index) {
+            // Hide all mockups in this section
+            const allContents = document.querySelectorAll(`[id^="${section}-"]`);
+            allContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Show selected mockup
+            document.getElementById(`${section}-${index}`).classList.add('active');
+
+            // Update button states
+            const buttons = event.target.parentElement.querySelectorAll('.toggle-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

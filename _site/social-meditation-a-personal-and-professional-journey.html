@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="Interbe.ing ended up folding and now the key practioners of that and I are running building on these practices together via the Social Meditation Collective">
+  <meta name="description" content="Exploring relational meditation practices that bridge solo mindfulness and group therapeutic work, combining traditional Buddhist noting with interpersonal n...">
 
   <!-- Add author meta tag -->
   <meta name="author" content="Max Milne">
@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="/styles.css">
 
   
-  <meta property="og:description" content="Interbe.ing ended up folding and now the key practioners of that and I are running building on these practices together via the Social Meditation Collective"/>
+  <meta property="og:description" content="Exploring relational meditation practices that bridge solo mindfulness and group therapeutic work, combining traditional Buddhist noting with interpersonal n..."/>
   
 
   
@@ -47,18 +47,63 @@
     <nav><div class="nav-container">
     <div class="nav-left">
         <a class="internal-link site-title" href="/">Max Milne</a>
-        
-            <span class="nav-breadcrumb-separator">/</span>
-            <a class="internal-link nav-breadcrumb-item" href="/writing/">Writing</a>
-        
     </div>
+    <button class="nav-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
     <div class="nav-links">
         <a class="internal-link" href="/about">About</a>
         <a class="internal-link" href="/now">Now</a>
         <a class="internal-link" href="/projects">Projects</a>
-        <a class="internal-link" href="/writing/">Writing</a>
+        <a class="internal-link is-active" href="/writing/">Writing</a>
     </div>
 </div>
+
+<script>
+(function() {
+    const toggle = document.querySelector('.nav-menu-toggle');
+    const menu = document.querySelector('.nav-links');
+    const menuLinks = menu.querySelectorAll('a');
+
+    function toggleMenu() {
+        const isActive = menu.classList.contains('is-active');
+        toggle.classList.toggle('is-active');
+        menu.classList.toggle('is-active');
+        toggle.setAttribute('aria-expanded', !isActive);
+    }
+
+    function closeMenu() {
+        toggle.classList.remove('is-active');
+        menu.classList.remove('is-active');
+        toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking a link
+    menuLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (menu.classList.contains('is-active') &&
+            !menu.contains(e.target) &&
+            !toggle.contains(e.target)) {
+            closeMenu();
+        }
+    });
+
+    // Close menu when pressing escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menu.classList.contains('is-active')) {
+            closeMenu();
+        }
+    });
+})();
+</script>
 </nav>
     <div class="wrapper">
       <main>
@@ -166,30 +211,31 @@
   <ul class="recommendations-list">
     
       <li>
+        <a class="internal-link" href="/social-meditation-practice">Social Meditation Practice</a>
+      </li>
+    
+      <li>
         <a class="internal-link" href="/the-approach-talk-art-therapy">The approach - Talk. Art. Therapy.</a>
+      </li>
+    
+      <li>
+        <a class="internal-link" href="/ai-and-privacy-in-therapeutic-work">AI and Privacy in Therapeutic Work</a>
+      </li>
+    
+      <li>
+        <a class="internal-link" href="/on-intentional-consumption">On Intentional Consumption</a>
       </li>
     
   </ul>
 </div>
 
-
-<hr>
-
-<h3>Linked mentions</h3>
-
-<div style="font-size: 0.9em">
-  <p style="color: var(--color-warm-gray);">
-    There are no notes linking to this note.
-  </p>
-</div>
-
 </main>
       <footer><div style="display: flex; justify-content: space-between; align-items: center;">
   <div>
-    <p>Say hello at <a href="https://bsky.app/profile/maxmilne.bsky.social" target="_blank" rel="noopener noreferrer">BlueSky</a>, and <a href="https://www.youtube.com/@maxmilne-aus" target="_blank" rel="noopener noreferrer">YouTube</a></p>
+    <p>Say hello at <a href="https://bsky.app/profile/maxmilne.bsky.social" target="_blank" rel="noopener noreferrer">BlueSky</a>, and <a href="https://www.youtube.com/@maxmilne-aus/videos" target="_blank" rel="noopener noreferrer">YouTube</a></p>
   </div>
   
-  <div class="stove-signature">
+  <a href="/the-hidden-track" class="stove-signature">
     <div class="icon-base the-leap">
       <svg viewBox="0 0 80 80">
         <path class="path" d="M10 70 H 30"/>
@@ -197,7 +243,7 @@
         <path class="spark" d="M30 70 C 40 40, 40 40, 50 70"/>
       </svg>
     </div>
-  </div>
+  </a>
 </div></footer>
     </div>
   </body>
