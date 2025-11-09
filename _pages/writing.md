@@ -4,3 +4,4 @@ title: Writing
 id: writing
 permalink: /writing/
 ---
+

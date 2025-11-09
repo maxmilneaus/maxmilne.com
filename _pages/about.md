@@ -38,7 +38,7 @@ Then my attention turned to counselling. I worked as a student counsellor at Don
 
 Now I work at [[Talk. Art. Therapy.]], helping people build capacity for awareness — to notice patterns, to hold what's difficult, to choose what matters.
 
-_Want to know more about what I am doing and what I have done?_  
+_Want to know more about what I am doing and what I have done?_   
 [Projects]({{ site.baseurl }}/projects) | [What I'm up to now]({{ site.baseurl }}/now) | [[CV]]
 
 ---

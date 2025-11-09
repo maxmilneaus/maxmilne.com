@@ -111,16 +111,24 @@ h2 {
   margin-top: var(--space-xl); /* Simplified - matches h3 spacing */
 }
 
-h3 { 
-  font-size: 1.35rem; 
+h3 {
+  font-size: 1.35rem;
   color: var(--color-warm-gray);
   margin-top: var(--space-xl);
   /* Slightly different spacing rhythm for h3s */
   margin-bottom: calc(var(--space-md) * 1);
 }
 
+h4 {
+  font-size: 1.15rem;
+  font-weight: 600; /* Stronger weight for distinction from body text */
+  color: var(--color-warm-gray);
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
 /* Contextual spacing - paragraphs after headings get less top margin */
-h1 + p, h2 + p, h3 + p {
+h1 + p, h2 + p, h3 + p, h4 + p {
   margin-top: calc(var(--space-md) * 0.75);
 }
 
@@ -560,6 +568,13 @@ a {
     color: var(--color-warm-gray);
     margin-left: 0.1em;
     text-decoration: none;  /* Remove underline from arrow */
+    opacity: 0;  /* Hidden by default */
+    transition: opacity 0.2s ease;  /* Smooth fade-in */
+  }
+
+  /* Show arrow on hover */
+  &:not(.internal-link):not([href^="/"]):not([href^="#"]):not([href^="."]):not([href*="/projects/"]):not(.nav-links a):hover:after {
+    opacity: 1;
   }
 
   /* Only external links are italic */
@@ -737,6 +752,83 @@ pre {
 }
 
 /* Layout consistency - removed old grid constraints */
+
+/* =============================================================================
+   NOW PAGE - Primary work cards
+   ============================================================================= */
+
+.now-card {
+  background: var(--color-charcoal);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(147, 197, 253, 0.10);
+  padding: var(--space-md) var(--space-lg);
+  margin: var(--space-md) 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease;
+}
+
+.now-card:hover {
+  border-color: rgba(147, 197, 253, 0.18);
+  background: #191614;
+}
+
+.now-card-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--color-cream);
+}
+
+.now-card p {
+ margin: 0;
+ color: var(--color-meta);
+}
+
+.now-card-cta {
+  align-self: flex-start;
+  margin-top: var(--space-sm);
+  padding: 0.25rem 1.2rem 0.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(147, 197, 253, 0.22);
+  background: transparent;
+  color: var(--color-accent-hover);
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition:
+    color 140ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease;
+}
+
+.now-card-cta::after {
+  content: "→";
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+
+.now-card-cta:hover {
+  background: rgba(147, 197, 253, 0.06);
+  color: var(--color-cream);
+  border-color: rgba(147, 197, 253, 0.32);
+}
+
+.now-card-cta:focus-visible {
+ outline: 2px solid var(--color-accent-subtle);
+ outline-offset: 2px;
+}
 
 .backlink-box {
   background: transparent;

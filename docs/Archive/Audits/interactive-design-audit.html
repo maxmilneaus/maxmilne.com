@@ -707,7 +707,8 @@
         // Breadcrumb toggle
         function toggleBreadcrumb(state) {
             const text = document.getElementById('breadcrumb-text');
-            const buttons = document.querySelectorAll('#breadcrumb-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+            const demo = document.getElementById('breadcrumb-demo');
+            const buttons = demo.closest('.interactive-demo').querySelectorAll('.demo-toggle');
 
             if (state === 'before') {
                 text.textContent = 'Max Milne / Writing';
@@ -724,7 +725,8 @@
         function toggleH4(state) {
             const heading = document.getElementById('h4-heading');
             const allH4s = document.querySelectorAll('#h4-demo .mock-h4');
-            const buttons = document.querySelectorAll('#h4-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+            const demo = document.getElementById('h4-demo');
+            const buttons = demo.closest('.interactive-demo').querySelectorAll('.demo-toggle');
 
             if (state === 'before') {
                 allH4s.forEach(h => {
@@ -747,7 +749,8 @@
         // Linked mentions toggle
         function toggleLinkedMentions(state) {
             const section = document.getElementById('linked-mentions-section');
-            const buttons = document.querySelectorAll('#linked-mentions-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+            const demo = document.getElementById('linked-mentions-demo');
+            const buttons = demo.closest('.interactive-demo').querySelectorAll('.demo-toggle');
 
             if (state === 'before') {
                 section.classList.remove('hidden');
@@ -763,7 +766,8 @@
         // Active nav toggle
         function toggleActiveNav(state) {
             const links = document.querySelectorAll('#nav-links .mock-nav-link');
-            const buttons = document.querySelectorAll('#active-nav-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+            const demo = document.getElementById('active-nav-demo');
+            const buttons = demo.closest('.interactive-demo').querySelectorAll('.demo-toggle');
 
             links.forEach(link => link.classList.remove('active'));
 
@@ -780,7 +784,8 @@
         // External links toggle
         function toggleExternalLinks(state) {
             const links = document.querySelectorAll('#external-links-demo .mock-external-link');
-            const buttons = document.querySelectorAll('#external-links-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+            const demo = document.getElementById('external-links-demo');
+            const buttons = demo.closest('.interactive-demo').querySelectorAll('.demo-toggle');
 
             if (state === 'before') {
                 links.forEach(link => link.classList.remove('subtle'));
@@ -796,7 +801,8 @@
         // HR vs Space toggle
         function toggleHR(state) {
             const separator = document.getElementById('separator-element');
-            const buttons = document.querySelectorAll('#hr-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+            const demo = document.getElementById('hr-demo');
+            const buttons = demo.closest('.interactive-demo').querySelectorAll('.demo-toggle');
 
             if (state === 'before') {
                 separator.innerHTML = '<hr class="mock-hr">';
@@ -812,7 +818,8 @@
         // Filter animation
         function filterItems() {
             const items = document.querySelectorAll('#filter-list li');
-            const buttons = document.querySelectorAll('#filter-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+            const demo = document.getElementById('filter-demo');
+            const buttons = demo.closest('.interactive-demo').querySelectorAll('.demo-toggle');
 
             buttons[0].classList.remove('active');
             buttons[1].classList.add('active');
@@ -824,7 +831,8 @@
 
         function resetFilter() {
             const items = document.querySelectorAll('#filter-list li');
-            const buttons = document.querySelectorAll('#filter-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+            const demo = document.getElementById('filter-demo');
+            const buttons = demo.closest('.interactive-demo').querySelectorAll('.demo-toggle');
 
             buttons[0].classList.add('active');
             buttons[1].classList.remove('active');
@@ -835,7 +843,8 @@
         // Progress bar toggle
         function toggleProgress(state) {
             const bar = document.getElementById('progress-bar');
-            const buttons = document.querySelectorAll('#progress-demo').parentElement.parentElement.querySelectorAll('.demo-toggle');
+            const demo = document.getElementById('progress-demo');
+            const buttons = demo.closest('.interactive-demo').querySelectorAll('.demo-toggle');
 
             if (state === 'on') {
                 bar.style.display = 'block';

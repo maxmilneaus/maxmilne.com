@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Design Audit Planner</title>
+    <style>
+        :root {
+            --bg-deep: #12100f;
+            --bg-panel: rgba(33, 30, 27, 0.88);
+            --bg-card: rgba(36, 32, 29, 0.92);
+            --bg-board: rgba(26, 23, 21, 0.95);
+            --border-soft: rgba(255, 255, 255, 0.06);
+            --border-strong: rgba(255, 255, 255, 0.12);
+            --text-primary: #f2e9df;
+            --text-secondary: #c3bbb2;
+            --text-muted: #9b9289;
+            --blue: #7ab6ff;
+            --blue-strong: #4092ff;
+            --green: #34d399;
+            --yellow: #facc15;
+            --red: #f87171;
+            --accent: #8fb8ff;
+            --gradient-hero: radial-gradient(circle at top left, rgba(65, 105, 225, 0.25), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(20, 184, 166, 0.18), transparent 60%),
+                linear-gradient(160deg, rgba(20, 16, 15, 0.92), rgba(12, 10, 9, 0.96));
+
+            --space-xs: 0.35rem;
+            --space-sm: 0.65rem;
+            --space-md: 1rem;
+            --space-lg: 1.75rem;
+            --space-xl: 3rem;
+
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+
+            --shadow-soft: 0 12px 30px rgba(8, 6, 4, 0.45);
+            --shadow-strong: 0 16px 40px rgba(8, 6, 4, 0.6);
+            --transition-fast: 160ms ease;
+            --transition-medium: 220ms ease;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--gradient-hero);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: var(--space-xl) clamp(var(--space-md), 4vw, var(--space-xl));
+        }
+
+        h1 {
+            margin: 0 0 var(--space-sm) 0;
+            font-size: clamp(2.4rem, 3vw, 3rem);
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .hero {
+            margin-bottom: var(--space-xl);
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .hero-copy {
+            max-width: 880px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.65;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .page-grid {
+            display: grid;
+            grid-template-columns: minmax(240px, 280px) minmax(0, 1fr) minmax(260px, 320px);
+            gap: var(--space-xl);
+            align-items: start;
+        }
+
+        .panel,
+        .plan-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(16px);
+        }
+
+        .panel {
+            display: grid;
+            gap: var(--space-lg);
+            position: sticky;
+            top: var(--space-xl);
+            max-height: calc(100vh - 2 * var(--space-xl));
+            overflow-y: auto;
+        }
+
+        .panel::-webkit-scrollbar,
+        .plan-panel::-webkit-scrollbar,
+        .content-scroll::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .panel::-webkit-scrollbar-thumb,
+        .plan-panel::-webkit-scrollbar-thumb,
+        .content-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+        }
+
+        .panel-block > h3,
+        .panel-block > h4 {
+            margin-bottom: var(--space-sm);
+            font-size: 1rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(18, 16, 14, 0.8);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm) var(--space-md);
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: border var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 2px rgba(122, 182, 255, 0.25);
+        }
+
+        .filter-options {
+            display: grid;
+            gap: var(--space-xs);
+        }
+
+        .filter-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-soft);
+            border-radius: 999px;
+            padding: var(--space-xs) var(--space-sm);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background var(--transition-fast), border var(--transition-fast), color var(--transition-fast);
+        }
+
+        .filter-pill input {
+            appearance: none;
+            width: 0;
+            height: 0;
+            margin: 0;
+        }
+
+        .filter-pill[data-active="true"] {
+            background: rgba(122, 182, 255, 0.18);
+            border-color: rgba(122, 182, 255, 0.45);
+            color: var(--text-primary);
+        }
+
+        .toggle-bar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+
+        .toggle-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-sm);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm) var(--space-md);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background var(--transition-fast), border var(--transition-fast), color var(--transition-fast);
+        }
+
+        .toggle-button[data-active="true"] {
+            background: rgba(52, 211, 153, 0.18);
+            border-color: rgba(52, 211, 153, 0.4);
+            color: var(--text-primary);
+        }
+
+        .toggle-button span {
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: inherit;
+        }
+
+        .content-scroll {
+            display: grid;
+            gap: var(--space-lg);
+            max-height: none;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sort-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-soft);
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            padding: var(--space-xs) var(--space-md);
+            font-size: 0.95rem;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--space-sm);
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            display: grid;
+            gap: var(--space-xs);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .suggestion-grid {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .suggestion-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            display: grid;
+            gap: var(--space-md);
+            box-shadow: var(--shadow-soft);
+            transition: border var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .suggestion-card:hover {
+            border-color: rgba(122, 182, 255, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .suggestion-card.is-selected {
+            border-color: rgba(52, 211, 153, 0.45);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .card-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-soft);
+            border-radius: 999px;
+            padding: 0.2rem 0.65rem;
+            font-size: 0.78rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .chip-type {
+            border-color: rgba(122, 182, 255, 0.45);
+            background: rgba(122, 182, 255, 0.18);
+            color: var(--text-primary);
+        }
+
+        .chip-score-high {
+            color: var(--green);
+        }
+
+        .chip-score-medium {
+            color: var(--yellow);
+        }
+
+        .chip-score-low {
+            color: var(--red);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            margin: 0;
+        }
+
+        .card-detail {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .card-detail strong {
+            color: var(--text-primary);
+        }
+
+        .card-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+
+        .plan-button {
+            background: rgba(122, 182, 255, 0.15);
+            color: var(--text-primary);
+            border: 1px solid rgba(122, 182, 255, 0.4);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background var(--transition-fast), border var(--transition-fast);
+        }
+
+        .plan-button[data-active="true"] {
+            background: rgba(52, 211, 153, 0.2);
+            border-color: rgba(52, 211, 153, 0.45);
+        }
+
+        .status-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            padding: var(--space-xs) var(--space-sm);
+            font-size: 0.9rem;
+            min-width: 140px;
+        }
+
+        .status-select:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .note-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        .note-toggle:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        .note-editor {
+            display: none;
+            background: rgba(12, 10, 9, 0.7);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm);
+        }
+
+        .note-editor textarea {
+            width: 100%;
+            min-height: 90px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            resize: vertical;
+            font-family: inherit;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .note-editor textarea:focus {
+            outline: none;
+        }
+
+        .note-editor[data-open="true"] {
+            display: block;
+        }
+
+        details {
+            background: rgba(12, 10, 9, 0.6);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm) var(--space-md);
+            color: var(--text-secondary);
+        }
+
+        details + details {
+            margin-top: var(--space-sm);
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        code {
+            font-family: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-sm);
+            padding: 0.15rem 0.35rem;
+            color: var(--accent);
+        }
+
+        pre {
+            margin: var(--space-sm) 0 0 0;
+            background: rgba(8, 7, 6, 0.8);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm);
+            overflow-x: auto;
+            border: 1px solid var(--border-soft);
+        }
+
+        .plan-panel {
+            background: var(--bg-board);
+            display: grid;
+            gap: var(--space-md);
+            position: sticky;
+            top: var(--space-xl);
+            max-height: calc(100vh - 2 * var(--space-xl));
+            overflow-y: auto;
+        }
+
+        .plan-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-sm);
+        }
+
+        .plan-empty {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--border-soft);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            text-align: center;
+        }
+
+        .plan-columns {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .plan-column {
+            background: rgba(12, 10, 9, 0.75);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            display: grid;
+            gap: var(--space-sm);
+        }
+
+        .plan-column h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .plan-chip {
+            background: rgba(122, 182, 255, 0.15);
+            border: 1px solid rgba(122, 182, 255, 0.35);
+            border-radius: var(--radius-md);
+            padding: var(--space-xs) var(--space-sm);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            display: grid;
+            gap: 0.25rem;
+        }
+
+        .plan-chip small {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .error-message {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.35);
+            color: var(--red);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+        }
+
+        @media (max-width: 1220px) {
+            .page-grid {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                grid-template-areas: "filters content" "plan plan";
+            }
+
+            .panel {
+                position: static;
+                max-height: none;
+            }
+
+            .plan-panel {
+                grid-area: plan;
+                position: static;
+                max-height: none;
+            }
+        }
+
+        @media (max-width: 920px) {
+            body {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .page-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: var(--space-lg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div>
+            <h1>Interactive Design Audit Planner</h1>
+            <p class="hero-copy">
+                Every recommendation from the comprehensive audit is now an interactive card. Browse, filter, and build a creative direction plan in minutes. Pin actions, group them into phases, and capture quick notes without losing sight of evidence or code snippets.
+            </p>
+        </div>
+        <div class="hero-meta">
+            <span>Source: comprehensive-design-audit.html</span>
+            <span>Updated: November 5, 2025</span>
+        </div>
+    </header>
+
+    <div class="page-grid">
+        <aside class="panel" aria-label="Filters">
+            <div class="panel-block">
+                <h3>Search</h3>
+                <input class="search-input" id="search-input" type="search" placeholder="Find an action, e.g. keyboard navigation" autocomplete="off" />
+            </div>
+
+            <div class="panel-block">
+                <h3>Sections</h3>
+                <div class="filter-options" id="section-filter"></div>
+            </div>
+
+            <div class="panel-block">
+                <h3>Action Type</h3>
+                <div class="filter-options" id="type-filter"></div>
+            </div>
+
+            <div class="panel-block">
+                <h3>Score Lens</h3>
+                <div class="filter-options" id="score-filter"></div>
+            </div>
+
+            <div class="panel-block">
+                <h3>Focus</h3>
+                <div class="toggle-bar">
+                    <button class="toggle-button" id="toggle-selected" type="button" data-active="false">
+                        Only show my plan
+                        <span>Shift into execution</span>
+                    </button>
+                    <button class="toggle-button" id="toggle-quickwins" type="button" data-active="false">
+                        Highlight quick wins
+                        <span>&lt; 15 minute upgrades</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <section class="content-scroll" aria-label="Audit insights">
+            <div class="toolbar">
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <span class="stat-label">Total Actions</span>
+                        <span class="stat-value" data-stat="total">--</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Pinned</span>
+                        <span class="stat-value" data-stat="selected">--</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Now / Next / Later</span>
+                        <span class="stat-value" data-stat="phase">--</span>
+                    </div>
+                </div>
+                <label>
+                    <span class="stat-label">Sort</span>
+                    <select class="sort-select" id="sort-select">
+                        <option value="section">Section &gt; Principle</option>
+                        <option value="score-desc">Score (lowest first)</option>
+                        <option value="score-asc">Score (highest first)</option>
+                        <option value="title">Title A → Z</option>
+                        <option value="type">Action Type</option>
+                    </select>
+                </label>
+            </div>
+
+            <div id="suggestion-list" class="suggestion-grid" aria-live="polite"></div>
+            <div id="error-container"></div>
+        </section>
+
+        <aside class="plan-panel" aria-label="Creative direction plan">
+            <div class="plan-header">
+                <h2 style="margin:0;font-size:1.3rem;">Planner</h2>
+                <button class="plan-button" type="button" id="clear-plan">Clear plan</button>
+            </div>
+            <p class="plan-empty" id="plan-empty">Pin actions to populate your plan. They will stay saved in this browser.</p>
+            <div class="plan-columns" id="plan-columns" hidden>
+                <div class="plan-column" data-status="now">
+                    <h4>Now</h4>
+                    <div class="plan-items" data-list="now"></div>
+                </div>
+                <div class="plan-column" data-status="next">
+                    <h4>Next</h4>
+                    <div class="plan-items" data-list="next"></div>
+                </div>
+                <div class="plan-column" data-status="later">
+                    <h4>Later</h4>
+                    <div class="plan-items" data-list="later"></div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        (function () {
+            const STORAGE_KEY = 'interactive-audit-plan-v1';
+
+            const typeLabels = {
+                fix: 'Concrete Fix',
+                'quick-win': 'Quick Win',
+                calm: 'Calm Tech',
+                innovation: 'Innovation Detail'
+            };
+
+            const state = {
+                suggestions: [],
+                filters: {
+                    search: '',
+                    sections: new Set(),
+                    types: new Set(),
+                    scores: new Set(),
+                    selectedOnly: false,
+                    quickWinsOnly: false
+                },
+                sort: 'section',
+                selections: loadSelections()
+            };
+
+            const dom = {};
+
+            document.addEventListener('DOMContentLoaded', init);
+
+            function init() {
+                dom.searchInput = document.getElementById('search-input');
+                dom.sectionFilter = document.getElementById('section-filter');
+                dom.typeFilter = document.getElementById('type-filter');
+                dom.scoreFilter = document.getElementById('score-filter');
+                dom.selectedToggle = document.getElementById('toggle-selected');
+                dom.quickToggle = document.getElementById('toggle-quickwins');
+                dom.sortSelect = document.getElementById('sort-select');
+                dom.list = document.getElementById('suggestion-list');
+                dom.errorContainer = document.getElementById('error-container');
+                dom.statTotal = document.querySelector('[data-stat="total"]');
+                dom.statSelected = document.querySelector('[data-stat="selected"]');
+                dom.statPhase = document.querySelector('[data-stat="phase"]');
+                dom.planEmpty = document.getElementById('plan-empty');
+                dom.planColumns = document.getElementById('plan-columns');
+                dom.planLists = {
+                    now: document.querySelector('[data-list="now"]'),
+                    next: document.querySelector('[data-list="next"]'),
+                    later: document.querySelector('[data-list="later"]')
+                };
+                dom.clearPlan = document.getElementById('clear-plan');
+
+                bindControlEvents();
+                loadAuditData();
+            }
+
+            function bindControlEvents() {
+                dom.searchInput.addEventListener('input', (event) => {
+                    state.filters.search = event.target.value.toLowerCase();
+                    renderAll();
+                });
+
+                dom.selectedToggle.addEventListener('click', () => {
+                    const nextState = !state.filters.selectedOnly;
+                    state.filters.selectedOnly = nextState;
+                    dom.selectedToggle.dataset.active = String(nextState);
+                    renderAll();
+                });
+
+                dom.quickToggle.addEventListener('click', () => {
+                    const nextState = !state.filters.quickWinsOnly;
+                    state.filters.quickWinsOnly = nextState;
+                    dom.quickToggle.dataset.active = String(nextState);
+                    renderAll();
+                });
+
+                dom.sortSelect.addEventListener('change', (event) => {
+                    state.sort = event.target.value;
+                    renderAll();
+                });
+
+                dom.clearPlan.addEventListener('click', () => {
+                    Object.values(state.selections).forEach((entry) => {
+                        entry.selected = false;
+                        entry.status = 'next';
+                        entry.note = '';
+                    });
+                    saveSelections();
+                    renderAll();
+                });
+            }
+
+            function loadSelections() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (!raw) return {};
+                    const parsed = JSON.parse(raw);
+                    if (parsed && typeof parsed === 'object') {
+                        return parsed;
+                    }
+                    return {};
+                } catch (error) {
+                    console.warn('Unable to parse saved plan', error);
+                    return {};
+                }
+            }
+
+            function saveSelections() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.selections));
+                } catch (error) {
+                    console.warn('Unable to save plan', error);
+                }
+            }
+
+            async function loadAuditData() {
+                try {
+                    const response = await fetch('comprehensive-design-audit.html', { cache: 'no-store' });
+                    if (!response.ok) {
+                        throw new Error(`Unable to load audit source (${response.status})`);
+                    }
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    state.suggestions = transformAudit(doc);
+                    buildFilters();
+                    renderAll();
+                } catch (error) {
+                    console.error(error);
+                    dom.errorContainer.innerHTML = `<div class="error-message">${escapeHtml(error.message)}. Please make sure <code>comprehensive-design-audit.html</code> is present.</div>`;
+                }
+            }
+
+            function buildFilters() {
+                const sectionNames = Array.from(new Set(state.suggestions.map((item) => item.sectionTitle))).sort((a, b) => a.localeCompare(b));
+                dom.sectionFilter.innerHTML = '';
+                sectionNames.forEach((name) => {
+                    const pill = createFilterPill(name, 'sections');
+                    dom.sectionFilter.appendChild(pill);
+                });
+
+                const types = Array.from(new Set(state.suggestions.map((item) => item.type)));
+                dom.typeFilter.innerHTML = '';
+                types.forEach((type) => {
+                    const label = typeLabels[type] || type;
+                    const pill = createFilterPill(label, 'types', type);
+                    dom.typeFilter.appendChild(pill);
+                });
+
+                const scoreOptions = [
+                    { value: 'low', label: 'Score ≤ 4' },
+                    { value: 'medium', label: 'Score 5-7' },
+                    { value: 'high', label: 'Score ≥ 8' },
+                    { value: 'unscored', label: 'Unscored' }
+                ];
+                dom.scoreFilter.innerHTML = '';
+                scoreOptions.forEach((option) => {
+                    const pill = createFilterPill(option.label, 'scores', option.value);
+                    dom.scoreFilter.appendChild(pill);
+                });
+            }
+
+            function createFilterPill(label, filterKey, explicitValue) {
+                const pill = document.createElement('label');
+                pill.className = 'filter-pill';
+                pill.dataset.active = 'false';
+                const value = explicitValue || label;
+                pill.innerHTML = `<input type="checkbox" />${escapeHtml(label)}`;
+                pill.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const isActive = pill.dataset.active === 'true';
+                    pill.dataset.active = String(!isActive);
+                    const targetSet = state.filters[filterKey];
+                    if (!(targetSet instanceof Set)) return;
+                    if (isActive) {
+                        targetSet.delete(value);
+                    } else {
+                        targetSet.add(value);
+                    }
+                    renderAll();
+                });
+                return pill;
+            }
+            function transformAudit(doc) {
+                const suggestions = [];
+                const ids = new Map();
+
+                const slugify = (text) =>
+                    (text || '')
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '') || 'item';
+
+                const ensureId = (base) => {
+                    const slug = slugify(base);
+                    const count = ids.get(slug) || 0;
+                    ids.set(slug, count + 1);
+                    return count ? `${slug}-${count + 1}` : slug;
+                };
+
+                const addSuggestion = (data) => {
+                    const title = (data.title || '').trim();
+                    if (!title) return;
+                    const sectionTitle = data.sectionTitle || 'General';
+                    const baseId = `${sectionTitle}-${title}`;
+                    const id = ensureId(baseId);
+                    const scoreValue =
+                        typeof data.scoreValue === 'number' && !Number.isNaN(data.scoreValue)
+                            ? data.scoreValue
+                            : parseScore(data.scoreText);
+                    const scoreBucket = data.scoreBucket || bucketFromScore(scoreValue);
+                    const suggestion = {
+                        id,
+                        sectionId: data.sectionId || 'general',
+                        sectionTitle,
+                        principleTitle: data.principleTitle || '',
+                        title,
+                        detail: (data.detail || '').trim(),
+                        evidence: (data.evidence || '').trim(),
+                        codes: Array.isArray(data.codes) ? data.codes : [],
+                        type: data.type || 'fix',
+                        tags: Array.from(new Set([data.type, ...(data.tags || [])].filter(Boolean))),
+                        scoreText: data.scoreText || (scoreValue != null ? `${scoreValue}/10` : null),
+                        scoreValue: scoreValue != null ? scoreValue : null,
+                        scoreBucket,
+                        meta: data.meta || {}
+                    };
+                    suggestions.push(suggestion);
+                    if (!state.selections[id]) {
+                        state.selections[id] = { selected: false, status: 'next', note: '' };
+                    }
+                };
+
+                doc.querySelectorAll('.principle-card').forEach((card) => {
+                    const section = card.closest('section');
+                    const sectionTitle = section?.querySelector('h2')?.textContent.trim() || 'General';
+                    const sectionId = section?.id || 'general';
+                    const principleTitle =
+                        card.querySelector('.principle-title')?.textContent.trim() ||
+                        card.querySelector('h3')?.textContent.trim() ||
+                        card.querySelector('h4')?.textContent.trim() ||
+                        '';
+                    const scoreBadge = card.querySelector('.score-badge');
+                    const scoreText = scoreBadge ? scoreBadge.textContent.trim() : null;
+                    const evidence =
+                        card.querySelector('.evidence')?.textContent.replace(/Evidence:/i, '').trim() || '';
+                    const codes = Array.from(card.querySelectorAll('.fix code')).map((code) => code.textContent.trim());
+
+                    card.querySelectorAll('.fix p').forEach((paragraph) => {
+                        const bold = paragraph.querySelector('strong');
+                        if (!bold) return;
+                        const headline = bold.textContent.replace(/:$/, '').trim();
+                        if (!headline || /none needed/i.test(headline)) return;
+                        const detail = getDetailText(paragraph);
+                        addSuggestion({
+                            sectionId,
+                            sectionTitle,
+                            principleTitle,
+                            title: headline,
+                            detail,
+                            evidence,
+                            codes,
+                            type: 'fix',
+                            scoreText
+                        });
+                    });
+                });
+
+                doc.querySelectorAll('.calm-card').forEach((card) => {
+                    const section = card.closest('section');
+                    const sectionTitle = section?.querySelector('h2')?.textContent.trim() || 'Calm Technology';
+                    const sectionId = section?.id || 'calm-technology';
+                    const principleTitle = card.querySelector('.calm-title')?.textContent.trim() || 'Calm Principle';
+                    const status = card.querySelector('.calm-status')?.textContent.trim() || null;
+                    const recommendation = extractStrongText(card, 'Recommendation');
+                    if (!recommendation) return;
+                    const finding = extractStrongText(card, 'Finding');
+                    addSuggestion({
+                        sectionId,
+                        sectionTitle,
+                        principleTitle,
+                        title: `${principleTitle} – Recommendation`,
+                        detail: recommendation,
+                        evidence: finding,
+                        type: 'calm',
+                        scoreText: status || null,
+                        scoreValue: null,
+                        scoreBucket: 'unscored',
+                        meta: status ? { status } : {}
+                    });
+                });
+
+                doc.querySelectorAll('#quick-wins .impact-list li').forEach((item) => {
+                    const title = item.querySelector('.impact-item-title')?.textContent.trim();
+                    if (!title) return;
+                    const descEl = item.querySelector('.impact-item-desc');
+                    const detail = descEl ? descEl.textContent.replace(/\s+/g, ' ').trim() : '';
+                    const codes = Array.from(item.querySelectorAll('code')).map((code) => code.textContent.trim());
+                    const effortMatch = descEl?.textContent.match(/Effort:\s*([^\n]+)/i);
+                    const impactMatch = descEl?.textContent.match(/Impact:\s*([^\n]+)/i);
+                    addSuggestion({
+                        sectionId: 'quick-wins',
+                        sectionTitle: 'Top 5 Quick Wins',
+                        principleTitle: '',
+                        title,
+                        detail,
+                        codes,
+                        type: 'quick-win',
+                        meta: {
+                            effort: effortMatch ? effortMatch[1].trim() : undefined,
+                            impact: impactMatch ? impactMatch[1].trim() : undefined
+                        }
+                    });
+                });
+
+                doc.querySelectorAll('#cssda .principle-card ol li').forEach((item) => {
+                    const bold = item.querySelector('strong');
+                    if (!bold) return;
+                    const title = bold.textContent.replace(/:$/, '').trim();
+                    if (!title) return;
+                    if (suggestions.some((existing) => existing.title.toLowerCase() === title.toLowerCase())) {
+                        return;
+                    }
+                    const detail = getDetailText(item);
+                    const codes = Array.from(item.querySelectorAll('code')).map((code) => code.textContent.trim());
+                    addSuggestion({
+                        sectionId: 'cssda',
+                        sectionTitle: 'CSSDA Evaluation',
+                        principleTitle: 'Innovation (7.0/10)',
+                        title,
+                        detail,
+                        codes,
+                        type: 'innovation',
+                        scoreText: '7.0/10',
+                        scoreValue: 7
+                    });
+                });
+
+                return suggestions;
+            }
+
+            function parseScore(scoreText) {
+                if (!scoreText) return null;
+                const match = String(scoreText).match(/([0-9]+(?:\.[0-9]+)?)/);
+                return match ? parseFloat(match[1]) : null;
+            }
+
+            function bucketFromScore(value) {
+                if (value == null || Number.isNaN(value)) return 'unscored';
+                if (value >= 8) return 'high';
+                if (value >= 5) return 'medium';
+                return 'low';
+            }
+
+            function getDetailText(node) {
+                const clone = node.cloneNode(true);
+                clone.querySelectorAll('strong').forEach((el) => el.remove());
+                return clone.textContent.replace(/^[:\s-]+/, '').trim();
+            }
+
+            function extractStrongText(container, label) {
+                const target = Array.from(container.querySelectorAll('strong')).find((el) =>
+                    el.textContent.trim().toLowerCase().startsWith(label.toLowerCase())
+                );
+                if (!target) return '';
+                const parentText = target.parentElement?.innerText || '';
+                const parts = parentText.split(target.textContent);
+                return parts[1] ? parts[1].replace(/^[:\s-]+/, '').trim() : '';
+            }
+
+            function renderAll() {
+                const filtered = getFilteredSuggestions();
+                renderSuggestions(filtered);
+                renderPlan();
+                updateStats();
+            }
+
+            function getFilteredSuggestions() {
+                let items = [...state.suggestions];
+                if (state.filters.search) {
+                    const term = state.filters.search;
+                    items = items.filter((item) => {
+                        const haystack = [
+                            item.title,
+                            item.detail,
+                            item.principleTitle,
+                            item.sectionTitle,
+                            item.evidence
+                        ]
+                            .join(' ')
+                            .toLowerCase();
+                        return haystack.includes(term);
+                    });
+                }
+                if (state.filters.sections.size) {
+                    items = items.filter((item) => state.filters.sections.has(item.sectionTitle));
+                }
+                if (state.filters.types.size) {
+                    items = items.filter((item) => state.filters.types.has(item.type));
+                }
+                if (state.filters.scores.size) {
+                    items = items.filter((item) => state.filters.scores.has(item.scoreBucket));
+                }
+                if (state.filters.selectedOnly) {
+                    items = items.filter((item) => state.selections[item.id]?.selected);
+                }
+                if (state.filters.quickWinsOnly) {
+                    items = items.filter((item) => item.type === 'quick-win');
+                }
+                return sortSuggestions(items);
+            }
+
+            function sortSuggestions(items) {
+                const list = [...items];
+                switch (state.sort) {
+                    case 'score-desc':
+                        list.sort((a, b) => {
+                            const av = a.scoreValue != null ? a.scoreValue : Infinity;
+                            const bv = b.scoreValue != null ? b.scoreValue : Infinity;
+                            return av - bv;
+                        });
+                        break;
+                    case 'score-asc':
+                        list.sort((a, b) => {
+                            const av = a.scoreValue != null ? a.scoreValue : -Infinity;
+                            const bv = b.scoreValue != null ? b.scoreValue : -Infinity;
+                            return bv - av;
+                        });
+                        break;
+                    case 'title':
+                        list.sort((a, b) => a.title.localeCompare(b.title));
+                        break;
+                    case 'type':
+                        list.sort((a, b) => {
+                            const typeCompare = (a.type || '').localeCompare(b.type || '');
+                            if (typeCompare !== 0) return typeCompare;
+                            return a.title.localeCompare(b.title);
+                        });
+                        break;
+                    default:
+                        list.sort((a, b) => {
+                            const sectionCompare = a.sectionTitle.localeCompare(b.sectionTitle);
+                            if (sectionCompare !== 0) return sectionCompare;
+                            const principleCompare = (a.principleTitle || '').localeCompare(b.principleTitle || '');
+                            if (principleCompare !== 0) return principleCompare;
+                            return a.title.localeCompare(b.title);
+                        });
+                }
+                return list;
+            }
+
+            function renderSuggestions(items) {
+                dom.list.innerHTML = '';
+                if (!items.length) {
+                    const empty = document.createElement('p');
+                    empty.className = 'plan-empty';
+                    empty.textContent = 'Nothing matches these filters. Try clearing a filter or adjusting your search.';
+                    dom.list.appendChild(empty);
+                    return;
+                }
+                const fragment = document.createDocumentFragment();
+                items.forEach((item) => fragment.appendChild(buildCard(item)));
+                dom.list.appendChild(fragment);
+            }
+
+            function buildStatusOptions(current) {
+                const values = [
+                    { value: 'now', label: 'Now' },
+                    { value: 'next', label: 'Next' },
+                    { value: 'later', label: 'Later' }
+                ];
+                const fallback = current || 'next';
+                return values
+                    .map(({ value, label }) => `<option value="${value}" ${value === fallback ? 'selected' : ''}>${label}</option>`)
+                    .join('');
+            }
+
+            function buildCard(item) {
+                const card = document.createElement('article');
+                card.className = 'suggestion-card';
+                card.dataset.id = item.id;
+                card.dataset.type = item.type;
+
+                const selection = state.selections[item.id] || { selected: false, status: 'next', note: '' };
+                if (selection.selected) {
+                    card.classList.add('is-selected');
+                }
+
+                const typeLabel = typeLabels[item.type] || item.type;
+                const chips = [
+                    `<span class="chip">${escapeHtml(item.sectionTitle)}</span>`,
+                    item.principleTitle ? `<span class="chip">${escapeHtml(item.principleTitle)}</span>` : '',
+                    `<span class="chip chip-type">${escapeHtml(typeLabel)}</span>`
+                ];
+
+                if (item.scoreBucket !== 'unscored' && item.scoreText) {
+                    chips.push(`<span class="chip chip-score-${escapeHtml(item.scoreBucket)}">${escapeHtml(item.scoreText)}</span>`);
+                } else if (item.scoreText && !/calm score/i.test(item.scoreText)) {
+                    chips.push(`<span class="chip">${escapeHtml(item.scoreText)}</span>`);
+                }
+
+                const metaParts = [];
+                if (item.meta?.effort) {
+                    metaParts.push(`<strong>Effort:</strong> ${escapeHtml(item.meta.effort)}`);
+                }
+                if (item.meta?.impact) {
+                    metaParts.push(`<strong>Impact:</strong> ${escapeHtml(item.meta.impact)}`);
+                }
+                if (item.meta?.status) {
+                    metaParts.push(`<strong>Calm Score:</strong> ${escapeHtml(item.meta.status)}`);
+                }
+                const metaHtml = metaParts.length ? `<p class="card-detail">${metaParts.join(' • ')}</p>` : '';
+
+                const evidenceHtml = item.evidence
+                    ? `<details class="card-evidence"><summary>Evidence</summary><p>${escapeHtml(item.evidence)}</p></details>`
+                    : '';
+                const codeHtml = item.codes.length
+                    ? `<details><summary>Code Snippet${item.codes.length > 1 ? 's' : ''}</summary>${item.codes
+                          .map((code) => `<pre><code>${escapeHtml(code)}</code></pre>`)
+                          .join('')}</details>`
+                    : '';
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="chip-group">${chips.join('')}</div>
+                        <button class="plan-button" type="button" data-action="toggle" data-active="${selection.selected}">${
+                            selection.selected ? 'Remove from plan' : 'Add to plan'
+                        }</button>
+                    </div>
+                    <h3 class="card-title">${escapeHtml(item.title)}</h3>
+                    <p class="card-detail">${escapeHtml(item.detail)}</p>
+                    ${metaHtml}
+                    <div class="card-controls">
+                        <label style="display:flex;flex-direction:column;gap:0.25rem;">
+                            <span class="stat-label" style="font-size:0.75rem;">Phase</span>
+                            <select class="status-select" data-action="status" ${selection.selected ? '' : 'disabled'}>
+                                ${buildStatusOptions(selection.status)}
+                            </select>
+                        </label>
+                        <button class="note-toggle" type="button" data-action="note">${selection.note ? 'Edit note' : 'Add note'}</button>
+                    </div>
+                    <div class="note-editor" data-open="${selection.note && selection.selected ? 'true' : 'false'}">
+                        <textarea data-action="note-input" placeholder="Capture direction notes, owners, or next steps..."></textarea>
+                    </div>
+                    ${evidenceHtml}
+                    ${codeHtml}
+                `;
+
+                const toggleButton = card.querySelector('[data-action="toggle"]');
+                const statusSelect = card.querySelector('[data-action="status"]');
+                const noteToggle = card.querySelector('[data-action="note"]');
+                const noteEditor = card.querySelector('.note-editor');
+                const noteInput = card.querySelector('[data-action="note-input"]');
+
+                noteInput.value = selection.note || '';
+                statusSelect.value = selection.status || 'next';
+                noteToggle.disabled = !selection.selected;
+
+                toggleButton.addEventListener('click', () => {
+                    toggleSelection(item.id);
+                });
+
+                statusSelect.addEventListener('change', (event) => {
+                    updateStatus(item.id, event.target.value);
+                });
+
+                noteToggle.addEventListener('click', () => {
+                    if (!state.selections[item.id]?.selected) {
+                        toggleSelection(item.id);
+                        return;
+                    }
+                    const isOpen = noteEditor.dataset.open === 'true';
+                    const next = !isOpen;
+                    noteEditor.dataset.open = String(next);
+                    if (next) {
+                        setTimeout(() => noteInput.focus(), 0);
+                    }
+                });
+
+                noteInput.addEventListener('input', (event) => {
+                    updateNote(item.id, event.target.value);
+                });
+
+                return card;
+            }
+
+            function toggleSelection(id) {
+                const entry = state.selections[id] || { selected: false, status: 'next', note: '' };
+                entry.selected = !entry.selected;
+                if (!entry.status) entry.status = 'next';
+                state.selections[id] = entry;
+                saveSelections();
+                renderAll();
+            }
+
+            function updateStatus(id, value) {
+                const entry = state.selections[id];
+                if (!entry) return;
+                entry.selected = true;
+                entry.status = value;
+                saveSelections();
+                renderPlan();
+                updateStats();
+            }
+
+            function updateNote(id, value) {
+                const entry = state.selections[id];
+                if (!entry) return;
+                entry.note = value;
+                saveSelections();
+                renderPlan();
+            }
+
+            function renderPlan() {
+                const selectedEntries = Object.entries(state.selections).filter(([, entry]) => entry.selected);
+                if (!selectedEntries.length) {
+                    dom.planEmpty.hidden = false;
+                    dom.planColumns.hidden = true;
+                    Object.values(dom.planLists).forEach((list) => (list.innerHTML = ''));
+                    return;
+                }
+
+                dom.planEmpty.hidden = true;
+                dom.planColumns.hidden = false;
+
+                const grouped = { now: [], next: [], later: [] };
+                selectedEntries.forEach(([id, entry]) => {
+                    const suggestion = state.suggestions.find((item) => item.id === id);
+                    if (!suggestion) return;
+                    const status = entry.status || 'next';
+                    if (!grouped[status]) {
+                        grouped[status] = [];
+                    }
+                    grouped[status].push({ suggestion, entry });
+                });
+
+                ['now', 'next', 'later'].forEach((status) => {
+                    const container = dom.planLists[status];
+                    container.innerHTML = '';
+                    const items = grouped[status] || [];
+                    items
+                        .sort((a, b) => a.suggestion.title.localeCompare(b.suggestion.title))
+                        .forEach(({ suggestion, entry }) => {
+                            const chip = document.createElement('div');
+                            chip.className = 'plan-chip';
+                            chip.innerHTML = `<strong>${escapeHtml(suggestion.title)}</strong><small>${escapeHtml(suggestion.sectionTitle)}${
+                                suggestion.principleTitle ? ' • ' + escapeHtml(suggestion.principleTitle) : ''
+                            }</small>`;
+                            if (entry.note) {
+                                chip.innerHTML += `<small>${escapeHtml(entry.note)}</small>`;
+                            }
+                            container.appendChild(chip);
+                        });
+                });
+            }
+
+            function updateStats() {
+                dom.statTotal.textContent = state.suggestions.length;
+                const entries = Object.values(state.selections);
+                const selected = entries.filter((entry) => entry.selected);
+                dom.statSelected.textContent = selected.length;
+                const now = selected.filter((entry) => entry.status === 'now').length;
+                const next = selected.filter((entry) => entry.status === 'next').length;
+                const later = selected.filter((entry) => entry.status === 'later').length;
+                dom.statPhase.textContent = `${now} / ${next} / ${later}`;
+            }
+
+            function escapeHtml(value) {
+                return String(value ?? '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+        })();
+    </script>
+</body>
+</html>

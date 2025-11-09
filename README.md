@@ -16,6 +16,52 @@ Preview the template here: https://digital-garden-jekyll-template.netlify.app/
 - Features a simple and responsive design
 - Supports Markdown or HTML notes
 
+## Underline-style filters
+
+If you're building a filter bar for your notes or projects list, you can use a lightweight React component that highlights the active tag with an underline that grows from left to right:
+
+```tsx
+"use client"
+
+interface UnderlineFiltersProps {
+  tags: string[]
+  activeTag: string
+  onTagChange: (tag: string) => void
+}
+
+export function UnderlineFilters({ tags, activeTag, onTagChange }: UnderlineFiltersProps) {
+  return (
+    <div className="flex flex-wrap items-center gap-6">
+      {tags.map((tag) => {
+        const isActive = activeTag === tag
+        return (
+          <button
+            key={tag}
+            onClick={() => onTagChange(tag)}
+            className="group relative pb-1.5 text-[15px] font-light tracking-wide transition-colors duration-300"
+          >
+            <span
+              className={`transition-colors duration-300 ${
+                isActive ? "text-[rgb(250,248,246)]" : "text-[rgb(120,113,108)] group-hover:text-[rgb(168,162,158)]"
+              }`}
+            >
+              {tag}
+            </span>
+            <span
+              className={`absolute bottom-0 left-0 h-[1px] transition-all duration-300 ease-out ${
+                isActive ? "w-full bg-[rgb(96,165,250)]" : "w-0 bg-[rgb(168,162,158)] group-hover:w-full"
+              }`}
+            />
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+```
+
+This `UnderlineFilters` component takes in a list of tags, keeps track of the selected one, and animates a bottom border so the underline expands smoothly when a tag becomes active or hovered.
+
 <img width="1522" alt="Screen Shot 2020-05-19 at 23 05 46" src="https://user-images.githubusercontent.com/8457808/82400515-7d026d80-9a25-11ea-83f1-3b9cb8347e07.png">
 
 ## A note about GitHub Pages

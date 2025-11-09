@@ -85,7 +85,7 @@ Why it doesn't work: No information, no value, creates dead end
 - Extracts excerpt for each note
 - Displays with proper markup
 
-**Styling:** `_sass/_writing2.scss`
+**Styling:** `_sass/_writing.scss`
 - `.article-excerpt` class
 - Aligned with title column on desktop
 - Full-width on mobile
@@ -163,7 +163,7 @@ For updating multiple posts at once:
 - Write custom excerpt under 30 words for clean appearance
 
 ### Styling issues?
-- Check `_sass/_writing2.scss` for `.article-excerpt` class
+- Check `_sass/_writing.scss` for `.article-excerpt` class
 - Verify proper spacing variables are defined
 - Test mobile responsive behavior
 

@@ -21,27 +21,23 @@ layout: default
   {% assign tag_collection = tag_collection | sort %}
 
   {% if tag_collection.size > 0 %}
-  <div class="writing2-filter-group">
-    <div class="writing2-filters" data-writing2-filter>
-      <button class="writing2-filter is-active" type="button" data-filter="all">all</button>
-      {% assign visible_tag_limit = 5 %}
-      {% for tag in tag_collection limit: visible_tag_limit %}
-        {% assign tag_slug = tag | slugify %}
-        {% assign tag_lower = tag | downcase %}
-        <button class="writing2-filter" type="button" data-filter="{{ tag_slug }}">{{ tag_lower }}</button>
-      {% endfor %}
-      <button class="more-topics-toggle" type="button" data-toggle-topics>
-        <span class="toggle-text">more →</span>
+  <section class="writing2-topics" aria-label="Filter essays by topic">
+    <div class="writing2-topic-row" data-writing2-filter>
+      <button class="writing2-topic-trigger writing2-topic-all is-active" type="button" data-filter="all" aria-pressed="true">
+        <span class="topic-name">all</span>
       </button>
-      <div class="hidden-topics" data-hidden-topics>
-        {% for tag in tag_collection offset: visible_tag_limit %}
+      <ul class="topics-list writing2-topic-list writing2-topic-stream">
+        {% for tag in tag_collection %}
           {% assign tag_slug = tag | slugify %}
-          {% assign tag_lower = tag | downcase %}
-          <button class="writing2-filter" type="button" data-filter="{{ tag_slug }}">{{ tag_lower }}</button>
+          <li class="topic-item">
+            <button class="topic-link writing2-topic-trigger" type="button" data-filter="{{ tag_slug }}" aria-pressed="false">
+              <span class="topic-name">{{ tag }}</span>
+            </button>
+          </li>
         {% endfor %}
-      </div>
+      </ul>
     </div>
-  </div>
+  </section>
   {% endif %}
 
   <div class="writing2-list">
@@ -72,7 +68,7 @@ layout: default
   (function () {
     var filterContainer = document.querySelector('[data-writing2-filter]');
     if (!filterContainer) return;
-    var buttons = Array.prototype.slice.call(filterContainer.querySelectorAll('.writing2-filter'));
+    var buttons = Array.prototype.slice.call(filterContainer.querySelectorAll('.writing2-topic-trigger'));
     var entries = Array.prototype.slice.call(document.querySelectorAll('.writing2-list .writing2-entry'));
 
     function applyFilter(slug) {
@@ -86,33 +82,25 @@ layout: default
       });
     }
 
+    function setActiveButton(activeButton) {
+      buttons.forEach(function (btn) {
+        var isActive = btn === activeButton;
+        btn.classList.toggle('is-active', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+    }
+
     filterContainer.addEventListener('click', function (event) {
-      var button = event.target.closest('.writing2-filter');
+      var button = event.target.closest('.writing2-topic-trigger');
       if (!button) return;
-      buttons.forEach(function (btn) { btn.classList.remove('is-active'); });
-      button.classList.add('is-active');
+      setActiveButton(button);
       applyFilter(button.getAttribute('data-filter'));
     });
 
-    // Toggle topics expansion
-    var toggleButton = document.querySelector('[data-toggle-topics]');
-    var hiddenTopics = document.querySelector('[data-hidden-topics]');
-    var toggleText = toggleButton ? toggleButton.querySelector('.toggle-text') : null;
-
-    if (toggleButton && hiddenTopics) {
-      toggleButton.addEventListener('click', function () {
-        var isExpanded = hiddenTopics.classList.contains('is-expanded');
-
-        if (isExpanded) {
-          hiddenTopics.classList.remove('is-expanded');
-          if (toggleText) toggleText.textContent = 'more →';
-        } else {
-          hiddenTopics.classList.add('is-expanded');
-          if (toggleText) toggleText.textContent = 'less ←';
-          // Update buttons list to include newly visible buttons
-          buttons = Array.prototype.slice.call(filterContainer.querySelectorAll('.writing2-filter'));
-        }
-      });
+    var defaultActive = filterContainer.querySelector('.writing2-topic-trigger.is-active') || buttons[0];
+    if (defaultActive) {
+      setActiveButton(defaultActive);
+      applyFilter(defaultActive.getAttribute('data-filter'));
     }
   })();
 </script>

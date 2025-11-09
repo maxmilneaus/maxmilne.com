@@ -17,7 +17,16 @@
     padding-top: 0;
   }
 
+  &.is-first-visible {
+    padding-top: 0;
+  }
+
   &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &.is-last-visible {
     border-bottom: none;
     padding-bottom: 0;
   }
@@ -41,6 +50,8 @@
   font-weight: 400;
   padding-top: 0;          /* align with title baseline */
   line-height: 1;          /* match link line-height for same line */
+  font-variant-numeric: tabular-nums; /* keep dashes aligned regardless of digit shapes */
+  font-feature-settings: "tnum" 1;   /* ensure tabular figures even if browser ignores shorthand */
 }
 
 .project-content {
@@ -163,10 +174,22 @@
   margin-bottom: var(--section-spacing);
 }
 
+.projects-intro {
+  max-width: 42rem;
+
+  p {
+    color: var(--color-meta);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: var(--space-md) 0 0 0;
+  }
+}
+
 /* Project detail pages keep dark backgrounds (cream background CSS removed per user decision) */
 
 .projects-filter-group {
-  margin-bottom: var(--space-lg);
+  /* match the breathing room used on writing filters */
+  margin-bottom: var(--space-xl);
 
   .section-label {
     display: block;
@@ -183,6 +206,26 @@
   }
 }
 
+.project-filter--anchor {
+  justify-self: stretch;
+  text-align: left;
+  padding-left: 0;
+}
+
+.project-filter-rail {
+  align-self: flex-start;
+}
+
+@media (max-width: 600px) {
+  .projects-filter-group {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-sm);
+  }
+
+  .project-filter--anchor {
+    justify-self: flex-start;
+  }
+}
 .project-filters {
   display: flex;
   flex-wrap: wrap;

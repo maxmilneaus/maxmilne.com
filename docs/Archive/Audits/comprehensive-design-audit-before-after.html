@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comprehensive Design Audit – Before & After Gallery</title>
+    <style>
+        :root {
+            --color-deep: #141210;
+            --color-charcoal: #201d1a;
+            --color-graphite: #2d2926;
+            --color-stone: #4a453f;
+            --color-cream: #e8ddd4;
+            --color-warm-gray: #c7beb5;
+            --color-meta: #9c958c;
+            --color-accent: #93c5fd;
+            --color-accent-dark: #3b82f6;
+            --color-green: #34d399;
+            --color-yellow: #fbbf24;
+            --color-red: #f87171;
+
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.75rem;
+            --space-xl: 3rem;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: var(--space-xl) var(--space-lg);
+            background: var(--color-deep);
+            color: var(--color-cream);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.65;
+            max-width: 1280px;
+            margin-inline: auto;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.6rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-align: center;
+        }
+
+        .subtitle {
+            margin-top: var(--space-sm);
+            color: var(--color-meta);
+            text-align: center;
+        }
+
+        .intro {
+            margin: var(--space-xl) auto;
+            padding: var(--space-lg);
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            border-radius: 6px;
+            color: var(--color-warm-gray);
+            max-width: 860px;
+        }
+
+        .intro strong {
+            color: var(--color-cream);
+        }
+
+        .grid {
+            display: grid;
+            gap: var(--space-xl);
+        }
+
+        .card {
+            background: var(--color-charcoal);
+            border: 1px solid var(--color-graphite);
+            border-radius: 10px;
+            padding: var(--space-lg);
+            display: grid;
+            gap: var(--space-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 500;
+            color: var(--color-cream);
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+        }
+
+        .badge {
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(147, 197, 253, 0.12);
+            border: 1px solid rgba(147, 197, 253, 0.28);
+            color: var(--color-accent);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .badge.score-high {
+            border-color: rgba(52, 211, 153, 0.35);
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--color-green);
+        }
+
+        .badge.score-medium {
+            border-color: rgba(251, 191, 36, 0.35);
+            background: rgba(251, 191, 36, 0.12);
+            color: var(--color-yellow);
+        }
+
+        .badge.quick-win {
+            border-color: rgba(147, 197, 253, 0.5);
+            background: rgba(147, 197, 253, 0.2);
+        }
+
+        .card-body {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .toggle-wrap {
+            display: inline-flex;
+            padding: var(--space-xs);
+            border-radius: 999px;
+            background: var(--color-deep);
+            border: 1px solid var(--color-graphite);
+            gap: var(--space-xs);
+        }
+
+        .toggle-btn {
+            border: none;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: 999px;
+            background: transparent;
+            color: var(--color-meta);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 160ms ease;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(147, 197, 253, 0.1);
+            color: var(--color-cream);
+        }
+
+        .toggle-btn.active {
+            background: var(--color-accent);
+            color: #0b1221;
+            font-weight: 600;
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.3);
+        }
+
+        .pane {
+            display: none;
+            gap: var(--space-sm);
+            color: var(--color-warm-gray);
+            background: rgba(20, 18, 16, 0.65);
+            border: 1px solid rgba(231, 221, 212, 0.06);
+            border-radius: 8px;
+            padding: var(--space-md);
+        }
+
+        .pane.active {
+            display: grid;
+        }
+
+        .pane strong {
+            color: var(--color-cream);
+        }
+
+        .pane code {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 4px;
+            padding: 0.2rem 0.4rem;
+            font-size: 0.85rem;
+            color: var(--color-accent);
+        }
+
+        .evidence {
+            font-size: 0.95rem;
+            color: var(--color-meta);
+        }
+
+        .note {
+            border-left: 2px solid rgba(147, 197, 253, 0.4);
+            padding-left: var(--space-md);
+            color: var(--color-warm-gray);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--color-graphite);
+            text-align: center;
+            color: var(--color-meta);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 780px) {
+            body {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .card {
+                padding: var(--space-md);
+            }
+
+            .card-header {
+                gap: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Comprehensive Design Audit</h1>
+        <p class="subtitle">Before & After snapshots for creative decisions</p>
+    </header>
+
+    <div class="intro">
+        <p><strong>How to use:</strong> Each tile translates the audit recommendations into a quick before/after comparison. Toggle to see what changes, skim the evidence, and copy the suggested code snippets straight into your workflow.</p>
+        <p>Everything here is lifted from <code>comprehensive-design-audit.html</code> and re-packaged so creative direction calls stay fast, visual, and obvious.</p>
+    </div>
+
+    <main class="grid" aria-live="polite">
+        <!-- 1. Tag filter micro-interactions -->
+        <article class="card" data-card="filters">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Filter Tags Feel Curated</h2>
+                    <p class="evidence">Dieter Rams • Principle 1 · Score 7/10</p>
+                </div>
+                <div class="badge-group">
+                    <span class="badge">Micro-interaction</span>
+                    <span class="badge score-medium">Score Bump</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="toggle-wrap" role="tablist" aria-label="Tag filter state">
+                    <button class="toggle-btn active" data-toggle="filters" data-target="before">Before</button>
+                    <button class="toggle-btn" data-toggle="filters" data-target="after">After</button>
+                </div>
+                <div class="pane active" id="filters-before" role="tabpanel">
+                    <strong>Now:</strong>
+                    <p>Clicking a filter tag swaps content instantly. Helpful, but the change feels binary—no sense of curation or intent.</p>
+                </div>
+                <div class="pane" id="filters-after" role="tabpanel">
+                    <strong>After:</strong>
+                    <p>List items fade out then back in with a 50&nbsp;ms stagger. The UI whispers “hand-picked” without slowing anyone down.</p>
+                    <code>transition: opacity 300ms ease;
+transition-delay: calc(var(--item-index) * 50ms);</code>
+                </div>
+                <p class="note">Keeps the calm aesthetic intact while introducing just enough flourish to register as innovative.</p>
+            </div>
+        </article>
+
+        <!-- 2. Keyboard shortcuts -->
+        <article class="card" data-card="shortcuts">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Instant Keyboard Shortcuts</h2>
+                    <p class="evidence">Dieter Rams • Principle 2 · Score 9/10</p>
+                </div>
+                <div class="badge-group">
+                    <span class="badge">UX polish</span>
+                    <span class="badge score-high">Power Users</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="toggle-wrap" role="tablist" aria-label="Shortcut state">
+                    <button class="toggle-btn active" data-toggle="shortcuts" data-target="before">Before</button>
+                    <button class="toggle-btn" data-toggle="shortcuts" data-target="after">After</button>
+                </div>
+                <div class="pane active" id="shortcuts-before" role="tabpanel">
+                    <strong>Now:</strong>
+                    <p>Navigation is purely click-based. Frequent visitors need multiple steps to jump between pillars (About, Now, Projects, Writing).</p>
+                </div>
+                <div class="pane" id="shortcuts-after" role="tabpanel">
+                    <strong>After:</strong>
+                    <p>Numbers <code>1–4</code> snap to the four main sections, and <code>/</code> primes the site search (once added). The UI shows care for habitual readers.</p>
+                    <code>document.addEventListener('keydown', (e) => {
+  if (e.key === '1') window.location = '/about';
+});</code>
+                </div>
+                <p class="note">No visual redesign required—just a small script that unlocks a better “tool” sensation.</p>
+            </div>
+        </article>
+
+        <!-- 3. Breadcrumb consistency -->
+        <article class="card" data-card="breadcrumbs">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Breadcrumbs Speak One Language</h2>
+                    <p class="evidence">Dieter Rams • Principle 3 · Score 8/10</p>
+                </div>
+                <div class="badge-group">
+                    <span class="badge quick-win">Quick win</span>
+                    <span class="badge score-medium">Consistency</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="toggle-wrap" role="tablist" aria-label="Breadcrumb state">
+                    <button class="toggle-btn active" data-toggle="breadcrumbs" data-target="before">Before</button>
+                    <button class="toggle-btn" data-toggle="breadcrumbs" data-target="after">After</button>
+                </div>
+                <div class="pane active" id="breadcrumbs-before" role="tabpanel">
+                    <strong>Now:</strong>
+                    <p>The Topics page shows <code>Max Milne / Writing</code> and breaks the “•” separator rhythm used everywhere else.</p>
+                </div>
+                <div class="pane" id="breadcrumbs-after" role="tabpanel">
+                    <strong>After:</strong>
+                    <p>Swap to <code>Max Milne • Writing</code>. Two keystrokes later the site reads as one system again.</p>
+                    <code>Max Milne • Writing</code>
+                </div>
+                <p class="note">Micro change, macro signal: the design language is deliberate.</p>
+            </div>
+        </article>
+
+        <!-- 4. Now page hierarchy -->
+        <article class="card" data-card="headings">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Now Page Sections Breathe</h2>
+                    <p class="evidence">Dieter Rams • Principle 4 · Score 7/10</p>
+                </div>
+                <div class="badge-group">
+                    <span class="badge quick-win">Quick win</span>
+                    <span class="badge score-medium">Readability</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="toggle-wrap" role="tablist" aria-label="Heading state">
+                    <button class="toggle-btn active" data-toggle="headings" data-target="before">Before</button>
+                    <button class="toggle-btn" data-toggle="headings" data-target="after">After</button>
+                </div>
+                <div class="pane active" id="headings-before" role="tabpanel">
+                    <strong>Now:</strong>
+                    <p>Headings like “Starting Talk. Art. Therapy.:” use punctuation and light weight that blur into the body copy.</p>
+                </div>
+                <div class="pane" id="headings-after" role="tabpanel">
+                    <strong>After:</strong>
+                    <p>Remove trailing colons, bump weight to 600. Section breaks snap into focus without any visual clutter.</p>
+                    <code>h4 { font-weight: 600; }
+// Remove trailing ':' in copy</code>
+                </div>
+                <p class="note">Improves comprehension speed—especially vital on a “now” page where skimming is the default.</p>
+            </div>
+        </article>
+
+        <!-- 5. Active nav state -->
+        <article class="card" data-card="nav-state">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Navigation Confirms Where You Are</h2>
+                    <p class="evidence">Dieter Rams • Principle 4 · Score 7/10</p>
+                </div>
+                <div class="badge-group">
+                    <span class="badge quick-win">Quick win</span>
+                    <span class="badge">Orientation</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="toggle-wrap" role="tablist" aria-label="Navigation state">
+                    <button class="toggle-btn active" data-toggle="nav-state" data-target="before">Before</button>
+                    <button class="toggle-btn" data-toggle="nav-state" data-target="after">After</button>
+                </div>
+                <div class="pane active" id="nav-state-before" role="tabpanel">
+                    <strong>Now:</strong>
+                    <p>Every nav link sits at the same weight. Visitors need to check the page title to confirm their location.</p>
+                </div>
+                <div class="pane" id="nav-state-after" role="tabpanel">
+                    <strong>After:</strong>
+                    <p>Liquid logic adds an <code>active</code> class to the current page and slightly brightens the link. Navigation doubles as orientation.</p>
+                    <code>{% if page.url contains '/about' %}class="active"{% endif %}</code>
+                </div>
+                <p class="note">Zero layout change; pure reassurance that costs one condition per link.</p>
+            </div>
+        </article>
+
+        <!-- 6. Linked mentions -->
+        <article class="card" data-card="linked-mentions">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Backlink Empty States Disappear</h2>
+                    <p class="evidence">Dieter Rams • Principle 8 · Score 6/10</p>
+                </div>
+                <div class="badge-group">
+                    <span class="badge quick-win">Quick win</span>
+                    <span class="badge">Calm Tech</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="toggle-wrap" role="tablist" aria-label="Linked mentions state">
+                    <button class="toggle-btn active" data-toggle="linked-mentions" data-target="before">Before</button>
+                    <button class="toggle-btn" data-toggle="linked-mentions" data-target="after">After</button>
+                </div>
+                <div class="pane active" id="linked-mentions-before" role="tabpanel">
+                    <strong>Now:</strong>
+                    <p>Pages display “There are no notes linking to this note.” It’s technically honest but leaves a negative impression.</p>
+                </div>
+                <div class="pane" id="linked-mentions-after" role="tabpanel">
+                    <strong>After:</strong>
+                    <p>Hide the block entirely when no backlinks exist. The page ends quietly, keeping attention on what <em>is</em> there.</p>
+                    <code>{% if backlinks.size > 0 %}
+  ...render section...
+{% endif %}</code>
+                </div>
+                <p class="note">Calm technology principle: don’t surface absence when silence does the job.</p>
+            </div>
+        </article>
+
+        <!-- 7. Motion preferences -->
+        <article class="card" data-card="motion">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Respect Reduced Motion Preference</h2>
+                    <p class="evidence">Calm Technology • Respect the User</p>
+                </div>
+                <div class="badge-group">
+                    <span class="badge">Accessibility</span>
+                    <span class="badge score-high">Delight</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="toggle-wrap" role="tablist" aria-label="Motion state">
+                    <button class="toggle-btn active" data-toggle="motion" data-target="before">Before</button>
+                    <button class="toggle-btn" data-toggle="motion" data-target="after">After</button>
+                </div>
+                <div class="pane active" id="motion-before" role="tabpanel">
+                    <strong>Now:</strong>
+                    <p>Footer dash animation is subtle, but still runs for visitors who have asked macOS/iOS to reduce motion.</p>
+                </div>
+                <div class="pane" id="motion-after" role="tabpanel">
+                    <strong>After:</strong>
+                    <p>A single media query pauses all non-essential animation for those users. Thoughtful and invisible.</p>
+                    <code>@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+}</code>
+                </div>
+                <p class="note">Signals care and keeps CSSDA judges happy without changing the default experience.</p>
+            </div>
+        </article>
+
+        <!-- 8. Link indicator refinement -->
+        <article class="card" data-card="external-links">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">External Links Whisper, Not Shout</h2>
+                    <p class="evidence">Dieter Rams • Principle 5 · Score 9/10</p>
+                </div>
+                <div class="badge-group">
+                    <span class="badge">Tone</span>
+                    <span class="badge">Refinement</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="toggle-wrap" role="tablist" aria-label="External link state">
+                    <button class="toggle-btn active" data-toggle="external-links" data-target="before">Before</button>
+                    <button class="toggle-btn" data-toggle="external-links" data-target="after">After</button>
+                </div>
+                <div class="pane active" id="external-links-before" role="tabpanel">
+                    <strong>Now:</strong>
+                    <p>Every outbound link shows the ↗ icon permanently. It adds visual noise on dense writing pages.</p>
+                </div>
+                <div class="pane" id="external-links-after" role="tabpanel">
+                    <strong>After:</strong>
+                    <p>Fade the icon in on hover only. The cue is there when needed but doesn’t steal attention.</p>
+                    <code>.external-link::after { opacity: 0; }
+.external-link:hover::after { opacity: 1; }</code>
+                </div>
+                <p class="note">Preserves honesty while keeping typography as the hero.</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        Comprehensive Design Audit &bull; Updated 5 November 2025
+    </footer>
+
+    <script>
+        document.querySelectorAll('[data-toggle]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const group = btn.dataset.toggle;
+                const target = btn.dataset.target;
+                const buttons = document.querySelectorAll(`[data-toggle="${group}"]`);
+                const panes = document.querySelectorAll(`#${group}-before, #${group}-after`);
+
+                buttons.forEach((button) => button.classList.remove('active'));
+                btn.classList.add('active');
+
+                panes.forEach((pane) => {
+                    pane.classList.toggle('active', pane.id === `${group}-${target}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

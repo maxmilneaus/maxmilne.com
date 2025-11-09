@@ -9,7 +9,7 @@ Filter notes by the current tag and count them
 {% assign note_count = tagged_notes.size %}
 
 <h1 class="tag-page-title">
-  <a href="{{ site.baseurl }}/#topics" class="internal-link">Topics</a> / {{ page.tag | capitalize }}
+  <a href="{{ site.baseurl }}/#topics" class="internal-link">Topics</a> • {{ page.tag | capitalize }}
 </h1>
 
 <p class="tag-meta">{{ note_count }} entr{% if note_count == 1 %}y{% else %}ies{% endif %} about this topic</p>

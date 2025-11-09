@@ -67,6 +67,26 @@ layout: default
     var buttons = Array.prototype.slice.call(filterContainer.querySelectorAll('.project-filter'));
     var entries = Array.prototype.slice.call(document.querySelectorAll('.projects-list .project-entry'));
 
+    function markVisibleBounds() {
+      var firstVisible = null;
+      var lastVisible = null;
+      entries.forEach(function (entry) {
+        entry.classList.remove('is-first-visible', 'is-last-visible');
+        if (!entry.classList.contains('is-hidden')) {
+          if (!firstVisible) {
+            firstVisible = entry;
+          }
+          lastVisible = entry;
+        }
+      });
+      if (firstVisible) {
+        firstVisible.classList.add('is-first-visible');
+      }
+      if (lastVisible) {
+        lastVisible.classList.add('is-last-visible');
+      }
+    }
+
     function applyFilter(slug) {
       entries.forEach(function (entry) {
         var tags = (entry.dataset.tagSlugs || '').split(' ').filter(Boolean);
@@ -76,6 +96,7 @@ layout: default
           entry.classList.add('is-hidden');
         }
       });
+      markVisibleBounds();
     }
 
     filterContainer.addEventListener('click', function (event) {
@@ -85,5 +106,7 @@ layout: default
       button.classList.add('is-active');
       applyFilter(button.getAttribute('data-filter'));
     });
+
+    markVisibleBounds();
   })();
 </script>

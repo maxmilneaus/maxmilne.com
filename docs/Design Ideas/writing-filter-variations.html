@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Writing Filter Variations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --color-bg: #11100f;
+        --color-panel: #1c1917;
+        --color-panel-soft: #1f1b19;
+        --color-border: #2f2b27;
+        --color-cream: #f3e7d9;
+        --color-meta: #b5aba1;
+        --color-warm-gray: #d8cfc5;
+        --color-highlight: #8cc0ff;
+        --color-highlight-strong: #3b82f6;
+        --color-soft-blue: rgba(147, 197, 253, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-cream);
+        line-height: 1.55;
+        padding: clamp(1.5rem, 3vw, 2.75rem);
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      header {
+        text-align: left;
+      }
+
+      header h1 {
+        margin: 0 0 0.35rem 0;
+        font-size: clamp(1.85rem, 3vw, 2.35rem);
+      }
+
+      header p {
+        margin: 0;
+        color: var(--color-meta);
+        max-width: 52ch;
+      }
+
+      .variant-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .variant-card {
+        background: var(--color-panel);
+        border: 1px solid var(--color-border);
+        border-radius: 18px;
+        padding: 1.4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        min-height: 360px;
+      }
+
+      .variant-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+
+      .variant-title {
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-meta);
+      }
+
+      .variant-description {
+        color: var(--color-warm-gray);
+        font-size: 0.95rem;
+      }
+
+      .topics {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+
+      .topics li {
+        margin: 0;
+      }
+
+      .filter-button {
+        font: inherit;
+        border: none;
+        background: transparent;
+        color: inherit;
+        padding: 0.2rem 0.1rem;
+        cursor: pointer;
+        transition: color 180ms ease, background 180ms ease, box-shadow 180ms ease, text-decoration-color 180ms ease;
+      }
+
+      .filter-button:focus-visible {
+        outline: 2px solid rgba(147, 197, 253, 0.45);
+        outline-offset: 2px;
+      }
+
+      /* VARIATION A — Inline Ledger */
+      .topics-inline {
+        gap: 0;
+      }
+
+      .topics-inline li {
+        display: flex;
+        align-items: center;
+      }
+
+      .topics-inline li::after {
+        content: ", ";
+        color: var(--color-meta);
+      }
+
+      .topics-inline li:last-child::after {
+        content: "";
+      }
+
+      .topics-inline .filter-button {
+        color: var(--color-meta);
+        text-decoration: none;
+        text-decoration-color: transparent;
+      }
+
+      .topics-inline .filter-button:hover {
+        color: var(--color-warm-gray);
+      }
+
+      .topics-inline .filter-button.is-active {
+        color: var(--color-highlight);
+        text-decoration: underline;
+        text-underline-offset: 0.24em;
+      }
+
+      /* VARIATION B — Soft Capsules */
+      .topics-pill {
+        gap: 0.4rem;
+      }
+
+      .topics-pill .filter-button {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 999px;
+        padding: 0.3rem 0.95rem;
+        color: var(--color-meta);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .topics-pill .filter-button:hover {
+        border-color: rgba(147, 197, 253, 0.35);
+        color: var(--color-cream);
+      }
+
+      .topics-pill .filter-button.is-active {
+        background: var(--color-soft-blue);
+        border-color: transparent;
+        color: var(--color-highlight);
+        box-shadow: inset 0 0 0 1px rgba(147, 197, 253, 0.35);
+      }
+
+      /* VARIATION C — Ladder */
+      .variant-card[data-variant="ladder"] .filter-cluster {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .topics-ladder {
+        flex: 1;
+        flex-direction: column;
+        gap: 0.35rem;
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        padding-left: 1rem;
+      }
+
+      .topics-ladder .filter-button {
+        width: 100%;
+        text-align: left;
+        color: var(--color-meta);
+        padding: 0.25rem 0;
+      }
+
+      .topics-ladder .filter-button:hover {
+        color: var(--color-cream);
+      }
+
+      .topics-ladder .filter-button.is-active {
+        position: relative;
+        color: var(--color-highlight);
+      }
+
+      .topics-ladder .filter-button.is-active::before {
+        content: "";
+        position: absolute;
+        left: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 70%;
+        border-radius: 999px;
+        background: var(--color-highlight);
+      }
+
+      /* VARIATION D — Dense Cloud */
+      .topics-cloud {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        gap: 0.45rem;
+      }
+
+      .topics-cloud .filter-button {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.78rem;
+        border: 1px dashed rgba(255, 255, 255, 0.15);
+        border-radius: 6px;
+        padding: 0.35rem 0.55rem;
+        color: var(--color-meta);
+      }
+
+      .topics-cloud .filter-button.is-active {
+        border-style: solid;
+        border-color: rgba(147, 197, 253, 0.7);
+        background: linear-gradient(120deg, rgba(147, 197, 253, 0.18), rgba(147, 197, 253, 0.02));
+        color: var(--color-highlight);
+      }
+
+      /* VARIATION E — Segmented Bar */
+      .topics-bar {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.2rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 999px;
+        padding: 0.25rem;
+      }
+
+      .topics-bar .filter-button {
+        flex: 1;
+        border-radius: 999px;
+        text-align: center;
+        padding: 0.35rem 0.35rem;
+        color: var(--color-meta);
+      }
+
+      .topics-bar .filter-button.is-active {
+        background: rgba(147, 197, 253, 0.25);
+        color: var(--color-cream);
+        box-shadow: 0 5px 18px rgba(147, 197, 253, 0.25);
+      }
+
+      /* Writing list presentation */
+      .writing-list {
+        list-style: none;
+        margin: 1rem 0 0 0;
+        padding: 1rem;
+        border-radius: 14px;
+        background: var(--color-panel-soft);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .writing-list li {
+        display: flex;
+        align-items: baseline;
+        gap: 0.8rem;
+      }
+
+      .writing-list span {
+        font-size: 0.9rem;
+        color: var(--color-meta);
+      }
+
+      .writing-list .article-title {
+        color: var(--color-cream);
+        font-size: 0.98rem;
+      }
+
+      .variant-card[data-variant="pill"] .writing-list {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .variant-card[data-variant="cloud"] .writing-list {
+        background: rgba(20, 26, 36, 0.5);
+      }
+
+      @media (max-width: 720px) {
+        .variant-card {
+          min-height: auto;
+        }
+
+        .variant-card[data-variant="ladder"] .filter-cluster {
+          flex-direction: column;
+        }
+
+        .topics-bar {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Writing Filter Variations</h1>
+        <p>Five quick explorations of how the topic filter can sit with the writing list. Click around each set to see how the active state behaves.</p>
+      </header>
+
+      <div class="variant-grid">
+        <!-- Variation A -->
+        <section class="variant-card" data-variant="inline" data-filter-variant>
+          <div class="variant-meta">
+            <p class="variant-title">Variation 1 · Inline Ledger</p>
+            <p class="variant-description">Matches the current writing page—topics read like a sentence, useful when you want filters to blend into body text.</p>
+          </div>
+          <ul class="topics topics-inline">
+            <li><button class="filter-button is-active" type="button" aria-pressed="true">All topics</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Therapy</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Meditation</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Systems</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Groups</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Technology</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Process</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Art practice</button></li>
+          </ul>
+          <ul class="writing-list">
+            <li><span class="article-date">2025 · 08</span><span class="article-title">Tracing Systems That Stay Soft</span></li>
+            <li><span class="article-date">2025 · 06</span><span class="article-title">Meditation In The Studio</span></li>
+            <li><span class="article-date">2025 · 03</span><span class="article-title">Therapy Notes On Group Tempo</span></li>
+          </ul>
+        </section>
+
+        <!-- Variation B -->
+        <section class="variant-card" data-variant="pill" data-filter-variant>
+          <div class="variant-meta">
+            <p class="variant-title">Variation 2 · Soft Capsules</p>
+            <p class="variant-description">Rounded chips make the filters feel tactile. Works well if you want clearer affordances without overwhelming the text.</p>
+          </div>
+          <ul class="topics topics-pill">
+            <li><button class="filter-button is-active" type="button" aria-pressed="true">All</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Therapy</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Meditation</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Systems</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Groups</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Technology</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Process</button></li>
+          </ul>
+          <ul class="writing-list">
+            <li><span class="article-date">2025 · 08</span><span class="article-title">Tracing Systems That Stay Soft</span></li>
+            <li><span class="article-date">2025 · 06</span><span class="article-title">Meditation In The Studio</span></li>
+            <li><span class="article-date">2025 · 03</span><span class="article-title">Therapy Notes On Group Tempo</span></li>
+          </ul>
+        </section>
+
+        <!-- Variation C -->
+        <section class="variant-card" data-variant="ladder" data-filter-variant>
+          <div class="variant-meta">
+            <p class="variant-title">Variation 3 · Ladder</p>
+            <p class="variant-description">A vertical track that echoes the project filters—useful when you want the reader to scan down topics before jumping into headlines.</p>
+          </div>
+          <div class="filter-cluster">
+            <ul class="topics topics-ladder">
+              <li><button class="filter-button is-active" type="button" aria-pressed="true">All essays</button></li>
+              <li><button class="filter-button" type="button" aria-pressed="false">Therapy</button></li>
+              <li><button class="filter-button" type="button" aria-pressed="false">Meditation</button></li>
+              <li><button class="filter-button" type="button" aria-pressed="false">Systems</button></li>
+              <li><button class="filter-button" type="button" aria-pressed="false">Groups</button></li>
+              <li><button class="filter-button" type="button" aria-pressed="false">Technology</button></li>
+            </ul>
+          </div>
+          <ul class="writing-list">
+            <li><span class="article-date">2025 · 08</span><span class="article-title">Tracing Systems That Stay Soft</span></li>
+            <li><span class="article-date">2025 · 06</span><span class="article-title">Meditation In The Studio</span></li>
+            <li><span class="article-date">2025 · 03</span><span class="article-title">Therapy Notes On Group Tempo</span></li>
+          </ul>
+        </section>
+
+        <!-- Variation D -->
+        <section class="variant-card" data-variant="cloud" data-filter-variant>
+          <div class="variant-meta">
+            <p class="variant-title">Variation 4 · Dense Cloud</p>
+            <p class="variant-description">Compact uppercase tags form a mini catalog. Great when there are many topics and you want a data-visualizer feel.</p>
+          </div>
+          <ul class="topics topics-cloud">
+            <li><button class="filter-button is-active" type="button" aria-pressed="true">All</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Therapy</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Meditation</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Systems</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Groups</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Technology</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Process</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Art practice</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Writing</button></li>
+          </ul>
+          <ul class="writing-list">
+            <li><span class="article-date">2025 · 08</span><span class="article-title">Tracing Systems That Stay Soft</span></li>
+            <li><span class="article-date">2025 · 06</span><span class="article-title">Meditation In The Studio</span></li>
+            <li><span class="article-date">2025 · 03</span><span class="article-title">Therapy Notes On Group Tempo</span></li>
+          </ul>
+        </section>
+
+        <!-- Variation E -->
+        <section class="variant-card" data-variant="bar" data-filter-variant>
+          <div class="variant-meta">
+            <p class="variant-title">Variation 5 · Segmented Bar</p>
+            <p class="variant-description">High-contrast segmented control that feels like a media scrubber. Ideal when you want a single row that prioritizes the top five topics.</p>
+          </div>
+          <ul class="topics topics-bar">
+            <li><button class="filter-button is-active" type="button" aria-pressed="true">All</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Therapy</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Meditation</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Systems</button></li>
+            <li><button class="filter-button" type="button" aria-pressed="false">Technology</button></li>
+          </ul>
+          <ul class="writing-list">
+            <li><span class="article-date">2025 · 08</span><span class="article-title">Tracing Systems That Stay Soft</span></li>
+            <li><span class="article-date">2025 · 06</span><span class="article-title">Meditation In The Studio</span></li>
+            <li><span class="article-date">2025 · 03</span><span class="article-title">Therapy Notes On Group Tempo</span></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      document.querySelectorAll('[data-filter-variant]').forEach(function (card) {
+        var buttons = card.querySelectorAll('.filter-button');
+        buttons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            buttons.forEach(function (btn) {
+              var active = btn === button;
+              btn.classList.toggle('is-active', active);
+              btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
