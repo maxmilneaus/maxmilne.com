@@ -97,10 +97,11 @@ All spacing derives from 0.25rem base unit, creating harmonic proportions (1:2:4
 - **Hierarchy:** Meta gray (#9c958c) and 1rem size keeps the column supportive, not dominant.
 
 ### Writing Filters
-- **Style:** Comma-separated buttons with toggle
-- **Default color:** var(--color-meta)
-- **Hover/Active color:** var(--color-accent-hover)
-- **", more →" toggle:** Shows hidden topics on click
+- **Structure:** `All ·` label (sentence case) on the left, comma-separated lowercase topics on the right
+- **Separator:** Dot lives on the All label pseudo-element so only text gets underlined
+- **Default color:** var(--color-meta) for both All and topics
+- **Hover color:** var(--color-warm-gray); cursor stays text-like
+- **Active treatment:** Only the `.topic-name` span receives the blue underline (`var(--color-accent-hover)`)
 
 ### Actionable Content Boxes
 - **Background:** rgba(147, 197, 253, 0.05) (subtle blue tint)

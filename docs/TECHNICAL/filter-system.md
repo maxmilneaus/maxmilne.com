@@ -11,7 +11,7 @@
 | Page | Layout file | Stylesheet | JS selector | Notes |
 |------|-------------|------------|-------------|-------|
 | `/projects/` | `_layouts/projects.html` | `_sass/_projects.scss` | `[data-project-filter] .project-filter` | Pill buttons + grid of cards. Includes `.is-first-visible` helper. |
-| `/writing/` | `_layouts/writing.html` | `_sass/_writing.scss` | `[data-writing2-filter] .writing2-topic-trigger` | Inline comma list with dedicated “all” button and bullet separator. |
+| `/writing/` | `_layouts/writing.html` | `_sass/_writing.scss` | `[data-writing2-filter] .writing2-topic-trigger` | Grid keeps “All ·” label in its own column; topics continue as comma sentence. |
 
 Both pages share the same filtering approach:
 
@@ -39,7 +39,9 @@ Slug source of truth: Liquid `slugify` filter applied during the loop, so both t
 
 ```html
 <div class="writing2-topic-row" data-writing2-filter>
-  <button class="writing2-topic-trigger writing2-topic-all is-active" data-filter="all" aria-pressed="true">all</button>
+  <button class="writing2-topic-trigger writing2-topic-all is-active" data-filter="all" aria-pressed="true">
+    <span class="topic-name">all</span>
+  </button>
   <ul class="topics-list writing2-topic-list writing2-topic-stream">
     {% for tag in tag_collection %}
       <li class="topic-item">
@@ -52,10 +54,11 @@ Slug source of truth: Liquid `slugify` filter applied during the loop, so both t
 
 **Styling:** `_sass/_writing.scss`
 
-- Flex row keeps “all” separated from the comma list.
-- `.writing2-topic-stream::before` draws the `•` bullet so wraps begin under the first specific topic instead of under “all”.
-- Hover state uses warm gray; only the active topic receives the blue underline (`var(--color-accent-hover)`).
-- Mobile breakpoint stacks the row and tucks the bullet closer (`margin-right: 0.4rem`).
+- Two-column grid (`auto 1fr`) stores the All label in column one so any line wraps in column two always align with the first real topic.
+- `.writing2-topic-all::after` renders the divider dot; since the underline is applied to `.topic-name`, the spacer never gets highlighted.
+- The topics themselves remain lowercase text buttons with comma separators generated via `.topic-item::after`.
+- Hover state uses warm gray; only the active `.topic-name` receives the blue underline (`var(--color-accent-hover)`), matching the project filter emphasis without duplicating the pill UI.
+- Mobile breakpoint collapses to a single column so All sits above the sentence while keeping the dot attached to the label.
 
 **Script fragment:**
 
@@ -107,7 +110,7 @@ Nothing changed in this round, but for completeness:
 3. **Regressions to watch:**
    - Missing `data-tag-slugs` attribute (will hide everything because the JS sees empty arrays).
    - Forgetting to slugify new tags in the loop.
-   - Removing `.writing2-topic-stream::before` (will break the dot/wrapping relationship).
+   - Moving the `All` button out of column one or stripping its pseudo-element (breaks the dot and wrap alignment).
 
 ---
 
@@ -118,4 +121,3 @@ Nothing changed in this round, but for completeness:
 - `_sass/_projects.scss`
 - `_sass/_writing.scss`
 - `docs/Design Ideas/writing-filter-variations.html` (prototype playground)
-

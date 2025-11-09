@@ -26,30 +26,64 @@
 
 /* Flex row: "all" + topics read as a single inline sentence */
 .writing2-topic-row {
-  display: flex;
-  flex-wrap: wrap;
+  --writing2-divider-gap: calc(var(--space-sm) * 1.6);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--writing2-divider-gap);
   align-items: baseline;
-  gap: 0;
 }
 
-/* "All" stands apart: no comma, subtle emphasis, same line as topics */
+/* "All" label shares layout with projects but keeps Sentence case */
 .writing2-topic-all {
-  text-transform: lowercase;
-  letter-spacing: 0.04em;
-  font-weight: var(--font-weight-normal);
-  margin-right: 0.35rem;
+  text-transform: none;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-meta);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding-right: 0;
+  white-space: nowrap;
+
+  &::after {
+    content: "·";
+    color: var(--color-meta);
+    font-size: 0.9rem;
+    letter-spacing: 0;
+    pointer-events: none;
+    transform: translateY(-0.05em);
+  }
+
+  .topic-name {
+    letter-spacing: inherit;
+  }
 }
 
-/* Topic list flows after All; when wrapping, new lines align under first topic */
+/* Topic list flows inline with comma separators and wraps under first topic */
 .writing2-topic-list {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0;
   row-gap: var(--space-xs);
+  min-width: 0;
 
   .topic-item {
     margin: 0;
+    display: inline-flex;
+
+    &::after {
+      content: ", ";
+      color: var(--color-meta);
+      padding-right: 0.15rem;
+    }
+
+    &:last-child::after {
+      content: "";
+      padding: 0;
+    }
   }
 }
 
@@ -63,22 +97,30 @@
   color: var(--color-meta);
   font-size: 0.95rem;
   letter-spacing: 0.02em;
-  text-decoration: none;
-  text-decoration-color: transparent;
   transition: color 200ms ease, text-decoration-color 200ms ease;
 
-  &:hover,
+  /* Keep focus-visible for accessibility, drop generic hover color change */
   &:focus-visible {
-    color: var(--color-warm-gray);
     outline: none;
+    text-decoration: underline;
+    text-decoration-color: var(--color-meta);
+    text-underline-offset: 0.18em;
+  }
+
+  .topic-name {
+    text-decoration: none;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
   }
 
   &.is-active {
     color: var(--color-accent-hover);
-    text-decoration: underline;
-    text-decoration-color: var(--color-accent-hover);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
+
+    .topic-name {
+      text-decoration: underline;
+      text-decoration-color: var(--color-accent-hover);
+    }
   }
 }
 
@@ -89,18 +131,6 @@
   flex-wrap: wrap;
   gap: 0;
   row-gap: 0.1rem;
-  position: relative;
-
-  &::before {
-    content: "·";
-    color: var(--color-meta);
-    margin: 0 0.35rem 0 0;
-    align-self: baseline;
-    font-size: 0.9rem;
-    position: relative;
-    top: -0.02em;
-    white-space: nowrap;
-  }
 }
 
 .writing2-list {
@@ -153,17 +183,8 @@
 
 @media (max-width: 600px) {
   .writing2-topic-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.15rem;
-  }
-
-  .writing2-topic-all {
-    margin-right: 0;
-  }
-
-  .writing2-topic-stream::before {
-    margin: 0 0.3rem 0 0;
+    grid-template-columns: 1fr;
+    row-gap: 0.15rem;
   }
 
   .writing2-entry {

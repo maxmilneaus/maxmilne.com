@@ -140,10 +140,10 @@ All colors use CSS variables for consistency:
 **Implementation:** `_layouts/writing.html` + `_sass/_writing.scss`
 
 **How it works (2025-11 refresh):**
-1. Inline flex row renders `all` followed by a comma-separated topic list (`.writing2-topic-stream`).
+1. A two-column grid keeps the dedicated `All` button in its own column while the comma-separated topic sentence (`.writing2-topic-list`) occupies the second column, ensuring wraps align under the first topic.
 2. `data-tag-slugs` on each `.writing2-entry` mirrors the button slugs generated with Liquid `slugify`.
 3. Vanilla JS toggles `.is-active` / `aria-pressed` on `.writing2-topic-trigger` buttons and applies `.is-hidden` to entries that lack the slug.
-4. `.writing2-topic-stream::before` injects the separating bullet so wraps start under the first topic rather than under “all”.
+4. The dividing dot now lives on `.writing2-topic-all::after`, so the separator never inherits the active underline (only the `.topic-name` span does).
 
 **Location:** Writing page (`/writing/`)
 

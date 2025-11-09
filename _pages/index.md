@@ -17,4 +17,4 @@ I offer  therapy through conversation, art, and mindfulness practice— helping 
 My work as a visual and performance artist lives at the intersection of contemplation, creativity, and care. 
 
 Interested in collaborating? [Read about my creative approach →]({{ site.baseurl }}/creative-approach){: .internal-link}
-<p class="side-note">In my downtime, I create videos for <a href="https://www.youtube.com/@maxmilne-aus/videos">Little Nerdy Solutions</a> — where I find fixes to oddly specific problems the world of the internet has yet to solve.</p>
+<p class="side-note">In my downtime, I create videos for <a href="https://www.youtube.com/@maxmilne-aus/videos">Little Nerdy Solutions</a> — where I find fixes to oddly specific problems that I have accounted, that the world of the internet has yet to solve.</p>
