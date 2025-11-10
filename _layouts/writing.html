@@ -19,30 +19,44 @@ layout: default
     {% endif %}
   {% endfor %}
   {% assign tag_collection = tag_collection | sort %}
+  {% assign sorted_notes = site.notes | sort: "created_at_timestamp" | reverse %}
+  {% assign total_entries = sorted_notes | size %}
 
   {% if tag_collection.size > 0 %}
-  <section class="writing2-topics" aria-label="Filter essays by topic">
-    <div class="writing2-topic-row" data-writing2-filter>
-      <button class="writing2-topic-trigger writing2-topic-all is-active" type="button" data-filter="all" aria-pressed="true">
-        <span class="topic-name">all</span>
-      </button>
-      <ul class="topics-list writing2-topic-list writing2-topic-stream">
-        {% for tag in tag_collection %}
-          {% assign tag_slug = tag | slugify %}
-          <li class="topic-item">
-            <button class="topic-link writing2-topic-trigger" type="button" data-filter="{{ tag_slug }}" aria-pressed="false">
-              <span class="topic-name">{{ tag }}</span>
-            </button>
-          </li>
-        {% endfor %}
-      </ul>
+  <section class="writing2-topics writing2-topics-ghost" aria-label="Filter essays by topic">
+    <div class="ghost-filter-block" data-filter-root>
+      <div class="panel-header-soft">
+        <button class="toggle-pill-soft" type="button" data-filter-toggle aria-expanded="false">
+          <span class="toggle-label" data-label-default="Topics">Topics</span>
+          <span class="toggle-count" data-filter-count style="display:none;"></span>
+          <span class="toggle-arrow">▼</span>
+        </button>
+        <div class="panel-actions-soft" data-filter-clear-container style="display:none;">
+          <button class="action-soft" type="button" data-filter-clear>Clear</button>
+        </div>
+      </div>
+
+      <div class="panel-soft" data-filter-panel>
+        <div class="panel-inner-soft" data-filter-panel-inner>
+          <div class="topics-row-soft">
+            {% for tag in tag_collection %}
+              {% assign tag_slug = tag | slugify %}
+              <button class="chip-soft" type="button" data-topic="{{ tag_slug }}" data-filter-chip aria-pressed="false">{{ tag }}</button>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- meta kept for potential future use; left visually empty for now -->
+      <div class="writing-meta" data-filter-meta></div>
     </div>
   </section>
+  {% else %}
+  <div class="writing-meta"></div>
   {% endif %}
 
-  <div class="writing2-list">
+  <div class="writing2-list" data-filter-list>
     <ul>
-    {% assign sorted_notes = site.notes | sort: "created_at_timestamp" | reverse %}
     {% for note in sorted_notes %}
       {% assign tag_slugs_array = "" | split: "" %}
       {% if note.tags %}
@@ -66,41 +80,96 @@ layout: default
 
 <script>
   (function () {
-    var filterContainer = document.querySelector('[data-writing2-filter]');
-    if (!filterContainer) return;
-    var buttons = Array.prototype.slice.call(filterContainer.querySelectorAll('.writing2-topic-trigger'));
-    var entries = Array.prototype.slice.call(document.querySelectorAll('.writing2-list .writing2-entry'));
+    var root = document.querySelector('[data-filter-root]');
+    if (!root) return;
 
-    function applyFilter(slug) {
-      entries.forEach(function (entry) {
-        var tags = (entry.dataset.tagSlugs || '').split(' ').filter(Boolean);
-        if (slug === 'all' || tags.indexOf(slug) !== -1) {
-          entry.classList.remove('is-hidden');
-        } else {
-          entry.classList.add('is-hidden');
-        }
-      });
-    }
+    var toggle = root.querySelector('[data-filter-toggle]');
+    var panel = root.querySelector('[data-filter-panel]');
+    var panelInner = root.querySelector('[data-filter-panel-inner]');
+    var chips = Array.prototype.slice.call(root.querySelectorAll('[data-filter-chip]'));
+    var clearBtn = root.querySelector('[data-filter-clear]');
+    var clearContainer = root.querySelector('[data-filter-clear-container]');
+    var countEl = root.querySelector('[data-filter-count]');
+    var labelEl = toggle ? toggle.querySelector('[data-label-default]') : null;
+    var meta = root.querySelector('[data-filter-meta]');
+    var entries = Array.prototype.slice.call(document.querySelectorAll('[data-filter-list] .writing2-entry'));
+    var defaultLabel = labelEl ? (labelEl.getAttribute('data-label-default') || labelEl.textContent) : '';
 
-    function setActiveButton(activeButton) {
-      buttons.forEach(function (btn) {
-        var isActive = btn === activeButton;
-        btn.classList.toggle('is-active', isActive);
-        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      });
-    }
+    if (!toggle || !panel || !panelInner) return;
 
-    filterContainer.addEventListener('click', function (event) {
-      var button = event.target.closest('.writing2-topic-trigger');
-      if (!button) return;
-      setActiveButton(button);
-      applyFilter(button.getAttribute('data-filter'));
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      var isExpanded = panel.classList.contains('is-expanded');
+      panel.classList.toggle('is-expanded');
+      toggle.classList.toggle('is-expanded');
+      toggle.setAttribute('aria-expanded', (!isExpanded).toString());
+      if (clearContainer) {
+        clearContainer.style.display = isExpanded ? 'none' : 'flex';
+      }
     });
 
-    var defaultActive = filterContainer.querySelector('.writing2-topic-trigger.is-active') || buttons[0];
-    if (defaultActive) {
-      setActiveButton(defaultActive);
-      applyFilter(defaultActive.getAttribute('data-filter'));
+    chips.forEach(function (chip) {
+      chip.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      chip.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        chip.classList.toggle('is-active');
+        chip.setAttribute('aria-pressed', chip.classList.contains('is-active') ? 'true' : 'false');
+        chip.blur();
+        update();
+      });
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        chips.forEach(function (chip) {
+          chip.classList.remove('is-active');
+          chip.setAttribute('aria-pressed', 'false');
+        });
+        clearBtn.blur();
+        update();
+      });
     }
+
+    function update() {
+      var activeTopics = chips
+        .filter(function (chip) { return chip.classList.contains('is-active'); })
+        .map(function (chip) { return chip.getAttribute('data-topic'); });
+
+      var noneSelected = activeTopics.length === 0;
+      var count = activeTopics.length;
+
+      if (countEl && labelEl) {
+        if (noneSelected) {
+          countEl.style.display = 'none';
+          countEl.textContent = '';
+          labelEl.textContent = defaultLabel;
+          toggle.classList.remove('has-filters');
+        } else {
+          countEl.style.display = 'inline';
+          countEl.textContent = count + (count === 1 ? ' topic' : ' topics');
+          labelEl.textContent = 'Filtered';
+          toggle.classList.add('has-filters');
+        }
+      }
+
+      var visibleCount = 0;
+      entries.forEach(function (entry) {
+        var entryTopics = (entry.dataset.tagSlugs || '').split(' ').filter(Boolean);
+        var hasMatch = noneSelected || entryTopics.some(function (topic) {
+          return activeTopics.indexOf(topic) !== -1;
+        });
+        entry.classList.toggle('is-hidden', !hasMatch);
+        if (hasMatch) visibleCount++;
+      });
+
+      if (meta) {
+        // No "Showing N entries" text — keep interface minimal
+        meta.textContent = '';
+      }
+    }
+
+    update();
   })();
 </script>

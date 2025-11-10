@@ -16,8 +16,8 @@
 Both pages share the same filtering approach:
 
 1. Build step writes a `data-tag-slugs` attribute on every entry (projects and notes) containing space-delimited, slugified tags.
-2. Filter buttons expose their target slug via `data-filter`, with `all` as the catch-all.
-3. A tiny vanilla JS helper listens for clicks, toggles `is-active`/`aria-pressed`, and hides entries whose `data-tag-slugs` do not include the active slug.
+2. Filter buttons expose their target slug via `data-filter` (projects) or `data-topic` (writing).
+3. A tiny vanilla JS helper listens for clicks, toggles `is-active`/`aria-pressed`, and hides entries whose `data-tag-slugs` do not include any of the active topics.
 
 ---
 
@@ -33,14 +33,44 @@ Slug source of truth: Liquid `slugify` filter applied during the loop, so both t
 
 ---
 
-## Writing Filter (2025-11 refresh)
+## Writing Filter (2025-11 refresh — ghost inline control)
+
+**Purpose**
+
+The `/writing` page uses a soft, inline topic filter that:
+- Stays visually minimal and aligned with the site’s dark, quiet aesthetic.
+- Avoids heavy dropdown UI.
+- Uses additive OR logic with “no topics selected = show all”.
 
 **Markup:** `_layouts/writing.html`
 
+Key structure:
+
 ```html
-<div class="writing2-topic-row" data-writing2-filter>
-  <button class="writing2-topic-trigger writing2-topic-all is-active" data-filter="all" aria-pressed="true">
-    <span class="topic-name">all</span>
+<section class="writing2-topics writing2-topics-ghost" aria-label="Filter essays by topic">
+  <div class="ghost-filter-block" data-filter-root>
+    <div class="panel-header-soft">
+      <button class="toggle-pill-soft" type="button" data-filter-toggle aria-expanded="false">
+        <span class="toggle-label" data-label-default="Topics">Topics</span>
+        <span class="toggle-count" data-filter-count style="display:none;"></span>
+        <span class="toggle-arrow">▼</span>
+      </button>
+      <div class="panel-actions-soft" data-filter-clear-container style="display:none;">
+        <button class="action-soft" type="button" data-filter-clear>Clear</button>
+      </div>
+    </div>
+
+    <div class="panel-soft" data-filter-panel>
+      <div class="panel-inner-soft" data-filter-panel-inner>
+        <div class="topics-row-soft">
+          <!-- one .chip-soft button per tag -->
+        </div>
+      </div>
+    </div>
+
+    <div class="writing-meta" data-filter-meta></div>
+  </div>
+</section>
   </button>
   <ul class="topics-list writing2-topic-list writing2-topic-stream">
     {% for tag in tag_collection %}

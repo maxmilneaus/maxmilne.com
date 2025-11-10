@@ -27,7 +27,8 @@
       "WebSearch",
       "WebFetch(domain:github.com)",
       "Bash(mkdir:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "mcp__playwright__browser_click"
     ],
     "deny": []
   }

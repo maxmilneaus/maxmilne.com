@@ -9,7 +9,7 @@
 ## Summary
 
 - Rebuilt the writing filter markup so “all” stands alone, followed by a comma-separated list of topics controlled by the same buttons used on `/topics`.
-- Moved the styles into `_sass/_writing.scss` (the `_writing2.scss` fork is now redundant) and wired the JS to `.writing2-topic-trigger` so only the active topic gets the blue underline.
+- Moved the styles into `_sass/_writing.scss` (the previous `_writing2.scss` fork is now removed) and wired the JS to `.writing2-topic-trigger` so only the active topic gets the blue underline.
 - Documented the system in `docs/TECHNICAL/filter-system.md` and added a standalone prototype page (`docs/Design Ideas/writing-filter-variations.html`) for future explorations.
 
 ## Why

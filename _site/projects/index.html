@@ -116,30 +116,49 @@
   
 
   
-  <div class="projects-filter-group">
-    <div class="project-filters" data-project-filter>
-      <button class="project-filter is-active" type="button" data-filter="all">All</button>
-      
-        
-        <button class="project-filter" type="button" data-filter="art">art</button>
-      
-        
-        <button class="project-filter" type="button" data-filter="business">business</button>
-      
-        
-        <button class="project-filter" type="button" data-filter="motion">motion</button>
-      
-        
-        <button class="project-filter" type="button" data-filter="performance">performance</button>
-      
-        
-        <button class="project-filter" type="button" data-filter="stills">stills</button>
-      
+  <section class="projects-topics projects-topics-ghost" aria-label="Filter projects by type">
+    <div class="ghost-filter-block" data-filter-root>
+      <div class="panel-header-soft">
+        <button class="toggle-pill-soft" type="button" data-filter-toggle aria-expanded="false">
+          <span class="toggle-label" data-label-default="Type">Type</span>
+          <span class="toggle-count" data-filter-count style="display:none;"></span>
+          <span class="toggle-arrow">▼</span>
+        </button>
+        <div class="panel-actions-soft" data-filter-clear-container style="display:none;">
+          <button class="action-soft" type="button" data-filter-clear>Clear</button>
+        </div>
+      </div>
+
+      <div class="panel-soft" data-filter-panel>
+        <div class="panel-inner-soft" data-filter-panel-inner>
+          <div class="topics-row-soft">
+            
+              
+              <button class="chip-soft" type="button" data-topic="art" data-filter-chip aria-pressed="false">art</button>
+            
+              
+              <button class="chip-soft" type="button" data-topic="business" data-filter-chip aria-pressed="false">business</button>
+            
+              
+              <button class="chip-soft" type="button" data-topic="motion" data-filter-chip aria-pressed="false">motion</button>
+            
+              
+              <button class="chip-soft" type="button" data-topic="performance" data-filter-chip aria-pressed="false">performance</button>
+            
+              
+              <button class="chip-soft" type="button" data-topic="stills" data-filter-chip aria-pressed="false">stills</button>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- meta kept for potential future use; left visually empty for now -->
+      <div class="projects-meta" data-filter-meta></div>
     </div>
-  </div>
+  </section>
   
 
-  <div class="projects-list">
+  <div class="projects-list" data-filter-list>
     
     
     
@@ -265,52 +284,106 @@
 
 <script>
   (function () {
-    var filterContainer = document.querySelector('[data-project-filter]');
-    if (!filterContainer) return;
-    var buttons = Array.prototype.slice.call(filterContainer.querySelectorAll('.project-filter'));
-    var entries = Array.prototype.slice.call(document.querySelectorAll('.projects-list .project-entry'));
+    var root = document.querySelector('[data-filter-root]');
+    if (!root) return;
 
-    function markVisibleBounds() {
-      var firstVisible = null;
-      var lastVisible = null;
-      entries.forEach(function (entry) {
-        entry.classList.remove('is-first-visible', 'is-last-visible');
-        if (!entry.classList.contains('is-hidden')) {
-          if (!firstVisible) {
-            firstVisible = entry;
-          }
-          lastVisible = entry;
-        }
-      });
-      if (firstVisible) {
-        firstVisible.classList.add('is-first-visible');
+    var toggle = root.querySelector('[data-filter-toggle]');
+    var panel = root.querySelector('[data-filter-panel]');
+    var panelInner = root.querySelector('[data-filter-panel-inner]');
+    var chips = Array.prototype.slice.call(root.querySelectorAll('[data-filter-chip]'));
+    var clearBtn = root.querySelector('[data-filter-clear]');
+    var clearContainer = root.querySelector('[data-filter-clear-container]');
+    var countEl = root.querySelector('[data-filter-count]');
+    var labelEl = toggle ? toggle.querySelector('[data-label-default]') : null;
+    var meta = root.querySelector('[data-filter-meta]');
+    var entries = Array.prototype.slice.call(document.querySelectorAll('[data-filter-list] .project-entry'));
+    var defaultLabel = labelEl ? (labelEl.getAttribute('data-label-default') || labelEl.textContent) : '';
+
+    if (!toggle || !panel || !panelInner) return;
+
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      var isExpanded = panel.classList.contains('is-expanded');
+      panel.classList.toggle('is-expanded');
+      toggle.classList.toggle('is-expanded');
+      toggle.setAttribute('aria-expanded', (!isExpanded).toString());
+      if (clearContainer) {
+        clearContainer.style.display = isExpanded ? 'none' : 'flex';
       }
-      if (lastVisible) {
-        lastVisible.classList.add('is-last-visible');
-      }
-    }
-
-    function applyFilter(slug) {
-      entries.forEach(function (entry) {
-        var tags = (entry.dataset.tagSlugs || '').split(' ').filter(Boolean);
-        if (slug === 'all' || tags.indexOf(slug) !== -1) {
-          entry.classList.remove('is-hidden');
-        } else {
-          entry.classList.add('is-hidden');
-        }
-      });
-      markVisibleBounds();
-    }
-
-    filterContainer.addEventListener('click', function (event) {
-      var button = event.target.closest('.project-filter');
-      if (!button) return;
-      buttons.forEach(function (btn) { btn.classList.remove('is-active'); });
-      button.classList.add('is-active');
-      applyFilter(button.getAttribute('data-filter'));
     });
 
-    markVisibleBounds();
+    chips.forEach(function (chip) {
+      chip.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      chip.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        chip.classList.toggle('is-active');
+        chip.setAttribute('aria-pressed', chip.classList.contains('is-active') ? 'true' : 'false');
+        chip.blur();
+        update();
+      });
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        chips.forEach(function (chip) {
+          chip.classList.remove('is-active');
+          chip.setAttribute('aria-pressed', 'false');
+        });
+        clearBtn.blur();
+        update();
+      });
+    }
+
+    function update() {
+      var activeTypes = chips
+        .filter(function (chip) { return chip.classList.contains('is-active'); })
+        .map(function (chip) { return chip.getAttribute('data-topic'); });
+
+      var noneSelected = activeTypes.length === 0;
+      var count = activeTypes.length;
+
+      if (countEl && labelEl) {
+        if (noneSelected) {
+          countEl.style.display = 'none';
+          countEl.textContent = '';
+          labelEl.textContent = defaultLabel;
+          toggle.classList.remove('has-filters');
+        } else {
+          countEl.style.display = 'inline';
+          countEl.textContent = count + (count === 1 ? ' type' : ' types');
+          labelEl.textContent = 'Filtered';
+          toggle.classList.add('has-filters');
+        }
+      }
+
+      var visibleCount = 0;
+      entries.forEach(function (entry) {
+        var entryTypes = (entry.dataset.tagSlugs || '').split(' ').filter(Boolean);
+
+        // When no filters are selected, show everything
+        if (noneSelected) {
+          entry.classList.remove('is-hidden');
+          visibleCount++;
+          return;
+        }
+
+        // When filters are active, only show entries that match at least one selected type
+        var hasMatch = entryTypes.some(function (type) {
+          return activeTypes.indexOf(type) !== -1;
+        });
+
+        entry.classList.toggle('is-hidden', !hasMatch);
+        if (hasMatch) visibleCount++;
+      });
+
+      if (meta) {
+        meta.textContent = '';
+      }
+    }
+
+    update();
   })();
 </script>
 </main>

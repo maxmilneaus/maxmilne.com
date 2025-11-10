@@ -758,7 +758,8 @@ pre {
    ============================================================================= */
 
 .now-card {
-  background: var(--color-charcoal);
+  /* Slightly lighter than page background for contrast, darker than original charcoal */
+  background: #181512;
   border-radius: var(--border-radius);
   border: 1px solid rgba(147, 197, 253, 0.10);
   padding: var(--space-md) var(--space-lg);
@@ -774,7 +775,8 @@ pre {
 
 .now-card:hover {
   border-color: rgba(147, 197, 253, 0.18);
-  background: #191614;
+  /* Darken slightly from base tab, but stay above page background (#141210) */
+  background: #151310;
 }
 
 .now-card-header h3 {
@@ -792,37 +794,32 @@ pre {
 }
 
 .now-card-cta {
+  display: inline-block;
   align-self: flex-start;
   margin-top: var(--space-sm);
-  padding: 0.25rem 1.2rem 0.35rem;
-  border-radius: 999px;
-  border: 1px solid rgba(147, 197, 253, 0.22);
-  background: transparent;
-  color: var(--color-accent-hover);
-  font-size: 0.8rem;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(147, 197, 253, 0.05); /* Restore subtle contrast against dark tab */
+  border-left: 3px solid var(--color-accent-hover);
+  border-radius: var(--border-radius);
+  color: var(--color-cream);
+  font-size: 0.9rem;
   font-weight: var(--font-weight-medium);
-  letter-spacing: 0.04em;
-  text-transform: none;
   text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
   transition:
+    background 140ms ease,
     color 140ms ease,
-    background-color 140ms ease,
     border-color 140ms ease;
 }
 
 .now-card-cta::after {
-  content: "→";
-  font-size: 0.85em;
+  content: " →";
   opacity: 0.9;
 }
 
 .now-card-cta:hover {
-  background: rgba(147, 197, 253, 0.06);
-  color: var(--color-cream);
-  border-color: rgba(147, 197, 253, 0.32);
+  background: rgba(147, 197, 253, 0.1);
+  color: var(--color-accent-hover);
+  border-left-color: var(--color-accent-subtle);
 }
 
 .now-card-cta:focus-visible {
