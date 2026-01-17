@@ -1,0 +1,263 @@
+// Photo Essay Flow Layout
+// Goals:
+// 1. Narrative text lives in Markdown body (not YAML front matter).
+// 2. Markdown image runs automatically become horizontal film strips.
+// 3. First/last frames center cleanly without nudging surrounding text.
+// 4. Leaves _photo-essay.scss untouched for the previous layout.
+
+.photo-essay-flow {
+  --flow-gap: var(--space-xl);
+  --flow-strip-height-desktop: 520px;
+  --flow-strip-height-mobile: 360px;
+
+  .photo-essay-flow-header,
+  .photo-essay-flow-body > *:not(.photo-essay-flow-strip-container) {
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .photo-essay-flow-header {
+    margin-bottom: var(--flow-gap);
+
+    h1 {
+      margin-top: 0;
+    }
+
+    time {
+      display: block;
+      color: var(--color-meta);
+      font-size: 0.9rem;
+      margin-top: var(--space-sm);
+    }
+
+    .photo-essay-flow-metadata {
+      margin-top: var(--space-sm);
+      color: var(--color-meta);
+      font-size: 0.95rem;
+    }
+  }
+
+  .photo-essay-flow-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--flow-gap);
+    margin-bottom: calc(var(--flow-gap) * 1.5);
+  }
+
+  .photo-essay-flow-text-block {
+    color: var(--color-cream);
+
+    p {
+      margin: var(--space-md) 0;
+    }
+
+    blockquote {
+      margin: var(--space-md) 0;
+      padding-left: var(--space-md);
+      border-left: 2px solid var(--color-stone);
+      color: var(--color-warm-gray);
+    }
+  }
+}
+
+.photo-essay-flow-strip-container {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: var(--space-lg) 0;
+  contain: layout paint;
+  overflow-x: hidden;
+
+  @supports (overflow: clip) {
+    overflow: clip;
+  }
+}
+
+.photo-essay-flow-strip {
+  --flow-frame-target: clamp(320px, 70vw, 880px);
+  --flow-pad: max(1.5rem, calc((100vw - var(--flow-frame-target)) / 2));
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-left: var(--flow-pad);
+  padding-right: var(--flow-pad);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable both-edges;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-padding-left: var(--flow-pad);
+  scroll-padding-right: var(--flow-pad);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > p,
+  > figure,
+  > .photo-essay-flow-slide {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    scroll-margin-left: var(--flow-pad);
+    scroll-margin-right: var(--flow-pad);
+  }
+
+  img {
+    display: block;
+    flex-shrink: 0;
+    object-fit: contain;
+    border-radius: var(--border-radius);
+    background: var(--color-deep);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      0 2px 4px rgba(0, 0, 0, 0.25);
+    cursor: zoom-in;
+    transition: filter 0.18s ease;
+
+    &:hover {
+      filter: brightness(1.04);
+    }
+
+    @media (min-width: 769px) {
+      height: var(--flow-strip-height-desktop);
+      max-width: 900px;
+      width: auto;
+    }
+
+    @media (max-width: 768px) {
+      height: var(--flow-strip-height-mobile);
+      max-width: 88vw;
+      width: auto;
+    }
+  }
+}
+
+.photo-essay-flow-scroll-hint {
+  position: absolute;
+  right: var(--space-lg);
+  bottom: var(--space-md);
+  color: var(--color-accent-hover);
+  font-size: 0.85rem;
+  pointer-events: none;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+  z-index: 5;
+}
+
+.photo-essay-flow-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 18, 16, 0.96);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 3rem;
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+
+  &.is-active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .photo-essay-flow-lightbox__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .photo-essay-flow-lightbox__image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: var(--border-radius);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.65),
+      0 4px 16px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: scale(0.985);
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
+  }
+
+  &.is-active .photo-essay-flow-lightbox__image {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .photo-essay-flow-lightbox__close,
+  .photo-essay-flow-lightbox__arrow {
+    position: absolute;
+    z-index: 2;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.18s ease;
+  }
+
+  .photo-essay-flow-lightbox__close {
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .photo-essay-flow-lightbox__arrow {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.8rem;
+
+    &--prev {
+      left: 1.5rem;
+    }
+
+    &--next {
+      right: 1.5rem;
+    }
+  }
+
+  .photo-essay-flow-lightbox__close:hover,
+  .photo-essay-flow-lightbox__arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+
+    .photo-essay-flow-lightbox__arrow {
+      width: 2.4rem;
+      height: 2.4rem;
+      font-size: 1.5rem;
+    }
+
+    .photo-essay-flow-lightbox__close {
+      top: 1rem;
+      right: 1rem;
+    }
+  }
+}

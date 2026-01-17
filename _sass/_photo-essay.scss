@@ -1,0 +1,360 @@
+// Photo Essay Layout
+// Film strip horizontal scroll with consistent image heights
+// Responsive: horizontal on desktop, vertical stack on mobile
+
+.photo-essay {
+  // Header section - within standard padding
+  .photo-essay-header {
+    max-width: var(--max-width);
+    margin: 0 auto var(--space-xl) auto;
+
+    h1 {
+      margin-top: 0;
+    }
+
+    time {
+      display: block;
+      color: var(--color-meta);
+      font-size: 0.9rem;
+      margin-top: var(--space-sm);
+    }
+  }
+
+  .photo-essay-intro {
+    color: var(--color-warm-gray);
+    margin-top: var(--space-lg);
+
+    p {
+      margin: var(--space-md) 0;
+    }
+  }
+
+  // Closing text section - within standard padding
+  .photo-essay-closing {
+    max-width: var(--max-width);
+    margin: var(--space-xl) auto 0 auto;
+    color: var(--color-warm-gray);
+
+    p {
+      margin: var(--space-md) 0;
+    }
+  }
+}
+
+// Photo strip container - breaks beyond text boundaries
+.photo-strip-container {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-bottom: var(--space-xl);
+  overflow-x: hidden; // prevent any stray horizontal scroll on the page
+  contain: layout paint; // isolate layout/paint to avoid page shift
+
+  // Desktop: horizontal scroll
+  @media (min-width: 769px) {
+    padding: var(--space-lg) 0;
+  }
+
+  // Mobile: contained
+  @media (max-width: 768px) {
+    padding: var(--space-md) 0;
+  }
+}
+
+// Scroll hint - fades out after user scrolls
+.scroll-hint {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  color: var(--color-accent-hover);
+  font-size: 0.9rem;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+  z-index: 10;
+
+  @media (max-width: 768px) {
+    right: var(--space-lg);
+    bottom: var(--space-lg);
+    font-size: 0.85rem;
+  }
+}
+
+// Photo strip - horizontal scroll on all devices, minimal gallery style
+.photo-strip {
+  // Defaults for JS-adjusted spacers that let the first/last image truly center
+  --photo-strip-before: calc(50vw - 320px);
+  --photo-strip-after: 50vw;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  align-items: center; // vertically center items within the strip
+  scrollbar-gutter: stable both-edges; // avoid layout shift when scrollbars appear
+
+  // On load, ensure we start at the beginning (no auto scroll offset).
+  // The centering of the first image is handled purely via ::before spacer.
+  scroll-padding-left: 0;
+
+  // Prevent bounce/overscroll on mobile
+  overscroll-behavior-x: contain;
+
+  // Hide scrollbar while maintaining scroll functionality
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE and Edge
+
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Opera
+  }
+
+  // Desktop padding and spacing
+  @media (min-width: 769px) {
+    padding: 0 2rem;
+    gap: var(--space-md);
+  }
+
+  // Mobile: elegant padding and spacing, full gallery experience
+  @media (max-width: 768px) {
+    padding: 0 var(--space-lg);
+    gap: var(--space-lg);
+  }
+
+  // Normalize markdown output:
+  // Jekyll/Markdown wraps images in <p> tags, which become flex items.
+  // These rules ensure each slide is a consistent tile and prevent visual overlap.
+  p {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+  }
+
+  // If any figure elements appear, treat them the same way.
+  figure {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+  }
+
+  // Image styling - consistent framed tiles so landscapes never feel sliced
+  img {
+    // Base styles
+    display: block;
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.3),
+      0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    scroll-snap-align: none; // use wrapper (p/figure) as the snap target
+    flex-shrink: 0;
+    object-fit: contain;
+    cursor: zoom-in; // indicate clickable for fullscreen
+
+    // Each image sits inside a fixed "tile" to unify landscapes/portraits
+    background: var(--color-deep);
+    margin: 0; // rely on container gap for spacing to keep centering math simple
+
+    // No motion-based hover; only subtle tonal cue
+    transition: filter 0.18s ease;
+    &:hover {
+      filter: brightness(1.04);
+    }
+
+    // Desktop: fixed tile height, capped width
+    @media (min-width: 769px) {
+      height: 600px;              // gallery strip band height (taller for more impact)
+      max-width: 900px;           // allow wider landscapes but keep them contained
+      width: auto;
+    }
+
+    // Mobile: larger tile for better viewing
+    @media (max-width: 768px) {
+      height: 450px;
+      max-width: 90vw;
+      width: auto;
+    }
+  }
+
+  // Handle narrative text blocks in the strip
+  // Use .photo-strip-text around paragraphs you want inline with images.
+  .photo-strip-text {
+    color: var(--color-warm-gray);
+    font-size: 0.9rem;
+    font-style: italic;
+    max-width: 400px;
+    padding: var(--space-sm);
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .photo-strip-text p {
+    margin: 0;
+  }
+
+  // Ensure first and last images have appropriate padding for centering.
+  // On desktop, we use a leading spacer so the FIRST image starts centered
+  // in the viewport when the strip first appears.
+  @media (min-width: 769px) {
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      flex-shrink: 0;
+    }
+
+    // Leading spacer: center first tile in viewport like a film roll.
+    // For a typical landscape image (~600-900px), we want its center
+    // to align with the page center (50vw).
+    &::before {
+      width: clamp(2rem, var(--photo-strip-before, calc(50vw - 320px)), 30vw);
+    }
+
+    // Trailing spacer: allow scrolling past last image so it centers
+    &::after {
+      width: clamp(2rem, var(--photo-strip-after, 50vw), 100vw);
+    }
+  }
+
+  // Mobile: padding spacers for elegant first/last image positioning
+  @media (max-width: 768px) {
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      flex-shrink: 0;
+      width: calc((100vw - 85vw) / 2 - var(--space-lg));
+    }
+  }
+}
+
+// Fullscreen lightbox overlay - separate from photo-strip
+.photo-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 18, 16, 0.96); // Match site's --color-deep with transparency
+  display: none; // toggled via JS
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 3rem; // gallery-style even padding
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 220ms ease-out; // subtle fade for elegance
+
+  &.is-active {
+    display: flex;
+    opacity: 1; // fade in when opened
+  }
+
+  .photo-lightbox-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    opacity: 0;
+    transform: scale(0.985);
+    transition:
+      opacity 220ms ease-out,
+      transform 220ms ease-out;
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.65),
+      0 4px 16px rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius);
+    cursor: default;
+  }
+
+  // When lightbox is active, let the current image softly fade in
+  &.is-active img {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .photo-lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    line-height: 1;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  .photo-lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    cursor: pointer;
+    z-index: 2;
+    user-select: none;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  .photo-lightbox-arrow--prev {
+    left: 1.5rem;
+  }
+
+  .photo-lightbox-arrow--next {
+    right: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+
+    .photo-lightbox-arrow {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.5rem;
+    }
+
+    .photo-lightbox-close {
+      top: 1rem;
+      right: 1rem;
+    }
+
+    // On mobile, make the image itself tappable for navigation
+    img {
+      cursor: pointer;
+    }
+  }
+}

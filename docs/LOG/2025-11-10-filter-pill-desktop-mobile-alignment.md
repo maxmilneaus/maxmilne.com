@@ -1,5 +1,5 @@
 ---
-title: Filter pill — unified Topics/Type ghost control
+title: Filter pill — unified Topics/Type ghost control (single-select)
 layout: note
 ---
 
@@ -7,125 +7,200 @@ layout: note
 
 ## Context
 
-This entry records the final alignment of the ghost-style filter control used on:
+This entry records the alignment of the ghost-style filter control used on:
 
 - `/writing` — "Topics"
 - `/projects` — "Type"
 
-The goal was to:
+Initial work brought both pages onto a shared soft pill + ghost panel pattern.
+Subsequent refinements (this session) made the behavior and visuals even more
+precise:
 
-1. Apply the same soft, ghost-filter aesthetic to both pages.
-2. Ensure mobile and desktop present a consistent, intentional pill:
-   - Arrow anchored at the end of the pill.
-   - Slightly wide, asymmetric bubble (not full-width).
-3. Maintain clear tap targets on mobile without heavy UI on larger screens.
-4. Keep implementation aligned with `docs/README.md` and `docs/TECHNICAL/filter-system.md`.
+- Filters should feel like calm option selectors, not additive toggles.
+- The dropdown arrow, label, and padding should align pixel-perfect between
+  Writing and Projects.
+- No noisy “1 item selected” UI; the pill copy remains quiet and static.
 
-## What Changed
+This log supersedes older notes that described additive OR behavior or dynamic
+count labels for these controls.
 
-### 1. Shared ghost pill geometry
+---
+
+## 1. Writing Topics — Single-select ghost filter
 
 Files:
 
-- `_sass/_writing.scss`
-- `_sass/_projects.scss`
 - `_layouts/writing.html`
+- `_sass/_writing.scss`
+- `docs/TECHNICAL/filter-system.md` (Writing filter section)
+
+### Behavior
+
+- Topic chips are now single-select:
+
+  - Clicking a topic:
+    - Activates only that topic.
+    - Shows only entries whose `data-tag-slugs` include that topic.
+  - Clicking the same active topic again:
+    - Clears all selections.
+    - Returns to “all topics” (no filters applied).
+  - No additive stacking of multiple topics.
+
+- Count/“Filtered” label removed:
+
+  - `span[data-filter-count]` exists structurally but is always hidden.
+  - The pill label text remains the static `Topics`.
+  - `.has-filters` is not used for visual state; the pill stays quiet.
+
+### Implementation (summary)
+
+Key JS fragment in [`_layouts/writing.html`](./../../_layouts/writing.html):
+
+- Each `.chip-soft[data-filter-chip]`:
+
+  - On click:
+    - If already active → clear all chips.
+    - Else → deactivate all, activate only the clicked chip.
+    - Calls `update()`.
+
+- `update()`:
+
+  - Reads active topic slug (0 or 1 due to single-select logic).
+  - When none selected:
+    - All `.writing2-entry` elements are visible.
+  - When one selected:
+    - Entries are visible only if their `data-tag-slugs` contain that slug.
+  - Count UI remains hidden; label resets to default.
+
+### Visuals
+
+From [`_sass/_writing.scss`](./../../_sass/_writing.scss):
+
+- `.toggle-pill-soft`:
+
+  - `display: inline-flex;`
+  - `align-items: center;`
+  - `justify-content: space-between;`
+  - `padding: 0.24rem 0.7rem 0.24rem 0.5rem;`
+  - `width: 70%; max-width: 260px;`
+  - Arrow pinned to right edge via `space-between`.
+
+Result: calm pill, static label, right-aligned arrow, with single-select chips.
+
+---
+
+## 2. Projects Type — Mirrored single-select behavior
+
+Files:
+
 - `_layouts/projects.html`
+- `_sass/_projects.scss`
+- `docs/TECHNICAL/filter-system.md` (Projects filter section)
 
-The toggle pill (`.toggle-pill-soft`) is now treated as a shared component across both layouts.
+### Behavior
 
-Key properties (applied consistently):
+The `/projects` Type filter is now brought into parity with Writing:
 
-- `display: inline-flex;`
-- `align-items: center;`
-- `justify-content: space-between;`
-  - Ensures:
-    - Label + optional count sit to the left.
-    - Arrow glyph sits at the far right edge of the pill.
-- `gap: 0.5rem;`
-- `padding`:
-  - Writing:
-    - `padding: 0.24rem 0.7rem 0.24rem 0.5rem;`
-  - Projects:
-    - `padding-top: 0.24rem;`
-    - `padding-bottom: 0.24rem;`
-    - `padding-right: 0.7rem;`
-- `border-radius: 999px;`
-- `border: 1px solid rgba(74, 69, 63, 0.65);`
-- `background: transparent;`
-- `color: var(--color-meta);`
-- `font-size: 0.95rem;`
-- `letter-spacing: 0.06em;`
-- `cursor: pointer;`
-- Smooth transitions for border, color, background.
+- Type chips are single-select:
 
-Width logic (both pages):
+  - Clicking a type:
+    - Activates only that type.
+    - Shows only `.project-entry` elements whose `data-tag-slugs` contain it.
+  - Clicking the same active type again:
+    - Clears all filters and shows all projects.
 
-- `width: 70%;`
-- `max-width: 260px;`
+- No count or “Filtered” label:
 
-This width rule is intentionally applied across viewport sizes so:
+  - `span[data-filter-count]` is present but visually hidden.
+  - The pill label remains the static `Type`.
+  - No “1 type selected” or `Filtered` state.
 
-- On mobile:
-  - Pill fills a comfortable portion of the text column (thumb-friendly).
-- On tablet/desktop:
-  - Pill remains slightly wide and asymmetric (never edge-to-edge), reading as a deliberate control rather than generic text.
+- Visibility rules:
 
-### 2. Arrow position fixed at bubble end
+  - Zero active types → all projects visible.
+  - One active type → show projects whose `data-tag-slugs` include that type.
 
-Previously:
+### Implementation (summary)
 
-- On some breakpoints, the arrow sat near the label, especially on desktop.
+Inline JS in [`_layouts/projects.html`](./../../_layouts/projects.html):
 
-Now:
+- Mirrors Writing’s helper:
 
-- Both `/writing` and `/projects` pills use `justify-content: space-between;` on `.toggle-pill-soft`.
-- Result:
-  - Arrow is consistently pinned to the rightmost interior edge of the pill.
-  - The visual matches the desirable mobile behavior at all viewport sizes.
-  - Maintains a clean, directional affordance.
+  - Chips use the same single-select toggle logic as Topics.
+  - `update()` applies filter based on a single active `data-topic` or none.
 
-### 3. Compact bubble for desktop (while preserving mobile feel)
+- Progressive enhancement remains:
 
-We refined padding to make the pill feel slightly shorter and more precise, without compromising touch targets:
+  - Without JS, all entries render; no critical content hidden.
 
-- Vertical padding reduced from `0.26rem` to `0.24rem`:
-  - Just enough to tighten the silhouette on larger screens.
-- Horizontal padding adjusted:
-  - Slightly reduced right padding (`0.7rem`) maintains the asymmetric look without feeling heavy.
-- Width + arrow alignment stay consistent across breakpoints:
-  - Mobile keeps the strong, easy-tap pill.
-  - Desktop sees the same proportioned pill, just visually neater.
+### Visuals
 
-No separate desktop-only media query is required; the system-wide sizing already produces the intended feel inside the 42rem content column.
+From [`_sass/_projects.scss`](./../../_sass/_projects.scss):
 
-### 4. Alignment with README and Filter System docs
+- `.projects-page .toggle-pill-soft`:
 
-These changes are consistent with the principles in `docs/README.md`:
+  - `display: inline-flex;`
+  - `align-items: center;`
+  - `justify-content: space-between;`
+  - `padding: 0.24rem 0.7rem 0.24rem 0.5rem;`
+  - `width: 70%; max-width: 260px;`
+  - Matches Writing pill exactly for:
 
-- One clear job per page:
-  - `/writing` uses Topics to filter ideas.
-  - `/projects` uses Type to filter finished work.
-- Shared interaction language:
-  - Both use the same ghost pill control and OR-based tag filtering.
-- Minimal, coherent UI:
+    - Left text inset.
+    - Arrow x-position.
+    - Vertical rhythm.
+
+- `.projects-page .toggle-count`:
+
+  - `display: none;` — count UI fully suppressed.
+
+Result: Topics and Type pills are pixel-aligned and behaviorally aligned.
+
+---
+
+## 3. Writing list — Divider removal
+
+To reinforce the “stream” feel on `/writing` and differentiate from the more
+structured `/projects` grid:
+
+- `_sass/_writing.scss`:
+
+  - `.writing2-entry` no longer renders the subtle bottom border between entries.
+  - Entries stack with tight vertical rhythm and no hard separators.
+
+Projects retain their dividers and card spacing, preserving the
+Multiplicity (Writing) vs Singularity (Projects) philosophy.
+
+---
+
+## 4. Documentation alignment
+
+These decisions are now the source of truth and are reflected in:
+
+- [`docs/TECHNICAL/filter-system.md`](./../TECHNICAL/filter-system.md)
+
+  - Writing + Projects sections describe:
+
+    - Single-select chips.
+    - Tap-to-clear behavior.
+    - Static pill labels.
+    - Hidden count elements.
+    - Shared ghost pill geometry.
+
+- This log (`2025-11-10-filter-pill-desktop-mobile-alignment.md`) replaces any
+  earlier references to additive OR filters or visible selected-count UI for
+  the current `/writing` and `/projects` implementations.
+
+---
+
+## 5. Rationale (concise)
+
+- Keeps filters feeling like gentle lenses, not complex UI.
+- Reduces cognitive load (one active topic/type at a time).
+- Maintains calm, minimal surface:
+
+  - No flashing counts.
   - No heavy dropdown chrome.
-  - Calm, narrow controls that invite interaction without dominating the layout.
 
-And consistent with `docs/TECHNICAL/filter-system.md`:
-
-- Both filters:
-  - Use `data-tag-slugs` on entries.
-  - Use chip-style buttons (`data-topic` / `data-filter-chip`) inside a single pill-triggered ghost panel.
-  - Rely on small vanilla JS helpers scoped via data attributes.
-- This entry supplements those docs as the decision log for the visual/behavioral refinements.
-
-## Summary
-
-- Topics (Writing) and Type (Projects) now share:
-  - A unified ghost-style pill.
-  - Arrow pinned to the end of the bubble at all viewport sizes.
-  - A slightly wide, asymmetric width that:
-    - Feels intentional on desktop.
-    - Remains comfortably tappable on mobile.
-- The implementation matches the system and intent described in `docs/README.md` and the filter technical docs, and is recorded here to prevent future regressions or re-introduction of the older dropdown/checkbox UI.
+- Ensures pixel-level alignment between Writing and Projects pills so the system
+  feels intentional and trustworthy.

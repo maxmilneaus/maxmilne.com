@@ -96,12 +96,47 @@ All spacing derives from 0.25rem base unit, creating harmonic proportions (1:2:4
 - **Alignment:** Year text stays baseline-aligned with titles; dashes are typed alongside the year in content for ranges.
 - **Hierarchy:** Meta gray (#9c958c) and 1rem size keeps the column supportive, not dominant.
 
-### Writing Filters
-- **Structure:** `All ·` label (sentence case) on the left, comma-separated lowercase topics on the right
-- **Separator:** Dot lives on the All label pseudo-element so only text gets underlined
-- **Default color:** var(--color-meta) for both All and topics
-- **Hover color:** var(--color-warm-gray); cursor stays text-like
-- **Active treatment:** Only the `.topic-name` span receives the blue underline (`var(--color-accent-hover)`)
+### Writing & Projects Ghost Filter Pills
+
+Shared visual language for:
+
+- `/writing` — `Topics`
+- `/projects` — `Type`
+
+Pill:
+
+- One quiet pill per page.
+- Static label:
+  - `Topics` on Writing.
+  - `Type` on Projects.
+- Geometry:
+  - `display: inline-flex;`
+  - `align-items: center;`
+  - `justify-content: space-between;` (label left, arrow pinned right)
+  - `padding: 0.24rem 0.7rem 0.24rem 0.5rem;`
+  - `width: 70%; max-width: 260px;` within the 42rem content column.
+  - `border-radius: 999px;`
+  - Subtle 1px stone/graphite border, transparent background.
+- Color:
+  - Text uses `var(--color-meta)`.
+  - Hover: gentle shift only (no heavy fill).
+
+Chips:
+
+- Lowercase labels, subtle borders, quiet hover.
+- Single-select:
+  - Exactly one chip active at a time.
+  - Clicking the active chip again clears back to “all”.
+- No visible count:
+  - Any internal count element stays hidden.
+  - No “Filtered” / “N selected” label states.
+
+List treatments:
+
+- Writing:
+  - No horizontal dividers between entries (reads as a continuous stream).
+- Projects:
+  - Retains dividers and generous spacing (reads as structured, finished work).
 
 ### Actionable Content Boxes
 - **Background:** rgba(147, 197, 253, 0.05) (subtle blue tint)

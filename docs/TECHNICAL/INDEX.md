@@ -13,6 +13,7 @@
 | File organization | file-structure.md | Where everything lives, what each folder does |
 | Build process | build-system.md | How Jekyll compiles, plugin execution order |
 | Filter interactions | filter-system.md | How project/writing filters work (JavaScript + data attributes) — updated 2025-11-09 |
+| Photo essay layout | LOG/2025-11-10-photo-essay-film-strip-layout.md | Authoring model and film strip behavior for `layout: photo-essay` (canonical reference) |
 | Recommendations | recommendations-algorithm.md | Tag-based similarity using Jaccard index |
 | Plugins | plugin-architecture.md | Custom Ruby plugins for tags and recommendations |
 

@@ -32,9 +32,6 @@ layout: default
           <span class="toggle-count" data-filter-count style="display:none;"></span>
           <span class="toggle-arrow">▼</span>
         </button>
-        <div class="panel-actions-soft" data-filter-clear-container style="display:none;">
-          <button class="action-soft" type="button" data-filter-clear>Clear</button>
-        </div>
       </div>
 
       <div class="panel-soft" data-filter-panel>
@@ -90,8 +87,6 @@ layout: default
     var panel = root.querySelector('[data-filter-panel]');
     var panelInner = root.querySelector('[data-filter-panel-inner]');
     var chips = Array.prototype.slice.call(root.querySelectorAll('[data-filter-chip]'));
-    var clearBtn = root.querySelector('[data-filter-clear]');
-    var clearContainer = root.querySelector('[data-filter-clear-container]');
     var countEl = root.querySelector('[data-filter-count]');
     var labelEl = toggle ? toggle.querySelector('[data-label-default]') : null;
     var meta = root.querySelector('[data-filter-meta]');
@@ -106,9 +101,6 @@ layout: default
       panel.classList.toggle('is-expanded');
       toggle.classList.toggle('is-expanded');
       toggle.setAttribute('aria-expanded', (!isExpanded).toString());
-      if (clearContainer) {
-        clearContainer.style.display = isExpanded ? 'none' : 'flex';
-      }
     });
 
     chips.forEach(function (chip) {
@@ -116,24 +108,31 @@ layout: default
       chip.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        chip.classList.toggle('is-active');
-        chip.setAttribute('aria-pressed', chip.classList.contains('is-active') ? 'true' : 'false');
+
+        var isActive = chip.classList.contains('is-active');
+
+        // If this chip is already active, clear all (back to "all types")
+        if (isActive) {
+          chips.forEach(function (btn) {
+            btn.classList.remove('is-active');
+            btn.setAttribute('aria-pressed', 'false');
+          });
+          chip.blur();
+          update();
+          return;
+        }
+
+        // Otherwise, deactivate all and activate only this one (single-select)
+        chips.forEach(function (btn) {
+          btn.classList.remove('is-active');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        chip.classList.add('is-active');
+        chip.setAttribute('aria-pressed', 'true');
         chip.blur();
         update();
       });
     });
-
-    if (clearBtn) {
-      clearBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        chips.forEach(function (chip) {
-          chip.classList.remove('is-active');
-          chip.setAttribute('aria-pressed', 'false');
-        });
-        clearBtn.blur();
-        update();
-      });
-    }
 
     function update() {
       var activeTypes = chips
@@ -144,17 +143,11 @@ layout: default
       var count = activeTypes.length;
 
       if (countEl && labelEl) {
-        if (noneSelected) {
-          countEl.style.display = 'none';
-          countEl.textContent = '';
-          labelEl.textContent = defaultLabel;
-          toggle.classList.remove('has-filters');
-        } else {
-          countEl.style.display = 'inline';
-          countEl.textContent = count + (count === 1 ? ' type' : ' types');
-          labelEl.textContent = 'Filtered';
-          toggle.classList.add('has-filters');
-        }
+        // Always hide count + keep static label; no "1 type selected" state
+        countEl.style.display = 'none';
+        countEl.textContent = '';
+        labelEl.textContent = defaultLabel;
+        toggle.classList.remove('has-filters');
       }
 
       var visibleCount = 0;

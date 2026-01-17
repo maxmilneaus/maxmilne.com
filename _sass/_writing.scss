@@ -40,6 +40,11 @@
   align-items: flex-start;
 }
 
+/* Center the writing topics chips within their row while keeping pill/key left-aligned */
+.writing2-topics-ghost .topics-row-soft {
+  justify-content: center;
+}
+
 /* Give the pill a slightly more substantial asymmetrical presence on wider layouts */
 .writing2-page .toggle-pill-soft {
   min-width: 11rem;
@@ -114,7 +119,7 @@
   &.is-expanded {
     max-height: 120px; // just enough for one or two chip rows
     opacity: 1;
-    margin-top: var(--space-xs);
+    margin-top: var(--space-sm); // add a little more breathing room above tags when open
   }
 }
 
@@ -128,9 +133,53 @@
   background: transparent;
 }
 
+/* Key + filter row */
+.writing2-key {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 42rem;
+  color: var(--color-meta);
+  font-size: 0.9rem;
+}
+
+.key-label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.key-icon {
+  display: inline-block;
+  width: 1.1rem;
+  text-align: left;
+  color: var(--color-meta);
+  font-family: var(--font-primary);
+}
+
+/* reuse same treatment; markers should be quiet, same color as meta */
+.key-icon-writing,
+.key-icon-photo {
+  color: var(--color-meta);
+}
+
+.key-spacer {
+  flex: 1;
+}
+
+/* Topics pill when used in key row */
+.writing2-key .toggle-pill-soft {
+  margin-left: auto;
+  width: auto;
+  max-width: none;
+}
+
+/* Panel header (for potential future use) */
 .panel-header-soft {
   display: flex;
-  justify-content: space-between; // Option 1: Topics left, Clear/All right
+  justify-content: space-between; // Topics left, Clear/All right
   align-items: center;
   width: 100%;
   padding-bottom: 0;
@@ -167,6 +216,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
+  justify-content: flex-end; /* align chips to the right */
 }
 
 .chip-soft {
@@ -220,8 +270,7 @@
 
 .writing2-entry {
   padding: 0.12rem 0;
-  border-bottom: 1px solid rgba(74, 69, 63, 0.25);
-
+  
   &.is-hidden {
     display: none;
   }
@@ -237,6 +286,15 @@
     &:hover {
       opacity: 0.7;
     }
+  }
+
+  /* Quiet leading indicator */
+  .article-indicator {
+    color: var(--color-meta);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    min-width: 0.9rem;
+    text-align: left;
   }
 
   .article-date {
@@ -264,9 +322,17 @@
     padding: var(--space-xs) 0 var(--space-sm);
   }
 
-  /* Mobile: keep pill compact so it doesn't span full width */
   .writing2-page .ghost-filter-block {
     align-items: flex-start;
+  }
+
+  .writing2-key {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .writing2-key .toggle-pill-soft {
+    margin-left: 0;
   }
 
   .writing2-page .toggle-pill-soft {
@@ -275,9 +341,12 @@
     justify-content: space-between;
   }
 
-  /* When expanded on mobile, nudge width for a subtle asymmetrical quirk */
   .writing2-page .toggle-pill-soft.is-expanded {
     width: 76%;
+  }
+
+  .topics-row-soft {
+    justify-content: flex-start; /* left-align chips on mobile */
   }
 
   .writing2-entry {
@@ -285,6 +354,11 @@
       flex-direction: column;
       gap: 0.2rem;
       align-items: flex-start;
+    }
+
+    .article-indicator {
+      font-size: 0.85rem;
+      min-width: auto;
     }
 
     .article-date {

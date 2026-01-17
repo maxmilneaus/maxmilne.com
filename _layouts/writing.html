@@ -25,15 +25,18 @@ layout: default
   {% if tag_collection.size > 0 %}
   <section class="writing2-topics writing2-topics-ghost" aria-label="Filter essays by topic">
     <div class="ghost-filter-block" data-filter-root>
-      <div class="panel-header-soft">
+      <!-- Visual key -->
+      <div class="writing2-key">
+        <span class="key-label">
+          <span class="key-icon key-icon-photo">◐</span>
+          <span>Photo Essay</span>
+        </span>
+        <span class="key-spacer"></span>
         <button class="toggle-pill-soft" type="button" data-filter-toggle aria-expanded="false">
-          <span class="toggle-label" data-label-default="Topics">Topics</span>
+          <span class="toggle-label" data-label-default="Topics">Filter by topics</span>
           <span class="toggle-count" data-filter-count style="display:none;"></span>
           <span class="toggle-arrow">▼</span>
         </button>
-        <div class="panel-actions-soft" data-filter-clear-container style="display:none;">
-          <button class="action-soft" type="button" data-filter-clear>Clear</button>
-        </div>
       </div>
 
       <div class="panel-soft" data-filter-panel>
@@ -52,7 +55,12 @@ layout: default
     </div>
   </section>
   {% else %}
-  <div class="writing-meta"></div>
+  <div class="writing-meta">
+    <span class="key-label">
+      <span class="key-icon key-icon-photo">◐</span>
+      <span>Photo Essay</span>
+    </span>
+  </div>
   {% endif %}
 
   <div class="writing2-list" data-filter-list>
@@ -67,10 +75,29 @@ layout: default
       {% endif %}
       {% assign tag_slugs_attr = tag_slugs_array | join: ' ' %}
       {% assign display_date = note.created_at | default: note.date | default: note.last_modified_at %}
+      {% assign is_photo_essay = false %}
+      {% if note.tags %}
+        {% for t in note.tags %}
+          {% assign t_lc = t | downcase %}
+          {% if t_lc contains 'photo' or t_lc contains 'photos' or t_lc contains 'photography' %}
+            {% assign is_photo_essay = true %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% if is_photo_essay %}
+        {% assign indicator = '◐' %}
+      {% else %}
+        {% assign indicator = '' %}
+      {% endif %}
       <li class="writing2-entry" {% if tag_slugs_attr != '' %}data-tag-slugs="{{ tag_slugs_attr }}"{% endif %}>
         <a class="internal-link" href="{{ note.url | relative_url }}">
           <span class="article-date">{{ display_date | date: "%Y · %m" }}</span>
-          <span class="article-title">{{ note.title }}</span>
+          <span class="article-title">
+            {{ note.title }}
+            {% if indicator != '' %}
+              <span class="article-indicator article-indicator-photo">{{ indicator }}</span>
+            {% endif %}
+          </span>
         </a>
       </li>
     {% endfor %}
@@ -113,8 +140,27 @@ layout: default
       chip.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        chip.classList.toggle('is-active');
-        chip.setAttribute('aria-pressed', chip.classList.contains('is-active') ? 'true' : 'false');
+
+        var isActive = chip.classList.contains('is-active');
+
+        // If this chip is already active, clear all (back to "all topics")
+        if (isActive) {
+          chips.forEach(function (btn) {
+            btn.classList.remove('is-active');
+            btn.setAttribute('aria-pressed', 'false');
+          });
+          chip.blur();
+          update();
+          return;
+        }
+
+        // Otherwise, deactivate all and activate only this one (single-select)
+        chips.forEach(function (btn) {
+          btn.classList.remove('is-active');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        chip.classList.add('is-active');
+        chip.setAttribute('aria-pressed', 'true');
         chip.blur();
         update();
       });
@@ -141,17 +187,11 @@ layout: default
       var count = activeTopics.length;
 
       if (countEl && labelEl) {
-        if (noneSelected) {
-          countEl.style.display = 'none';
-          countEl.textContent = '';
-          labelEl.textContent = defaultLabel;
-          toggle.classList.remove('has-filters');
-        } else {
-          countEl.style.display = 'inline';
-          countEl.textContent = count + (count === 1 ? ' topic' : ' topics');
-          labelEl.textContent = 'Filtered';
-          toggle.classList.add('has-filters');
-        }
+        // Always hide count + keep static label; no "1 topic selected" state
+        countEl.style.display = 'none';
+        countEl.textContent = '';
+        labelEl.textContent = defaultLabel;
+        toggle.classList.remove('has-filters');
       }
 
       var visibleCount = 0;

@@ -80,6 +80,7 @@ bundle exec jekyll serve
 - Content strategy → VISION.md + LOG/
 - Build/deployment → TECHNICAL/build-system.md
 - Filters/interactions → TECHNICAL/filter-system.md
+- Photo essay layout & authoring → LOG/2025-11-10-photo-essay-film-strip-layout.md
 - Understanding reasoning → LOG/ (chronological)
 
 ---

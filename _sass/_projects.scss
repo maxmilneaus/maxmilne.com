@@ -211,18 +211,16 @@
 /* Give the Type pill a slightly more substantial asymmetrical presence on wider layouts */
 .projects-page .toggle-pill-soft {
   min-width: 11rem;
-  padding-right: 0.7rem;
+  padding: 0.24rem 0.7rem 0.24rem 0.5rem; /* match writing pill padding */
   gap: 0.5rem;
-  width: 70%;
+  width: auto;
   max-width: 260px;
-  padding-top: 0.24rem;   /* slightly shorter bubble for desktop */
-  padding-bottom: 0.24rem;
-  justify-content: space-between; /* arrow pinned at end of bubble */
+  justify-content: space-between; /* arrow pinned at end to align with writing */
 }
 
 .projects-page .panel-header-soft {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* right-align pill within 42rem column */
   align-items: center;
   width: 100%;
   padding-bottom: 0;
@@ -267,8 +265,7 @@
 }
 
 .projects-page .toggle-count {
-  font-size: 0.95rem;
-  color: var(--color-accent-hover);
+  display: none; /* hide count for parity with writing */
 }
 
 .projects-page .toggle-arrow {
@@ -338,6 +335,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
+  justify-content: flex-end; /* align chips to the right */
 }
 
 /* Chips share look with writing */
@@ -390,14 +388,24 @@
     align-items: flex-start;
   }
 
+  /* Mobile: left-align pill for comfort */
+  .projects-page .panel-header-soft {
+    justify-content: flex-start;
+  }
+
   .projects-page .toggle-pill-soft {
     width: 70%;
     max-width: 260px;
+    padding: 0.24rem 0.7rem 0.24rem 0.5rem; /* match writing pill on mobile too */
     justify-content: space-between;
   }
 
   /* When expanded on mobile, nudge width for a subtle asymmetrical quirk */
   .projects-page .toggle-pill-soft.is-expanded {
     width: 76%;
+  }
+
+  .projects-page .topics-row-soft {
+    justify-content: flex-start; /* left-align chips on mobile */
   }
 }

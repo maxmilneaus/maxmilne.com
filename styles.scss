@@ -1,12 +1,18 @@
 ---
 ---
 
-@use "../_sass/normalize";
-@use "../_sass/code";
-@use "../_sass/style";
-@use "../_sass/projects";
-@use "../_sass/writing";
-@use "../_sass/animations";
+@import "normalize";
+@import "code";
+@import "style";
+@import "projects";
+@import "writing";
+@import "animations";
+@import "photo-essay";
+/* Deprecated legacy variants kept only for historical reference:
+ * - _layouts/photo-essay-flow.html + _sass/_photo-essay-flow.scss
+ * - _layouts/photo-essay-sequence.html + _sass/_photo-essay-sequence.scss
+ * These are no longer imported or used. Canonical: layout: photo-essay.
+ */
 
 /* Image alignment helpers for Obsidian embeds */
 img.align-left {
