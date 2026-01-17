@@ -5,7 +5,7 @@ tags:
   - meditation
   - groups
   - practice
-date: 2025-11-05
+date: 2025-11-10
 excerpt: "A relational practice where people meditate together while speaking their experience aloud. Free sessions Monday–Thursday, 6:30am AEST."
 ---
 
