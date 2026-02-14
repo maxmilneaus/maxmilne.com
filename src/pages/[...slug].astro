@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MotionHero from '../components/MotionHero.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+function slugify(input: string): string {
+  return String(input)
+    .normalize('NFKD')
+    .toLowerCase()
+    .trim()
+    .replace(/['']/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes.map((note) => {
+    // If permalink exists, use it (strip leading/trailing slashes)
+    let slug: string;
+    if (note.data.permalink) {
+      slug = note.data.permalink.replace(/^\/+|\/+$/g, '');
+    } else {
+      slug = note.slug;
+    }
+    return {
+      params: { slug },
+      props: { note }
+    };
+  });
+}
+
+type Props = { note: CollectionEntry<'notes'> };
+
+const { note } = Astro.props;
+const { Content } = await note.render();
+const noteSlug = note.data.permalink
+  ? note.data.permalink.replace(/^\/+|\/+$/g, '')
+  : note.slug;
+
+// Format date
+function formatDate(d?: Date | string | null) {
+  if (!d) return null;
+  const dt = typeof d === 'string' ? new Date(d) : d;
+  const y = dt.getFullYear();
+  const m = String(dt.getMonth() + 1).padStart(2, '0');
+  return `${y}-${m}`;
+}
+
+const lastUpdated = formatDate(note.data.date);
+---
+<BaseLayout title={note.data.title}>
+  <article class="note-detail" data-reading-progress data-footnote-previews>
+    <MotionHero seed={noteSlug} />
+    <h1>{note.data.title}</h1>
+    {lastUpdated && <time datetime={lastUpdated}>Last updated on {lastUpdated}</time>}
+    <div class="note-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

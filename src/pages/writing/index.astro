@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+function slugify(str: string): string {
+  return String(str)
+    .normalize('NFKD')
+    .toLowerCase()
+    .trim()
+    .replace(/['']/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+const notes = await getCollection('notes');
+
+// Sort by date descending
+const sorted = notes
+  .slice()
+  .sort((a, b) => {
+    const da = a.data.date ? new Date(a.data.date).getTime() : 0;
+    const db = b.data.date ? new Date(b.data.date).getTime() : 0;
+    return db - da;
+  });
+
+// Collect unique tags
+const tagSet = new Set<string>();
+for (const n of notes) {
+  for (const t of n.data.tags || []) tagSet.add(t);
+}
+const tags = [...tagSet].sort();
+
+function noteUrl(n: typeof notes[0]) {
+  if (n.data.permalink) return n.data.permalink;
+  return `/${n.slug}/`;
+}
+
+function isPhotoEssay(n: typeof notes[0]) {
+  return (n.data.tags || []).some((t) => /photo/i.test(t));
+}
+
+function formatDate(d?: Date | string | null) {
+  if (!d) return '';
+  const dt = typeof d === 'string' ? new Date(d) : d;
+  const y = dt.getFullYear();
+  const m = String(dt.getMonth() + 1).padStart(2, '0');
+  return `${y} · ${m}`;
+}
+---
+<BaseLayout title="Writing">
+  <section class="writing2-page">
+    <article class="writing2-intro">
+      <h1>Writing</h1>
+    </article>
+
+    {tags.length > 0 && (
+      <section class="writing2-topics writing2-topics-ghost" aria-label="Filter essays by topic">
+        <div class="ghost-filter-block" data-filter-root>
+          <div class="writing2-key">
+            <span class="key-label">
+              <span class="key-icon key-icon-photo">◐</span>
+              <span>Photo Essay</span>
+            </span>
+            <span class="key-spacer"></span>
+            <button class="toggle-pill-soft" type="button" data-filter-toggle aria-expanded="false">
+              <span class="toggle-label" data-label-default="Topics">Filter by topics</span>
+              <span class="toggle-count" data-filter-count style="display:none;"></span>
+              <span class="toggle-arrow">▼</span>
+            </button>
+          </div>
+
+          <div class="panel-soft" data-filter-panel>
+            <div class="panel-inner-soft" data-filter-panel-inner>
+              <div class="topics-row-soft">
+                {tags.map((tag) => (
+                  <button class="chip-soft" type="button" data-topic={slugify(tag)} data-filter-chip aria-pressed="false">{tag}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div class="writing-meta" data-filter-meta></div>
+        </div>
+      </section>
+    )}
+
+    <div class="writing2-list" data-filter-list>
+      <ul>
+        {sorted.map((note) => {
+          const tagSlugs = (note.data.tags || []).map(slugify).join(' ');
+          const indicator = isPhotoEssay(note) ? '◐' : '';
+          return (
+            <li class="writing2-entry" data-tag-slugs={tagSlugs}>
+              <a class="internal-link" href={noteUrl(note)}>
+                <span class="article-date">{formatDate(note.data.date)}</span>
+                <span class="article-title">
+                  {note.data.title}
+                  {indicator && <span class="article-indicator article-indicator-photo">{indicator}</span>}
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+(function () {
+  var root = document.querySelector('[data-filter-root]');
+  if (!root) return;
+
+  var toggle = root.querySelector('[data-filter-toggle]');
+  var panel = root.querySelector('[data-filter-panel]');
+  var panelInner = root.querySelector('[data-filter-panel-inner]');
+  var chips = Array.prototype.slice.call(root.querySelectorAll('[data-filter-chip]'));
+  var countEl = root.querySelector('[data-filter-count]');
+  var labelEl = toggle ? toggle.querySelector('[data-label-default]') : null;
+  var entries = Array.prototype.slice.call(document.querySelectorAll('[data-filter-list] .writing2-entry'));
+  var defaultLabel = labelEl ? (labelEl.getAttribute('data-label-default') || labelEl.textContent) : '';
+
+  if (!toggle || !panel || !panelInner) return;
+
+  toggle.addEventListener('click', function (e) {
+    e.preventDefault();
+    var isExpanded = panel.classList.contains('is-expanded');
+    panel.classList.toggle('is-expanded');
+    toggle.classList.toggle('is-expanded');
+    toggle.setAttribute('aria-expanded', (!isExpanded).toString());
+  });
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    chip.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      var isActive = chip.classList.contains('is-active');
+      if (isActive) {
+        chips.forEach(function (btn) {
+          btn.classList.remove('is-active');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        chip.blur();
+        update();
+        return;
+      }
+
+      chips.forEach(function (btn) {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-pressed', 'false');
+      });
+      chip.classList.add('is-active');
+      chip.setAttribute('aria-pressed', 'true');
+      chip.blur();
+      update();
+    });
+  });
+
+  function update() {
+    var activeTopics = chips
+      .filter(function (chip) { return chip.classList.contains('is-active'); })
+      .map(function (chip) { return chip.getAttribute('data-topic'); });
+
+    var noneSelected = activeTopics.length === 0;
+
+    if (countEl && labelEl) {
+      countEl.style.display = 'none';
+      countEl.textContent = '';
+      labelEl.textContent = defaultLabel;
+      toggle.classList.remove('has-filters');
+    }
+
+    // Barely-perceptible reveal for items that become visible.
+    entries.forEach(function (entry) {
+      var wasHidden = entry.classList.contains('is-hidden');
+      var entryTopics = (entry.dataset.tagSlugs || '').split(' ').filter(Boolean);
+      var hasMatch = noneSelected || entryTopics.some(function (topic) {
+        return activeTopics.indexOf(topic) !== -1;
+      });
+
+      entry.classList.toggle('is-hidden', !hasMatch);
+
+      if (hasMatch && wasHidden) {
+        entry.classList.remove('is-revealing');
+        // Force reflow so the animation re-triggers reliably
+        void entry.offsetHeight;
+        entry.classList.add('is-revealing');
+        window.setTimeout(function () {
+          entry.classList.remove('is-revealing');
+        }, 180);
+      }
+    });
+  }
+
+  update();
+})();
+</script>

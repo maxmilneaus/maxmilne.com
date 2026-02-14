@@ -1,0 +1,18 @@
+{
+  "name": "maxmilne-website-astro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "content:migrate": "node scripts/migrate-content.mjs",
+    "generate:motion": "node scripts/generate-motion-visuals.mjs"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.88",
+    "astro": "^5.0.0",
+    "gray-matter": "^4.0.3",
+    "sass": "^1.77.0"
+  }
+}

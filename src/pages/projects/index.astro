@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+function slugify(str: string): string {
+  return String(str)
+    .normalize('NFKD')
+    .toLowerCase()
+    .trim()
+    .replace(/['']/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+const projects = await getCollection('projects');
+
+// Sort by year desc, then order asc
+const sorted = projects.slice().sort((a, b) => {
+  const ya = a.data.year ? parseInt(String(a.data.year).slice(0, 4), 10) : 0;
+  const yb = b.data.year ? parseInt(String(b.data.year).slice(0, 4), 10) : 0;
+  if (yb !== ya) return yb - ya;
+  const oa = a.data.order ?? 999;
+  const ob = b.data.order ?? 999;
+  return oa - ob;
+});
+
+// Collect unique tags
+const tagSet = new Set<string>();
+for (const p of projects) {
+  for (const t of p.data.tags || []) tagSet.add(t);
+}
+const tags = [...tagSet].sort();
+
+function projectUrl(p: typeof projects[0]) {
+  return `/projects/${p.slug}/`;
+}
+---
+<BaseLayout title="Projects">
+  <section class="projects-page">
+    <article class="projects-intro">
+      <h1>Projects</h1>
+    </article>
+
+    {tags.length > 0 && (
+      <section class="projects-topics projects-topics-ghost" aria-label="Filter projects by type">
+        <div class="ghost-filter-block" data-filter-root>
+          <div class="panel-header-soft">
+            <button class="toggle-pill-soft" type="button" data-filter-toggle aria-expanded="false">
+              <span class="toggle-label" data-label-default="Type">Type</span>
+              <span class="toggle-count" data-filter-count style="display:none;"></span>
+              <span class="toggle-arrow">▼</span>
+            </button>
+          </div>
+
+          <div class="panel-soft" data-filter-panel>
+            <div class="panel-inner-soft" data-filter-panel-inner>
+              <div class="topics-row-soft">
+                {tags.map((tag) => (
+                  <button class="chip-soft" type="button" data-topic={slugify(tag)} data-filter-chip aria-pressed="false">{tag}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div class="projects-meta" data-filter-meta></div>
+        </div>
+      </section>
+    )}
+
+    <div class="projects-list" data-filter-list>
+      {sorted.map((project) => {
+        const tagSlugs = (project.data.tags || []).map(slugify).join(' ');
+        return (
+          <div class="project-entry" data-tag-slugs={tagSlugs}>
+            <div class="project-year">{project.data.year}</div>
+            <div class="project-content">
+              <h3 class="project-title">
+                <a href={projectUrl(project)}>{project.data.title}</a>
+              </h3>
+              <p class="project-description">{project.data.description}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+(function () {
+  var root = document.querySelector('[data-filter-root]');
+  if (!root) return;
+
+  var toggle = root.querySelector('[data-filter-toggle]');
+  var panel = root.querySelector('[data-filter-panel]');
+  var panelInner = root.querySelector('[data-filter-panel-inner]');
+  var chips = Array.prototype.slice.call(root.querySelectorAll('[data-filter-chip]'));
+  var countEl = root.querySelector('[data-filter-count]');
+  var labelEl = toggle ? toggle.querySelector('[data-label-default]') : null;
+  var entries = Array.prototype.slice.call(document.querySelectorAll('[data-filter-list] .project-entry'));
+  var defaultLabel = labelEl ? (labelEl.getAttribute('data-label-default') || labelEl.textContent) : '';
+
+  if (!toggle || !panel || !panelInner) return;
+
+  toggle.addEventListener('click', function (e) {
+    e.preventDefault();
+    var isExpanded = panel.classList.contains('is-expanded');
+    panel.classList.toggle('is-expanded');
+    toggle.classList.toggle('is-expanded');
+    toggle.setAttribute('aria-expanded', (!isExpanded).toString());
+  });
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    chip.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      var isActive = chip.classList.contains('is-active');
+      if (isActive) {
+        chips.forEach(function (btn) {
+          btn.classList.remove('is-active');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        chip.blur();
+        update();
+        return;
+      }
+
+      chips.forEach(function (btn) {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-pressed', 'false');
+      });
+      chip.classList.add('is-active');
+      chip.setAttribute('aria-pressed', 'true');
+      chip.blur();
+      update();
+    });
+  });
+
+  function update() {
+    var activeTypes = chips
+      .filter(function (chip) { return chip.classList.contains('is-active'); })
+      .map(function (chip) { return chip.getAttribute('data-topic'); });
+
+    var noneSelected = activeTypes.length === 0;
+
+    if (countEl && labelEl) {
+      countEl.style.display = 'none';
+      countEl.textContent = '';
+      labelEl.textContent = defaultLabel;
+      toggle.classList.remove('has-filters');
+    }
+
+    // Barely-perceptible reveal for items that become visible.
+    entries.forEach(function (entry) {
+      var wasHidden = entry.classList.contains('is-hidden');
+      var entryTypes = (entry.dataset.tagSlugs || '').split(' ').filter(Boolean);
+
+      if (noneSelected) {
+        entry.classList.remove('is-hidden');
+        if (wasHidden) {
+          entry.classList.remove('is-revealing');
+          void entry.offsetHeight;
+          entry.classList.add('is-revealing');
+          window.setTimeout(function () {
+            entry.classList.remove('is-revealing');
+          }, 180);
+        }
+        return;
+      }
+
+      var hasMatch = entryTypes.some(function (type) {
+        return activeTypes.indexOf(type) !== -1;
+      });
+      entry.classList.toggle('is-hidden', !hasMatch);
+
+      if (hasMatch && wasHidden) {
+        entry.classList.remove('is-revealing');
+        void entry.offsetHeight;
+        entry.classList.add('is-revealing');
+        window.setTimeout(function () {
+          entry.classList.remove('is-revealing');
+        }, 180);
+      }
+    });
+  }
+
+  update();
+})();
+</script>

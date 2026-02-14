@@ -1,0 +1,180 @@
+---
+export interface Props {
+  seed: string;
+}
+
+const { seed } = Astro.props;
+
+// Simple hash function to get a numeric seed from string
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
+}
+
+const numericSeed = hashString(seed);
+---
+
+<div class="motion-hero" data-motion-seed={numericSeed}>
+  <canvas class="motion-canvas" aria-label="Decorative animated pattern"></canvas>
+</div>
+
+<style>
+  .motion-hero {
+    width: 100%;
+    max-width: 42rem;
+    margin: 0 0 var(--space-lg) 0;
+  }
+  .motion-canvas {
+    width: 100%;
+    height: 180px;
+    display: block;
+    border-radius: 6px;
+    background: var(--color-deep);
+  }
+  @media (max-width: 600px) {
+    .motion-canvas {
+      height: 120px;
+    }
+  }
+</style>
+
+<script>
+  // ASCII flow animation - kaizen style
+  (function() {
+    const heroes = document.querySelectorAll('.motion-hero');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    heroes.forEach((hero) => {
+      const canvas = hero.querySelector('.motion-canvas') as HTMLCanvasElement;
+      if (!canvas) return;
+
+      const seedVal = parseInt(hero.getAttribute('data-motion-seed') || '0', 10);
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // Seeded random
+      function seededRandom(s: number) {
+        return function() {
+          s = Math.sin(s) * 10000;
+          return s - Math.floor(s);
+        };
+      }
+      const rand = seededRandom(seedVal);
+
+      // Params vary by seed
+      const basePhase = rand() * Math.PI * 2;
+      const speedMult = 0.003 + rand() * 0.004; // very slow
+      const chars = ['/', '\\', '|', '·', '—'];
+      const charWeights = [rand(), rand(), rand(), rand(), rand()];
+
+      let t = basePhase;
+      let animId: number;
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function render() {
+        const w = canvas.width / (window.devicePixelRatio || 1);
+        const h = canvas.height / (window.devicePixelRatio || 1);
+
+        // Colors from palette
+        const bg = '#141210';
+        const accent1 = '#3b82f6';
+        const accent2 = '#93c5fd';
+        const stone = '#4a453f';
+
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, w, h);
+
+        const cellW = 12;
+        const cellH = 14;
+        const cols = Math.ceil(w / cellW);
+        const rows = Math.ceil(h / cellH);
+
+        ctx.font = '12px ui-monospace, Menlo, monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            const nx = x / cols;
+            const ny = y / rows;
+
+            // Flow field
+            const w1 = Math.sin((x + y) / 5 + t);
+            const w2 = Math.cos((x - y) / 6 - t * 0.7);
+            const v = w1 * 0.6 + w2 * 0.4;
+
+            // Threshold varies by seed
+            const threshold = 0.25 + 0.1 * Math.sin(t * 0.15 + seedVal);
+
+            let char = '';
+            if (v > threshold) char = chars[0];
+            else if (v < -threshold) char = chars[1];
+            else if (Math.abs(v) < 0.06) char = chars[2];
+            else if (v > 0 && v < threshold * 0.5) char = chars[3];
+            else if (v < 0 && v > -threshold * 0.5) char = chars[4];
+
+            if (!char) continue;
+
+            // Edge fade
+            const edgeFade = Math.min(
+              nx, 1 - nx,
+              ny * 2, (1 - ny) * 2
+            ) * 4;
+            if (edgeFade < 0.1) continue;
+
+            // Color pulse
+            const pulse = (Math.sin(t * 0.4 + seedVal) + 1) / 2;
+            const r = Math.round(59 + (147 - 59) * pulse);
+            const g = Math.round(130 + (197 - 130) * pulse);
+            const b = Math.round(246 + (253 - 246) * pulse);
+            const alpha = 0.4 + 0.4 * edgeFade * (0.5 + 0.5 * pulse);
+
+            ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+            ctx.fillText(char, x * cellW + cellW / 2, y * cellH + cellH / 2);
+          }
+        }
+      }
+
+      function frame() {
+        render();
+        t += speedMult;
+        animId = requestAnimationFrame(frame);
+      }
+
+      if (!reduce) {
+        frame();
+      } else {
+        render();
+      }
+
+      // Pause when not visible
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !reduce) {
+            if (!animId) frame();
+          } else {
+            if (animId) {
+              cancelAnimationFrame(animId);
+              animId = 0;
+            }
+          }
+        });
+      }, { threshold: 0.1 });
+      observer.observe(canvas);
+    });
+  })();
+</script>

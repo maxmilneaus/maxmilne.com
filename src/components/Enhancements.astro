@@ -1,0 +1,7 @@
+---
+// Inline tiny JS enhancements as raw text so they're stable in dev/build.
+import readingProgress from '../scripts/reading-progress.js?raw';
+import footnotePreview from '../scripts/footnote-preview.js?raw';
+---
+<script set:html={readingProgress}></script>
+<script set:html={footnotePreview}></script>
