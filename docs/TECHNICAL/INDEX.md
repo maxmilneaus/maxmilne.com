@@ -2,7 +2,7 @@
 
 **Overview of how the website works, file structure, and implementation details**
 
-**Last updated:** 2025-11-07
+**Last updated:** 2026-01-28
 
 ---
 
@@ -16,6 +16,8 @@
 | Photo essay layout | LOG/2025-11-10-photo-essay-film-strip-layout.md | Authoring model and film strip behavior for `layout: photo-essay` (canonical reference) |
 | Recommendations | recommendations-algorithm.md | Tag-based similarity using Jaccard index |
 | Plugins | plugin-architecture.md | Custom Ruby plugins for tags and recommendations |
+| **Footnote previews** | LOG/2026-01-28-footnote-hover-preview.md | Hover/focus tooltip showing footnote content inline |
+| Motion visuals | motion-visuals.md | Generative motion companions for writing notes |
 
 *Note: Individual technical docs will be created incrementally as needed*
 

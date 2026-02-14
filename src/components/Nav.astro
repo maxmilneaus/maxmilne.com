@@ -1,0 +1,76 @@
+---
+export interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+function isActive(target) {
+  const p = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
+  const t = target.endsWith('/') ? target : `${target}/`;
+
+  if (t === '/projects/') return p.startsWith('/projects/');
+  if (t === '/writing/') return p.startsWith('/writing/') || p.startsWith('/tags/');
+
+  return p === t;
+}
+---
+<div class="nav-container">
+  <div class="nav-left">
+    <a class="internal-link site-title" href="/">Max Milne</a>
+  </div>
+  <button class="nav-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <div class="nav-links">
+    <a class:list={["internal-link", isActive('/about/') && 'is-active']} href="/about/">About</a>
+    <a class:list={["internal-link", isActive('/now/') && 'is-active']} href="/now/">Now</a>
+    <a class:list={["internal-link", isActive('/projects/') && 'is-active']} href="/projects/">Projects</a>
+    <a class:list={["internal-link", isActive('/writing/') && 'is-active']} href="/writing/">Writing</a>
+  </div>
+</div>
+
+<script is:inline>
+(function() {
+  const toggle = document.querySelector('.nav-menu-toggle');
+  const menu = document.querySelector('.nav-links');
+  if (!toggle || !menu) return;
+
+  const menuLinks = menu.querySelectorAll('a');
+
+  function toggleMenu() {
+    const isActive = menu.classList.contains('is-active');
+    toggle.classList.toggle('is-active');
+    menu.classList.toggle('is-active');
+    toggle.setAttribute('aria-expanded', String(!isActive));
+  }
+
+  function closeMenu() {
+    toggle.classList.remove('is-active');
+    menu.classList.remove('is-active');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', toggleMenu);
+
+  menuLinks.forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (menu.classList.contains('is-active') &&
+        !menu.contains(e.target) &&
+        !toggle.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('is-active')) {
+      closeMenu();
+    }
+  });
+})();
+</script>

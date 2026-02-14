@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const notes = await getCollection('notes');
+const latestNote = notes
+  .filter((n) => n.data.date)
+  .sort((a, b) => new Date(b.data.date!).getTime() - new Date(a.data.date!).getTime())[0];
+---
+<BaseLayout title="Home" bodyClass="home-page">
+  <section class="home-intro">
+    <img src="/assets/Max Milne Profile.jpg" alt="Max Milne" class="profile-image" />
+
+    <p><em>Therapist, Artist, Contemplative</em></p>
+
+    <p>
+      I offer therapy at <a class="internal-link" href="/talk-art-therapy/">Talk. Art. Therapy.</a> through conversation, art, and mindfulness practice—helping people navigate life transitions, grief, and self-discovery.
+      <a class="internal-link" href="https://talkarttherapy.com">Book a session →</a>
+    </p>
+
+    <p>
+      My work as an Artist, visual and performance, lives at the intersection of contemplation, creativity, and care. Interested in collaborating creatively?
+      <a class="internal-link" href="/creative-approach/">Read about my creative approach →</a>
+    </p>
+
+    <p class="side-note">
+      In my downtime, I create videos for <a href="https://www.youtube.com/@maxmilne-aus/videos">Little Nerdy Solutions</a> — where I find fixes to oddly specific problems that I have encountered, that the world of the internet has yet to solve.
+    </p>
+  </section>
+</BaseLayout>

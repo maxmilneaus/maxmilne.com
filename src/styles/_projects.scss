@@ -1,0 +1,429 @@
+.projects-list {
+  margin-top: var(--space-md);  /* Use spacing variable instead of magic number */
+}
+
+.project-entry {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  row-gap: var(--space-sm);              /* vertical rhythm from system */
+  column-gap: calc(var(--space-lg) * 1.25); /* slightly increased gutter between year and title */
+  padding: var(--space-md) 0;    /* Use spacing variable instead of magic number */
+  border-bottom: 1px solid var(--color-divider);
+  transition: background-color 200ms ease;
+  border-radius: var(--border-radius);
+  position: relative;             /* Allow absolute positioning of clickable area */
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &.is-first-visible {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &.is-last-visible {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+}
+
+.project-description-inline {
+  color: var(--color-meta);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0 0 var(--space-md) 0;
+  max-width: 42rem;
+}
+
+.project-year {
+  color: var(--color-meta);               /* Dieter Rams secondary hierarchy */
+  font-size: 1rem;
+  font-weight: 400;
+  padding-top: 0;          /* align with title baseline */
+  line-height: 1;          /* match link line-height for same line */
+  font-variant-numeric: tabular-nums; /* keep dashes aligned regardless of digit shapes */
+  font-feature-settings: "tnum" 1;   /* ensure tabular figures even if browser ignores shorthand */
+}
+
+.project-content {
+  min-width: 0;
+}
+
+.project-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 0.35rem 0;    /* slightly tighter */
+  line-height: 1.25;        /* tighter title leading */
+  display: flex;            /* keep year + title on the same line */
+  align-items: baseline;    /* align text baselines */
+  gap: 0.5rem;
+
+  a {
+    color: var(--color-cream);
+
+    /* Safari doesn't draw text-decoration underlines through spaces.
+       Use a background underline for a continuous line across multi-word titles. */
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 100% 0.06em;    /* underline thickness */
+    background-position: 0 1.06em;   /* underline offset (tweak if needed) */
+
+    transition: color 200ms ease;
+    line-height: 1; /* ensure same line box as the year */
+
+    /* Stretch link to cover entire project card */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    &:hover {
+      color: var(--color-accent-hover);
+    }
+  }
+}
+
+/* Inline year shown before the heading link on the list */
+.project-year-inline {
+  color: var(--color-meta);               /* Dieter Rams secondary hierarchy */
+  font-size: 1rem;     /* match heading size for alignment */
+  font-weight: 400;
+  line-height: 1;      /* match anchor line box to share baseline */
+  font-variant-numeric: tabular-nums;
+}
+
+.project-description {
+  color: var(--color-meta);               /* Dieter Rams secondary hierarchy */
+  font-size: 0.97rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .project-entry {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .project-year {
+    font-size: 1rem;
+  }
+}
+
+.project-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-meta);               /* Dieter Rams secondary hierarchy */
+}
+
+.project-year {
+  font-weight: 500;
+}
+
+.project-status {
+  text-transform: capitalize;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  background-color: var(--color-charcoal); /* Use defined color variable */
+  font-size: 0.8rem;
+}
+
+.project-nav {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-divider);
+}
+
+.back-link {
+  color: var(--color-warm-gray);            /* Use defined color variable */
+  text-decoration: none;
+  font-size: 0.9rem;
+  
+  &:hover {
+    color: var(--color-cream);              /* Use defined color variable */
+    text-decoration: underline;
+  }
+}
+
+/* Add extra breathing room at the top of the Projects page only */
+.projects-page {
+  padding-top: 0;
+}
+
+/* Match writing page vertical rhythm:
+   - intro
+   - ghost pill
+   - list */
+.projects-page > article {
+  margin-bottom: var(--section-spacing);
+}
+
+.projects-intro {
+  max-width: 42rem;
+
+  p {
+    color: var(--color-meta);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: var(--space-md) 0 0 0;
+  }
+}
+
+/* Project detail pages keep dark backgrounds (cream background CSS removed per user decision) */
+
+/* Projects ghost filter: reuse writing ghost-filter visual language */
+
+.projects-topics {
+  margin-bottom: var(--space-lg);
+}
+
+.projects-topics-ghost {
+  padding: var(--space-sm) 0 var(--space-sm);
+  border-top: none;
+  border-bottom: none;
+  background: transparent;
+}
+
+/* share structure with .ghost-filter-block from writing */
+.projects-page .ghost-filter-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: 42rem;
+  width: 100%;
+  align-items: flex-start;
+}
+
+/* Give the Type pill a slightly more substantial asymmetrical presence on wider layouts */
+.projects-page .toggle-pill-soft {
+  min-width: 11rem;
+  padding: 0.24rem 0.7rem 0.24rem 0.5rem; /* match writing pill padding */
+  gap: 0.5rem;
+  width: auto;
+  max-width: 260px;
+  justify-content: space-between; /* arrow pinned at end to align with writing */
+}
+
+.projects-page .panel-header-soft {
+  display: flex;
+  justify-content: flex-end; /* right-align pill within 42rem column */
+  align-items: center;
+  width: 100%;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.projects-page .toggle-pill-soft {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.26rem 0.65rem 0.26rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 69, 63, 0.65);
+  background: transparent;
+  color: var(--color-meta);
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+
+  &:hover {
+    border-color: rgba(74, 69, 63, 0.9);
+    color: var(--color-cream);
+    background: rgba(26, 23, 20, 0.98);
+  }
+
+  &.is-expanded {
+    border-color: rgba(74, 69, 63, 0.85);
+    color: var(--color-cream);
+  }
+
+  &.has-filters {
+    border-color: rgba(74, 69, 63, 0.9);
+    color: var(--color-cream);
+  }
+}
+
+.projects-page .toggle-label {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.projects-page .toggle-count {
+  display: none; /* hide count for parity with writing */
+}
+
+.projects-page .toggle-arrow {
+  font-size: 0.75rem;
+  color: rgba(156, 149, 140, 0.8);
+  transition: transform 200ms ease, color 200ms ease;
+
+  .toggle-pill-soft.is-expanded &,
+  .toggle-pill-soft.has-filters & {
+    color: var(--color-meta);
+    transform: rotate(180deg);
+  }
+}
+
+.projects-page .panel-soft {
+  width: 100%;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  transition: max-height 220ms ease, opacity 200ms ease, margin-top 200ms ease;
+
+  &.is-expanded {
+    max-height: 120px;
+    opacity: 1;
+    margin-top: var(--space-xs);
+  }
+}
+
+.projects-page .panel-inner-soft {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  border: none;
+  background: transparent;
+}
+
+.projects-page .panel-actions-soft {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  margin-top: 0.35rem;
+}
+
+.projects-page .action-soft {
+  padding: 0.14rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid rgba(74, 69, 63, 0.6);
+  background: transparent;
+  color: var(--color-meta);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  cursor: pointer;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+
+  &:hover {
+    border-color: rgba(80, 74, 66, 1);
+    color: var(--color-cream);
+    background: rgba(24, 22, 20, 1);
+  }
+}
+
+.projects-page .topics-row-soft {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  justify-content: flex-end; /* align chips to the right */
+}
+
+/* Chips share look with writing */
+.projects-page .chip-soft {
+  padding: 0.2rem 0.6rem;
+  border-radius: 7px;
+  border: 1px solid rgba(74, 69, 63, 0.35);
+  background: transparent;
+  font-size: 0.92rem;
+  color: var(--color-meta);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover {
+    border-color: rgba(74, 69, 63, 0.7);
+    color: var(--color-cream);
+    background: rgba(20, 18, 16, 0.18);
+  }
+
+  &.is-active {
+    background: rgba(232, 221, 212, 0.06);
+    border-color: rgba(232, 221, 212, 0.22);
+    color: var(--color-cream);
+  }
+}
+
+/* Meta line kept blank for now for parity with writing */
+.projects-meta {
+  font-size: 0.92rem;
+  color: var(--color-meta);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Hide filtered projects */
+.project-entry.is-hidden {
+  display: none;
+}
+
+.project-entry.is-revealing {
+  animation: subtle-reveal 160ms ease-out both;
+}
+
+@keyframes subtle-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .projects-topics-ghost {
+    padding: var(--space-xs) 0 var(--space-sm);
+  }
+
+  /* Mobile: keep pill compact so it doesn't span full width */
+  .projects-page .ghost-filter-block {
+    align-items: flex-start;
+  }
+
+  /* Mobile: left-align pill for comfort */
+  .projects-page .panel-header-soft {
+    justify-content: flex-start;
+  }
+
+  .projects-page .toggle-pill-soft {
+    width: 70%;
+    max-width: 260px;
+    padding: 0.24rem 0.7rem 0.24rem 0.5rem; /* match writing pill on mobile too */
+    justify-content: space-between;
+  }
+
+  /* When expanded on mobile, nudge width for a subtle asymmetrical quirk */
+  .projects-page .toggle-pill-soft.is-expanded {
+    width: 76%;
+  }
+
+  .projects-page .topics-row-soft {
+    justify-content: flex-start; /* left-align chips on mobile */
+  }
+}
