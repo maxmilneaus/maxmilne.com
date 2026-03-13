@@ -9,11 +9,12 @@ Last updated: 2026-03-14
 | Topic | File | What it covers |
 | --- | --- | --- |
 | Architecture overview | `docs/TECHNICAL/INDEX.md` | Current source of truth |
+| Repo cleanup log | `docs/LOG/2026-03-14-astro-cleanup-and-docs-reset.md` | Why the repo is Astro-first and what was retired |
 | Filter behavior | `docs/TECHNICAL/filter-system.md` | Writing and project filtering |
 | Motion visuals | `docs/TECHNICAL/motion-visuals.md` | Generated note visuals |
 | Footnote previews | `docs/LOG/2026-01-28-footnote-hover-preview.md` | Hover and focus tooltip behavior |
 | Design intent | `docs/VISION.md` | Why the site feels the way it does |
-| Visual language | `docs/STYLE_GUIDE.md` | Palette, typography, spacing, components |
+| Visual language | `docs/STYLE_GUIDE.md` | Active palette, typography, spacing, and UI patterns |
 
 ## Active architecture
 
@@ -141,4 +142,5 @@ Motion visual generation is handled by:
 - Do not edit `dist/`
 - Treat `docs/Archive/` as historical only
 - Treat `*.edtz` files as editor temp artifacts
+- Read `docs/LOG/2026-03-14-astro-cleanup-and-docs-reset.md` before following older implementation notes
 - Older `docs/LOG/` entries may describe the migration era; verify against current source before acting

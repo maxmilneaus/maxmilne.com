@@ -12,10 +12,11 @@ Current documentation entry point for Max Milne's Astro website.
 Read in this order:
 
 1. This file
-2. `VISION.md`
-3. `TECHNICAL/INDEX.md`
-4. `STYLE_GUIDE.md`
-5. Relevant recent entries in `LOG/`
+2. `TECHNICAL/INDEX.md`
+3. `STYLE_GUIDE.md`
+4. `VISION.md`
+5. `LOG/2026-03-14-astro-cleanup-and-docs-reset.md`
+6. Relevant recent entries in `LOG/`
 
 Only open `Archive/` when you are doing historical archaeology. It contains Jekyll-era material and should not be treated as current implementation guidance.
 
@@ -70,9 +71,10 @@ This repository used to be Jekyll. That is no longer the runtime. If a doc menti
 
 ## Current docs map
 
+- `TECHNICAL/INDEX.md` current architecture, route map, file map, and implementation notes
+- `STYLE_GUIDE.md` active visual system from the live Sass
 - `VISION.md` design intent, tone, and page jobs
-- `STYLE_GUIDE.md` palette, type, spacing, component feel
-- `TECHNICAL/INDEX.md` current architecture, file map, and implementation notes
+- `LOG/2026-03-14-astro-cleanup-and-docs-reset.md` current repo cleanup and source-of-truth reset
 - `TECHNICAL/filter-system.md` current writing/projects filter behavior
 - `TECHNICAL/motion-visuals.md` generated note visuals
 - `LOG/` decision history and implementation notes
@@ -105,6 +107,7 @@ Modify filters:
 - Source of truth is the Astro app, not build output
 - `dist/` is disposable
 - `*.edtz` files are editor temp artifacts
+- Start with the March 2026 cleanup log before relying on older entries
 - `LOG/` is useful for intent, but older entries may reference pre-migration paths
 - Prefer current source files over narrative docs if they disagree
 

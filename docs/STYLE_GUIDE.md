@@ -1,213 +1,209 @@
-# Design System Visual Reference
+# Style Guide
 
-*A systematic approach to cozy, contemplative design*
+Current visual reference for the live Astro site.
 
-**Last updated:** 2025-11-07
+Last updated: 2026-03-14
 
----
+Source of truth:
+- `src/styles/_style.scss`
+- `src/styles/_writing.scss`
+- `src/styles/_projects.scss`
+- `src/styles/_photo-essay.scss`
 
-## Color Palette
+If this file disagrees with the Sass, update this file to match the code.
 
-### Base Colors
-| Usage | Color | Hex |
-|-------|-------|-----|
-| Background | Deep | #141210 |
-| Secondary backgrounds | Charcoal | #201d1a |
-| Borders, subtle elements | Graphite | #2d2926 |
-| Base divider color | Stone | #4a453f |
-| Primary text | Cream | #e8ddd4 |
-| Secondary text | Warm Gray | #c7beb5 |
-| Labels, metadata | Meta | #9c958c |
+## Core direction
 
-### Interactive
-| Usage | Color | Hex |
-|-------|-------|-----|
-| Hover states | Accent Hover | #93c5fd |
-| Accent elements | Accent Subtle | #3b82f6 |
+The site is warm, quiet, and editorial.
 
-### System Colors
-| Usage | Value |
-|-------|-------|
-| Dividers (all) | rgba(74, 69, 63, 0.6) |
+- Mood: contemplative, intimate, low-gloss
+- Structure: simple, readable, functional
+- Method: token-based spacing and color variables reused across pages
 
----
+Useful shorthand:
+- warm darkness
+- literary typography
+- restrained emphasis
+- small, respectful motion
+
+## Palette
+
+Defined in `src/styles/_style.scss`.
+
+### Base colors
+
+| Token | Hex | Use |
+| --- | --- | --- |
+| `--color-deep` | `#141210` | page background |
+| `--color-charcoal` | `#201d1a` | panels, dark surfaces |
+| `--color-graphite` | `#2d2926` | subtle edges |
+| `--color-stone` | `#4a453f` | borders, dividers, subdued links |
+| `--color-cream` | `#e8ddd4` | primary text |
+| `--color-warm-gray` | `#c7beb5` | secondary text |
+| `--color-meta` | `#9c958c` | metadata, labels, quieter copy |
+
+### Accent colors
+
+| Token | Hex | Use |
+| --- | --- | --- |
+| `--color-accent-hover` | `#E8B84D` | hover state, highlighted links, active moments |
+| `--color-accent-subtle` | `#5A7A5E` | borders, quiet emphasis, outlines |
+| `--color-accent-primary` | `#D4A045` | stronger amber accent |
+| `--color-accent-secondary` | `#fca5a5` | occasional secondary accent |
+
+### Color rules
+
+- The site is not blue-led anymore. The active accent language is amber and sage.
+- Cream should carry the main reading load.
+- Meta text should stay soft and legible, not faded into the background.
+- Borders should usually land in the stone/graphite range rather than bright accent colors.
 
 ## Typography
 
-### Font Sizes
-| Element | Size | Pixels |
-|---------|------|--------|
-| h1 | 2rem | 32px |
-| h2 | 1.65rem | 26.4px |
-| h3 | 1.35rem | 21.6px |
-| Body | 1rem | 16px |
-| Body (screens >820px) | 1.05rem | 16.8px |
+### Font stack
 
-### Line Heights
-| Element | Line Height |
-|---------|-------------|
-| Body text | 1.7 |
-| h1 | 1.15 |
-| h2-h6 | 1.25 |
+| Token | Family | Use |
+| --- | --- | --- |
+| `--font-primary` | `IBM Plex Sans` | body copy, UI text |
+| `--font-heading` | `EB Garamond` | headings |
+| `--font-mono` | `Roboto Mono` | code and technical text |
 
-### Font Weight
-- Normal: 400
-- Emphasis/Strong: 600
+### Type rhythm
 
----
+| Element | Size | Notes |
+| --- | --- | --- |
+| body | `1rem` | `1.05rem` from `820px` and up |
+| `h1` | `2rem` | homepage intro can push larger |
+| `h2` | `1.65rem` | major section heading |
+| `h3` | `1.35rem` | softer hierarchy, warm gray |
+| `h4` | `1.15rem` | supportive heading |
 
-## Spacing System
+### Weight and feel
 
-### Factor-Based Scale
-All spacing derives from 0.25rem base unit, creating harmonic proportions (1:2:4:7:12):
+- Body text is light and readable, with `font-weight: 300`
+- Primary heading weights sit around `400` to `500`
+- UI labels and links should feel calm, not shouty
+- Heading serif + body sans pairing is intentional and should be preserved
 
-| Variable | Value | Base Units |
-|----------|-------|------------|
-| --space-xs | 0.25rem | 1 |
-| --space-sm | 0.5rem | 2 |
-| --space-md | 1rem | 4 |
-| --space-lg | 1.75rem | 7 |
-| --space-xl | 3rem | 12 |
+## Spacing system
 
-### Section Spacing
-- Section margin: 3rem (--space-xl)
-- Content spacing: 1rem (--space-md)
-- Main element top margin: 3.75rem (calc(var(--space-xl) * 1.25))
-- Main element bottom margin: 3rem (--space-xl)
+Base spacing tokens:
 
----
+| Token | Value |
+| --- | --- |
+| `--space-xs` | `0.25rem` |
+| `--space-sm` | `0.5rem` |
+| `--space-md` | `1rem` |
+| `--space-lg` | `1.75rem` |
+| `--space-xl` | `3rem` |
+
+Layout constants:
+
+- `--max-width: 42rem`
+- `--section-spacing: var(--space-xl)`
+- `--section-content-spacing: var(--space-md)`
+
+Rules:
+
+- Stay on the spacing tokens unless there is a clear layout reason not to.
+- Keep text content within the reading column unless a visual treatment deliberately breaks out.
+- Use generous vertical rhythm; avoid compressed stacks of unrelated content.
+
+## Page patterns
+
+### Homepage
+
+- Intro is simple and direct
+- Circular profile image at `80px`
+- Primary text sits close to the top with minimal chrome
+- Supporting links read as part of the sentence, not as button clutter
+
+### Writing page
+
+- Intro paragraph in meta color
+- A single quiet ghost pill controls topic filters
+- Filter chips are subtle, lowercase-feeling, and should not look like app UI
+- List should stay highly scannable
+
+### Projects page
+
+- Mirrors writing page rhythm where possible
+- Projects use a two-column pattern: year + content
+- Year column uses tabular numerals for alignment
+- Projects retain dividers and more structure than the writing list
+
+### Notes and longform pages
+
+- Reading experience comes first
+- Embedded media should use helpers like `.align-left`, `.align-right`, `.full-bleed`, `.page-plus`, and `.two-up` only when they improve the reading flow
+- Photo essay styling belongs in `src/styles/_photo-essay.scss`
 
 ## Components
 
-### Project Filters
-- **Style:** Transparent background, 2px border-bottom on active
-- **Default color:** var(--color-meta) (meta gray)
-- **Hover/Active color:** var(--color-accent-hover) (blue)
-- **Letter-spacing:** 0.02em (tight, refined)
-
-### Project List Year Column
-- **Grid:** 100px year column + flexible content column keeps rhythm with writing list pattern.
-- **Typography:** `font-variant-numeric: tabular-nums` (with `font-feature-settings: "tnum" 1`) so all dates and dashes share a common start.
-- **Alignment:** Year text stays baseline-aligned with titles; dashes are typed alongside the year in content for ranges.
-- **Hierarchy:** Meta gray (#9c958c) and 1rem size keeps the column supportive, not dominant.
-
-### Writing & Projects Ghost Filter Pills
-
-Shared visual language for:
-
-- `/writing` — `Topics`
-- `/projects` — `Type`
-
-Pill:
-
-- One quiet pill per page.
-- Static label:
-  - `Topics` on Writing.
-  - `Type` on Projects.
-- Geometry:
-  - `display: inline-flex;`
-  - `align-items: center;`
-  - `justify-content: space-between;` (label left, arrow pinned right)
-  - `padding: 0.24rem 0.7rem 0.24rem 0.5rem;`
-  - `width: 70%; max-width: 260px;` within the 42rem content column.
-  - `border-radius: 999px;`
-  - Subtle 1px stone/graphite border, transparent background.
-- Color:
-  - Text uses `var(--color-meta)`.
-  - Hover: gentle shift only (no heavy fill).
-
-Chips:
-
-- Lowercase labels, subtle borders, quiet hover.
-- Single-select:
-  - Exactly one chip active at a time.
-  - Clicking the active chip again clears back to “all”.
-- No visible count:
-  - Any internal count element stays hidden.
-  - No “Filtered” / “N selected” label states.
-
-List treatments:
-
-- Writing:
-  - No horizontal dividers between entries (reads as a continuous stream).
-- Projects:
-  - Retains dividers and generous spacing (reads as structured, finished work).
-
-### Actionable Content Boxes
-- **Background:** rgba(147, 197, 253, 0.05) (subtle blue tint)
-- **Left border:** 3px solid var(--color-accent-hover)
-- **Padding:** 1rem (var(--space-md))
-- **Use for:** Primary work items that require user action
-
-### CTA Buttons
-- **Background:** var(--color-charcoal)
-- **Text color:** var(--color-accent-hover)
-- **Border:** 1px solid var(--color-accent-subtle)
-- **Padding:** 0.5rem 1.75rem (var(--space-sm) var(--space-lg))
-- **Transition:** 200ms ease
-
 ### Links
-- **Default color:** var(--color-stone) (subtle)
-- **Underline:** Text decoration with matching color
-- **Underline offset:** 0.2em
-- **Hover color:** var(--color-accent-hover) (blue)
-- **External links:** ↗ arrow, italic styling
 
-### Section Labels
-- **Font size:** 1rem
-- **Font weight:** 400 (normal)
-- **Color:** var(--color-meta)
-- **Letter-spacing:** 0.03em
-- **Margin-bottom:** 1rem (var(--space-md))
+- Default links should feel classic and understated
+- Hover state should shift toward the amber accent
+- Underlines are preferred over heavy fills for inline text links
 
-### Tag Page Titles
-- **Font size:** 2rem
-- **Font weight:** 400 (slimmer)
-- **Tag name color:** var(--color-cream)
-- **"Topics" link color:** var(--color-meta)
-- **Link hover:** var(--color-accent-hover)
+### Labels
 
-### Footer Animation
-- **Container:** .stove-signature
-- **Text align:** left
-- **Animation:** natural-breath 8s infinite
-- **Margin:** 3rem 0 1rem 0
+- Labels use meta color
+- `1rem` sizing
+- Slight letter spacing
+- They act as orientation, not decoration
 
-### Article Lists
-- **Grid:** 3 columns (Date | Separator | Title)
-- **Gap:** 0.25rem (quarter-unit)
-- **Alignment:** baseline
+### Ghost filter pill
 
----
+Shared language across writing and projects:
 
-## Responsive Behavior
+- transparent background
+- rounded full pill
+- stone border
+- meta text by default
+- amber/cream shift on hover or active
+- expanded panel stays visually light with minimal chrome
 
-### Breakpoints
-| Screen Size | Changes |
-|------------|---------|
-| <600px | Padding adjusted to 4vw |
-| >820px | Body font-size increases to 1.05rem, line-height to 1.75 |
+### Chips
 
-### Mobile Menu
-- Hamburger icon at <768px
-- Slide-down menu with transform animations
+- Small, quiet, lightly bordered
+- Should never dominate the page
+- State change comes through border/text/background nuance rather than loud fills
 
----
+### CTA surfaces
 
-## Design Principles
+- Use sparingly
+- Dark surface with restrained accent border
+- Should feel invited, not marketed
 
-**Mys:** Cozy contentment - candlelight warmth, intimate conversations, thoughtful reflection.
+## Motion and interaction
 
-**Lagom:** Just the right amount - not too much, not too little.
+- Motion is secondary to reading comfort
+- Small transitions around hover, panel expansion, and nav interaction are enough
+- Respect `prefers-reduced-motion`
+- Progressive enhancement is preferred over JS-heavy interaction
 
-**Kaizen:** Continuous subtle improvements that enhance without overwhelming.
+Examples in current implementation:
+- mobile nav toggle
+- writing/project filter panels
+- reading progress bar
+- footnote previews
 
-**Systems Thinking:** Every design decision creates relationships. Changes are universal, factor-based, and mathematically consistent.
+## Responsive behavior
 
-**Viola/Rams + Systems:** Atmospheric mood (Viola) + honest function (Rams) + mathematical relationships (Systems).
+- Body padding reduces on smaller screens
+- Writing and projects filters should stay readable and easy to tap
+- Breakout image treatments collapse back to the text column on mobile
+- Two-up image grids stack on small screens
 
-For design philosophy, strategy, and reasoning: see **VISION.md**
+## Implementation notes
 
-For implementation details: see **TECHNICAL/INDEX.md**
+- Main stylesheet entrypoint: `src/styles/main.scss`
+- Legacy photo-essay variants exist on disk for reference, but are not imported
+- If you change tokens, update both this file and any docs that describe the visual system
 
-For decision history: see **LOG/** folder (chronological entries)
+## Guardrails
+
+- Do not reintroduce Jekyll-era assumptions into current docs
+- Do not describe obsolete blue-accent styling as current
+- Prefer the live Sass over old narrative docs when there is any mismatch

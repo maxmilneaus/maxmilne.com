@@ -88,7 +88,9 @@ Read in this order:
 
 1. `docs/README.md`
 2. `docs/TECHNICAL/INDEX.md`
-3. The specific route, layout, or content file you plan to change
+3. `docs/STYLE_GUIDE.md`
+4. `docs/LOG/2026-03-14-astro-cleanup-and-docs-reset.md`
+5. The specific route, layout, or content file you plan to change
 
 Assume:
 
