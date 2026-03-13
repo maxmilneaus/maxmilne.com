@@ -1,10 +1,8 @@
 # Dependencies
 node_modules/
-vendor/
 
 # Build output
 dist/
-_site/
 .astro/
 
 # Local environment
@@ -13,7 +11,6 @@ _site/
 !.env.example
 
 # Local tooling/state
-.bundle/
 .ruby-lsp/
 .netlify/
 
@@ -21,3 +18,4 @@ _site/
 *.log
 npm-debug.log*
 .DS_Store
+*.edtz

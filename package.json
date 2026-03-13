@@ -6,7 +6,6 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "content:migrate": "node scripts/migrate-content.mjs",
     "generate:motion": "node scripts/generate-motion-visuals.mjs"
   },
   "dependencies": {

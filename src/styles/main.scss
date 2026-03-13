@@ -7,12 +7,12 @@
 @import "animations";
 @import "photo-essay";
 /* Deprecated legacy variants kept only for historical reference:
- * - _layouts/photo-essay-flow.html + _sass/_photo-essay-flow.scss
- * - _layouts/photo-essay-sequence.html + _sass/_photo-essay-sequence.scss
- * These are no longer imported or used. Canonical: layout: photo-essay.
+ * - photo-essay-flow variant
+ * - photo-essay-sequence variant
+ * These are no longer imported or used. The active implementation is in _photo-essay.scss.
  */
 
-/* Image alignment helpers for Obsidian embeds */
+/* Image alignment helpers for embedded content */
 img.align-left {
   float: left;
   margin: 0.2rem 1rem 0.8rem 0;

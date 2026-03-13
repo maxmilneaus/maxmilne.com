@@ -1,6 +1,5 @@
 ---
 title: "The Assumption Box Method: Visual Co-Design with AI"
-layout: note
 tags:
   - process
   - ai

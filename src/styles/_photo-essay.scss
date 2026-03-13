@@ -121,7 +121,7 @@
   }
 
   // Normalize markdown output:
-  // Jekyll/Markdown wraps images in <p> tags, which become flex items.
+  // Markdown image blocks are often wrapped in <p> tags, which become flex items.
   // These rules ensure each slide is a consistent tile and prevent visual overlap.
   p {
     margin: 0;

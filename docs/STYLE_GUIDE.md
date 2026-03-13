@@ -1,8 +1,3 @@
----
-title: Style Guide
-layout: note
----
-
 # Design System Visual Reference
 
 *A systematic approach to cozy, contemplative design*
