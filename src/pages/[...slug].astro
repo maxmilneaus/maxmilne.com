@@ -51,7 +51,7 @@ const lastUpdated = formatDate(note.data.date);
 ---
 <BaseLayout title={note.data.title}>
   <article class="note-detail" data-reading-progress data-footnote-previews>
-    <MotionHero seed={noteSlug} />
+    <MotionHero seed={noteSlug} theme={note.data.motionTheme} />
     <h1>{note.data.title}</h1>
     {lastUpdated && <time datetime={lastUpdated}>Last updated on {lastUpdated}</time>}
     <div class="note-body">

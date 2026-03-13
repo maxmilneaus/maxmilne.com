@@ -28,32 +28,43 @@ permalink: /cv
 
 ### Education Timeline
 
-| Period      | Qualification                                   | Institution                |
-| ----------- | ----------------------------------------------- | -------------------------- |
-| 2022 – 2025 | Masters Counselling                             | Swinburne University, AUS  |
-| 2024 - 2025 | Social Meditation Training                      | Inter.being, USA           |
-| 2023        | Addiction and Mental Health Training            | PACFA, AUS                 |
-| 2023        | Mindfulness Teacher Training                    | Insight Meditation, Europe |
-| 2020 – 2022 | Lam Rim Dharma Study                            | Gelugpa, Drol Kar, AUS     |
-| 2021 – 2023 | First Nations Cultural Literacy & Story Telling | YARN, AUS                  |
-| 2021        | HLTAID 009, 010 & 011 First Aid                 | AUS                        |
-| 2021        | Mindfulness Based Addiction Recovery Training   | Vimilasara, Canada         |
-| 2015        | Adv. Dip, Art Therapy                           | The Phoenix Institute, AUS |
-| 2014        | Cert. IV, Training and Assessment               | HBA Learning, AUS          |
-| 2012        | Cert. IV, Photo Imaging                         | Melbourne Polytechnic, AUS |
+| Period      | Qualification                                   | Institution                |     |
+| ----------- | ----------------------------------------------- | -------------------------- | --- |
+| 2022 – 2025 | Masters of Counselling                          | Swinburne University, AUS  |     |
+| 2024 - 2025 | Social Meditation Training                      | Inter.being, USA           |     |
+| 2023        | Addiction and Mental Health Training            | PACFA, AUS                 |     |
+| 2023        | Mindfulness Teacher Training                    | Insight Meditation, Europe |     |
+| 2020 – 2022 | Lam Rim Dharma Study                            | Gelugpa, Drol Kar, AUS     |     |
+| 2021 – 2023 | First Nations Cultural Literacy & Story Telling | YARN, AUS                  |     |
+| 2021 & 2023 | HLTAID 009, 010 & 011 First Aid                 | AUS                        |     |
+| 2021        | Mindfulness Based Addiction Recovery Training   | Vimilasara, Canada         |     |
+| 2015        | Adv. Dip, Art Therapy                           | The Phoenix Institute, AUS |     |
+| 2014        | Cert. IV, Training and Assessment               | HBA Learning, AUS          |     |
+| 2012        | Cert. IV, Photo Imaging                         | Melbourne Polytechnic, AUS |     |
 
 
 ## Career History
 
+### Wellbeing Counsellor 
+
+**CamCare** • December 2024 - Sep 2025
+
+Provided one-on-one counselling to adults presenting with trauma, active addiction, grief, family conflict, and long-term disengagement from services. Worked from ACT, Internal Family Systems, and compassion-focused therapy, opening each session with a grounding meditation practice.
+
+Matched the depth of work to what each client could hold. With addiction, the aim was stabilisation and consistent engagement rather than depth work. With trauma, slow integration through careful pacing. With clients approaching completion, the focus shifted to consolidating gains and capacity for self-directed practice.
+
+Managed three to four clients per day across an eight-month placement. Responsible for intake, case notes in TRAK, discharge planning, and regular individual and group supervision. Completed 200+ placement hours.
+
+The placement spanned an organisational merger seeing me work under two supervisors with different clinical styles, using supervision actively to refine the balance between following a client's lead and offering direct intervention.
 ### Student Counsellor
 
 **Doncaster Secondary College** • June 2023 - Dec 2023
 
-Provided one-on-one counselling support to students aged 13-18 from diverse backgrounds, addressing various academic and personal challenges. Closely collaborated with Supervisors, Social Workers, fellow Counsellors and teachers to develop effective support strategies, incorporating evidenced based methodologies informed by ACT, CBT, MBST, IFS and EFT to support students during their at school time.
+Provided one-on-one counselling to students aged 13–18 navigating family conflict, social anxiety, academic pressure, and behavioural difficulties. Coordinated with supervisors, social workers, and teaching staff to shape support around each student.
 
-Actively adapted approaches for age appropriateness, introducing concepts such 'Two Player Mindfulness Games'. Weekly co-managed the Student Intake Office to triage and delegate to in-school services, implementing Solution Focused therapy in real time as students came in for support.
+Reworked therapeutic concepts for adolescents, including designing two-player mindfulness games that made grounding practices accessible in a school setting. Co-managed the weekly Student Intake Office, triaging referrals to in-school services and applying Solution Focused therapy during walk-in consultations.
 
-Actively managed cases for up to six students per week, overseeing all administrative aspects including booking sessions, maintaining case notes, participating in structured group supervision and incidental peer supervision. During internal review given a **4/5** for my role in supporting students.
+Managed up to six students per week, including session booking, case notes, group supervision, and peer supervision. Received 4/5 in internal review for quality of student support.
 
 ### NDIS Support Worker
 
@@ -77,17 +88,29 @@ Facilitated community access and engagement for clients, ensuring they can parti
 
 ### Founder
 
-**Studio Brunswick** • January 2015 - March 2020
+# Studio Brunswick
 
-**Studio Development:** Pioneered the development of three unique 100 square meter loft-style photography studios in strategic partnership with Nightingale Housing. Transformed earmarked buildings into vibrant creative spaces in Brunswick's evolving Industrial Area. Spearheaded internal architectural design, construction and furnishings, focusing each studio's design for optimal functionality as high-end photography studio and event space.
+**Founder** • Jan 2015 – Mar 2020
 
-**Leadership and Operations:** Led a skilled team of five, orchestrating in-house staff and administrative duties, culminating in over **800 successful studio hires**. Developed a comprehensive backend process, complete with an extensive business manual, to streamline assistant training and ensure uniformity in client service. Integrated Google Cloud Services and automated email systems to optimise studio operations and client engagement.
+Started Studio Brunswick by converting the artist studio I was co-running into a photography rental space, then expanded to two additional studios in separate buildings across Brunswick's industrial redevelopment zones. For Studios Two and Three, partnered with Nightingale Housing, taking on leases to convert buildings earmarked for demolition into working creative spaces during their final three years in the precinct. Designed the interiors, oversaw construction and fit-out, and shaped each of the three 100sqm loft-style studios to serve as both a high-end photography space and an event venue.
 
-**Client Relations:** Built and maintained relationships with a diverse clientele, ranging from international corporate brands such as Kodak, Foxtel, and Google, to prominent entities in the music industry like Milk Records and Universal Music Group, as well as fashion-focused Australian brands including MECCA and Discount Universe.
+Led a team of five across daily operations, client relations, and studio management. Over five years the studios completed 800+ hires for clients across corporate brands (Kodak, Google, Foxtel), music labels (Universal Music Group, Milk Records), and Australian fashion (MECCA, Discount Universe). Wrote the operations manual and built the backend systems – Google Cloud integration and automated email workflows – to keep the business running as it scaled.
 
-**Educational Initiatives:** Established and led the Photography Assistant School, offering a comprehensive curriculum that combined role-play with practical experience. Launched the 'Assistant in Residence' program, providing ten emerging photographers with two-month residencies and weekly studio access. Partnered with Photography Studies College (PSC), incorporating studio visits and targeted assistant training into their curriculum.
+**Education & Training**
 
-**Community Impact:** Co-curated and organised annual Multidisciplinary Community Art Show fundraisers from 2015 to 2018, focusing on climate change themes. Successfully raised **over $20,000** for environmental and humanitarian organisations, including Friends of the Earth and The Asylum Seeker Resource Centre.
+Founded the Photography Assistant School, a training program combining structured role-play with real on-set experience. Ran the "Assistant in Residence" program, giving ten emerging photographers two-month residencies with weekly studio access. Partnered with Photography Studies College (PSC) to bring their students through the studios as part of their curriculum.
+
+**Community Grants**
+
+Offered weekly community grants providing free or subsidised studio access to local artists and community groups for rehearsals, exhibitions, and workshops. Over forty community projects used the space through this program — regular recipients included The Body Speaks dance project, Extinction Rebellion art workshops, and various theatre groups. A nominal $20 fee covered insurance and utilities.
+
+**Fundraiser Exhibitions**
+
+Co-curated three annual multidisciplinary art shows from 2015 to 2018 — *Ocean*, *Volcano*, and *Boil the Ocean* — each centred on climate change and environmental themes. Raised over $20,000 across the series for Friends of the Earth and the Asylum Seeker Resource Centre.
+
+**Awards & Contributions**
+
+Established ongoing partnerships with local creative institutions, providing awards and prizes including: $1,500 for RRR Radio's Radiothon; $2,500 for the Centre for Contemporary Photography's Salon award; $1,250 in studio credit for RMIT fashion graduates. Made quarterly $500 donations to the Melbourne Buddhist Centre, Doctors Without Borders, and Waltja Tjutangku Palyapayi Aboriginal Corporation.
 
 ### Peer Facilitator
 

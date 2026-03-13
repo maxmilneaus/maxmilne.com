@@ -7,7 +7,8 @@ const notes = defineCollection({
     date: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
     excerpt: z.string().optional().nullable(),
-    permalink: z.string().optional().nullable()
+    permalink: z.string().optional().nullable(),
+    motionTheme: z.string().optional().nullable()
   })
 });
 

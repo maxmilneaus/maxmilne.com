@@ -8,30 +8,6 @@ tags:
 date: 2026-02-09
 excerpt: "For me, the whole intention of AI is to help maintain a creative flow. But chat interfaces are linear—endless scrolls of text. For a visual thinker, a text box is a constraint."
 ---
-
-╭───────────────────────────────────────────────────────────────────────────────╮
-│                                                                               │
-│                       ◎  Visual Co-design with AI                         │
-│                                                                               │
-│                     ┌─────────────────────────────┐                           │
-│                     │                             │                           │
-│                     │      ░░░░░░░░░░░░░░░░       │                           │
-│                     │      ░░  A G E N T ░░       │                           │
-│                     │      ░░░░░░░┬░░░░░░░░       │                           │
-│                     │             │               │                           │
-│                     │      ┌──────┴───────┐       │                           │
-│                     │      │              │       │                           │
-│                     │      │   Y O U      │       │                           │
-│                     │      │              │       │                           │
-│                     │      └──────────────┘       │                           │
-│                     │                             │                           │
-│                     └─────────────────────────────┘                           │
-│                                                                               │
-│     THE METHOD: The Agent builds the structure (░).                          │
-│                 It leaves a clean box for Human Intent.                      │
-│                                                                               │
-╰───────────────────────────────────────────────────────────────────────────────╯
-
 # The Assumption Box Method
 
 For me, the whole intention of AI is to help maintain a creative flow. But chat interfaces are linear—endless scrolls of text. For a visual thinker, a text box is a constraint. I need to see the shape of the idea.

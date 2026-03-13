@@ -11,8 +11,9 @@ layout: ../layouts/PageLayout.astro
 
 | Period         | Role                      | Organisation                            |
 | -------------- | ------------------------- | --------------------------------------- |
-| 2025 - 2025    | Wellbeing Counsellor      | CamCare, AUS                            |
-| 2023 - 2024    | Student Counsellor        | Doncaster Secondary College, AUS        |
+| 2025 – Current | Volunteer Coordinator     | MS Op Shop, Brunswick, AUS              |
+| 2025 – 2025    | Wellbeing Counsellor      | CamCare, AUS                            |
+| 2023 – 2024    | Student Counsellor        | Doncaster Secondary College, AUS        |
 | 2020 – Current | Arts & Health Facilitator | General                                 |
 | 2008 – 2023    | Photographer              | Max Milne Photography, AUS + USA        |
 | 2015 – 2020    | Founder                   | Studio Brunswick, AUS                   |
@@ -28,6 +29,7 @@ layout: ../layouts/PageLayout.astro
 
 | Period      | Qualification                                   | Institution                |
 | ----------- | ----------------------------------------------- | -------------------------- |
+| 2026        | Google AI Professional Certificate (7 courses)  | Google (via Coursera), USA |
 | 2022 – 2025 | Masters Counselling                             | Swinburne University, AUS  |
 | 2024 - 2025 | Social Meditation Training                      | Inter.being, USA           |
 | 2023        | Addiction and Mental Health Training            | PACFA, AUS                 |
@@ -163,7 +165,8 @@ Mindfulness and meditation informed by collective **12 months living in residenc
 ## Workshop Facilitation & Education
 
 **Current Programs:**
-- Facilitator, Social Meditation, Social Meditation Collective (2024 - 2025)
+- Facilitator, Social Meditation, Social Meditation Collective (2024 – Current)
+- Volunteer Coordinator, MS Op Shop (2025 – Current)
 
 **Past Programs:**
 

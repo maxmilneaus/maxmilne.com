@@ -7,28 +7,17 @@ dist/
 _site/
 .astro/
 
-# Environment variables
+# Local environment
 .env
 .env.*
 !.env.example
 
-# Cache
-.cache/
-.DS_Store
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Ruby
-.ruby-lsp/
+# Local tooling/state
 .bundle/
+.ruby-lsp/
+.netlify/
 
-# Logs
+# Logs and OS
 *.log
 npm-debug.log*
-
-# OS files
-Thumbs.db
+.DS_Store
